@@ -15,7 +15,7 @@ test-job1:
   before_script:
     - pip install pytest
   script:
-    - pytest tests/
+    - pytest src/tests/
 
 
 

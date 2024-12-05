@@ -2,31 +2,25 @@ image: python:3.9-slim-bullseye
 
 stages:
     - build
-    - test
-    - deploy
+    - lint
+    - tests
 
 build-job:
   stage: build
   script:
-    - echo "Hello, $GITLAB_USER_LOGIN!"
+    - pip install -r requirements.txt
+
+lint-job:
+  stage: lint
+  script:
+    - flake8 src/main/ src/tests/
 
 test-job1:
-  stage: test
+  stage: tests
+  before_script:
+    - pip install pytest
   script:
-    - echo "This job tests something"
+    - pytest tests/
 
-test-job2:
-  stage: test
-  script:
-    - echo "This job tests something, but takes more time than test-job1."
-    - echo "After the echo commands complete, it runs the sleep command for 20 seconds"
-    - echo "which simulates a test that runs 20 seconds longer than test-job1"
-    - sleep 20
-
-deploy-prod:
-  stage: deploy
-  script:
-    - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
-  environment: production
 
 

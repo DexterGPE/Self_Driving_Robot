@@ -1,0 +1,10 @@
+# Linting
+flake8==6.1.0
+
+# Testing and coverage
+pytest==7.4.0
+pytest-cov==4.1.0
+
+# Other tools
+pandas==2.1.1
+numpy==1.26.0

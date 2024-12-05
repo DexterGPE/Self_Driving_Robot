@@ -12,6 +12,8 @@ build-job:
 
 lint-job:
   stage: lint
+  before_script:
+    - pip install flake8==6.1.0
   script:
     - flake8 src/main/ src/tests/
 

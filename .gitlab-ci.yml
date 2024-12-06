@@ -26,7 +26,7 @@ test-job:
 codestyle-check:
   stage: tests
   before_script:
-    - pip install pycodestyle-2.11.1
+    - pip install pycodestyle==2.11.1
   script:
     - pycodestyle src/ || exit 1
 

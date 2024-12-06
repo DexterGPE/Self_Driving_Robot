@@ -1,6 +1,6 @@
 image: python:3.9-slim-bullseye
 
-stages:
+stages: ## Organize and Order parts of the pipeline
 #    - build
     - tests
 #    - deploy
@@ -14,9 +14,10 @@ stages:
 test-job:
   stage: tests
   before_script:
-    - pip install pytest
+    - pip install -r requirements.txt
   script:
-    - pytest src/tests/
+    - pytest --cov=src --cov-report=xml --cov-report=term src/tests/
+  coverage: '/^TOTAL\s+(\d+)%/'
 
 #deploy-job:
 #  stage: deploy

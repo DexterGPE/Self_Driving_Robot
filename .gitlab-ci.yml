@@ -23,12 +23,12 @@ test-job:
       - coverage.xml
     expire_in: 1 week
 
-linting:
+codestyle-check:
   stage: tests
   before_script:
-    - pip install pylint==3.3.2
+    - pip install pycodestyle-2.11.1
   script:
-    - find . -type f -name "*.py" | xargs pylint
+    - pycodestyle src/ || exit 1
 
 #deploy-job:
 #  stage: deploy

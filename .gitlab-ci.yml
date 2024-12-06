@@ -1,21 +1,50 @@
 image: python:3.9-slim-bullseye
 
 stages:
-    - build
-    - lint
+#    - build
     - tests
+#    - deploy
 
-build-job:
-  stage: build
-  script:
-    - pip install -r requirements.txt
+#build-job:
+#  stage: build
+#  script:
+#    - pip install -r requirements.txt
+#    - echo "Fill Build Stage"
 
-test-job1:
+test-job:
   stage: tests
   before_script:
     - pip install pytest
   script:
     - pytest src/tests/
 
-
-
+#deploy-job:
+#  stage: deploy
+#  only:
+#    - main
+#  script:
+#    - echo "Checking if branch is main..."
+#    - if [ "$CI_COMMIT_BRANCH" != "main" ]; then echo "Not on main branch. Skipping deployment."; exit 0; fi
+#    - echo "Deploying to Raspberry Pi..."
+#    # Replace <RASPBERRY_PI_IP> and <RASPBERRY_PI_USER> with actual values
+#    - ssh <RASPBERRY_PI_USER>@<RASPBERRY_PI_IP> '
+#        echo "Setting up environment on Raspberry Pi...";
+#        # Update package list and ensure Python is installed
+#        sudo apt update && sudo apt install -y python3 python3-pip python3-venv;
+#        echo "Environment setup complete.";
+#      '
+#    - echo "Transferring project to Raspberry Pi..."
+#    - ssh <RASPBERRY_PI_USER>@<RASPBERRY_PI_IP> 'mkdir -p ~/project'
+#    - scp -r ./ <RASPBERRY_PI_USER>@<RASPBERRY_PI_IP>:~/project/
+#    - echo "Installing dependencies and running application on Raspberry Pi..."
+#    - ssh <RASPBERRY_PI_USER>@<RASPBERRY_PI_IP> '
+#        cd ~/project;
+#        # Set up virtual environment
+#        if [ ! -d "venv" ]; then python3 -m venv venv; fi;
+#        source venv/bin/activate;
+#        pip install --upgrade pip;
+#        pip install -r requirements.txt;
+#        echo "Starting application...";
+#        python app.py &  # Replace app.py with your entry point;
+#        echo "Application started.";
+#      '

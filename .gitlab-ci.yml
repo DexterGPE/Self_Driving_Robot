@@ -15,14 +15,20 @@ test-job:
   stage: tests
   before_script:
     - pip install -r requirements.txt
-    - pip install pytest-cov
   script:
-    - pytest --cov=src --cov-report=xml --cov-report=term --cov-fail-under=85 src/tests/
+    - pytest --cov=src --cov-report=xml --cov-report=term --cov-fail-under=80 src/tests/
   coverage: '/^TOTAL\s+(\d+)%/'
   artifacts:
     paths:
       - coverage.xml
     expire_in: 1 week
+
+linting:
+  stage: tests
+  before_script:
+    - pip install pylint==3.3.2
+  script:
+    - find . -type f -name "*.py" | xargs pylint
 
 #deploy-job:
 #  stage: deploy

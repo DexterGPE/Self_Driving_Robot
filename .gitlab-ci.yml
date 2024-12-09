@@ -40,7 +40,6 @@ deploy-job:
     - eval $(ssh-agent -s)
     - chmod 400 "$AWS_SECRET_ACCESS_KEY"
     - ssh-add "$AWS_SECRET_ACCESS_KEY"
-    -
 #    - ssh pi@10.10.1.151 'cd /Desktop/Test_Scripts'
     - ssh pi@10.10.1.151 'mkdir -p ~/testingSSHfolder'
 #    - scp -r ./ <RASPBERRY_PI_USER>@<RASPBERRY_PI_IP>:~/project/

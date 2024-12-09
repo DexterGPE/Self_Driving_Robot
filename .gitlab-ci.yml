@@ -33,7 +33,7 @@ stages: ## Organize and Order parts of the pipeline
 deploy-job:
   stage: deploy
   script:
-    - eval $(ssh-agent -s)
+    - eval "$(ssh-agent -s)"
     - chmod 400 "$AWS_SECRET_ACCESS_KEY"
     - ssh-add "$AWS_SECRET_ACCESS_KEY"
     - ssh pi@10.10.1.151 'mkdir -p ~/testingSSHfolder'

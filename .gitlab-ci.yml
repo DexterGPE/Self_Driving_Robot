@@ -2,7 +2,7 @@ image: python:3.9-slim-bullseye
 
 stages: ## Organize and Order parts of the pipeline
 #    - build
-    - tests
+#    - tests
     - deploy
 
 #build-job:

@@ -102,8 +102,8 @@ try:
             if spaceIsPressed:
                 speedblade = 200
         try:
-            print(BP.get_sensor(BP.PORT_4))
-            print(BP.get_sensor(BP.PORT_1))
+            #print(BP.get_sensor(BP.PORT_4))
+            #print(BP.get_sensor(BP.PORT_1))
             if spaceIsPressed:
                 speedleft = -50
                 speedright = -50
@@ -122,8 +122,8 @@ try:
             elif (BP.get_sensor(BP.PORT_4)[0] < 50) and (BP.get_sensor(BP.PORT_4)[1] < 50) and (BP.get_sensor(BP.PORT_4)[2] < 50) and sensorPortUsed == 3:
                 speedleft = 0
                 speedright = 0
-        except:
-            continue
+        except brickpi3.SensorError as error:
+            print(error)
 
 
         # Set the motor speed for all four motors

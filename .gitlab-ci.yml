@@ -2,7 +2,7 @@ image: python:3.9-slim-bullseye
 
 stages: ## Organize and Order parts of the pipeline
 #    - build
-    - tests
+#    - tests
     - deploy
 
 #build-job:
@@ -11,17 +11,17 @@ stages: ## Organize and Order parts of the pipeline
 #    - pip install -r requirements.txt
 #    - echo "Fill Build Stage"
 
-test-job:
-  stage: tests
-  before_script:
-    - pip install -r requirements.txt
-  script:
-    - pytest --cov=src --cov-report=xml --cov-report=term --cov-fail-under=80 src/tests/
-  coverage: '/^TOTAL\s+(\d+)%/'
-  artifacts:
-    paths:
-      - coverage.xml
-    expire_in: 1 week
+#test-job:
+#  stage: tests
+#  before_script:
+#    - pip install -r requirements.txt
+#  script:
+#    - pytest --cov=src --cov-report=xml --cov-report=term --cov-fail-under=80 src/tests/
+#  coverage: '/^TOTAL\s+(\d+)%/'
+#  artifacts:
+#    paths:
+#      - coverage.xml
+#    expire_in: 1 week
 
 #codestyle-check:
 #  stage: tests

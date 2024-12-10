@@ -17,10 +17,10 @@ pygame.display.set_mode((100,100))
 try:
     print("Use arrowkeys to control.")
     value = 0
-    reversevalue = 0
+    reverse_value = 0
     
-    speedleft = 0
-    speedright = 0
+    speed_left = 0
+    speed_right = 0
     speedblade = 0
     spaceIsPressed = 0
     running = 1
@@ -28,15 +28,15 @@ try:
     while running:
         try:
             value = BP.get_sensor(BP.PORT_2)
-            reversevalue = BP.get_sensor(BP.PORT_3)
+            reverse_value = BP.get_sensor(BP.PORT_3)
         except brickpi3.SensorError as error:
             print(error)
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = 0
-                speedleft = 0
-                speedright = 0
+                speed_left = 0
+                speed_right = 0
                 pygame.quit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
@@ -62,20 +62,20 @@ try:
                     spaceIsPressed = 0
             
         if spaceIsPressed:
-            speedleft = 0
-            speedright = 0
+            speed_left = 0
+            speed_right = 0
         elif reversetime == 0:
-            speedleft = -30
-            speedright = -30
+            speed_left = -30
+            speed_right = -30
         elif BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3):
             reversetime = 30
-            speedleft = 30
-            speedright = 30
+            speed_left = 30
+            speed_right = 30
         reversetime -=1
         
         # Set the motor speed for all four motors
-        BP.set_motor_power(BP.PORT_D, speedleft)
-        BP.set_motor_power(BP.PORT_A, speedright)
+        BP.set_motor_power(BP.PORT_D, speed_left)
+        BP.set_motor_power(BP.PORT_A, speed_right)
         BP.set_motor_power(BP.PORT_B, speedblade)
         
         time.sleep(0.02)  # delay for 0.02 seconds (20ms) to reduce the Raspberry Pi CPU load.

@@ -11,10 +11,10 @@ import pygame
 # grijs op bord: R en G rond de 30, B 15
 # Rood op bord: R 40-50, andere onder de 15
 
-def setMotorPower(speedleft, speedright, speedblade):
-    BP.set_motor_power(BP.PORT_D, speedleft)
-    BP.set_motor_power(BP.PORT_A, speedright)
-    BP.set_motor_power(BP.PORT_B, speedblade)
+def setMotorPower(speed_left, speed_right, speed_blade):
+    BP.set_motor_power(BP.PORT_D, speed_left)
+    BP.set_motor_power(BP.PORT_A, speed_right)
+    BP.set_motor_power(BP.PORT_B, speed_blade)
 
 def initialize_brickpi_sensors():
 
@@ -71,37 +71,36 @@ def selfDriving(turntime, justbumped, speedleft,speedright,reversetime):
 
     return turntime, justbumped, speedleft,speedright,reversetime
 
-def manualDriving(speedright, speedleft, speedblade):
-    speedleft = 0
-    speedright = 0
-    speedblade = 0
+def manualDriving():
+    speed_left = 0
+    speed_right = 0
+    speed_blade = 0
     if upIsPressed:
-        speedleft -= 60
-        speedright -= 60
+        speed_left -= 60
+        speed_right -= 60
     if downIsPressed:
-        speedleft += 60
-        speedright += 60
+        speed_left += 60
+        speed_right += 60
     if rightIsPressed:
-        speedright += 20
-        speedleft -= 20
+        speed_right += 20
+        speed_left -= 20
     if leftIsPressed:
-        speedright -= 20
-        speedleft += 20
+        speed_right -= 20
+        speed_left += 20
     if spaceIsPressed:
-        speedblade = 200
-    return speedright, speedleft, speedblade
+        speed_blade = 200
+    return speed_right, speed_left, speed_blade
 
 BP = initialize_brickpi_sensors()
 initialize_pygame()
 
 
-def getKeyBoardInput():
-    global running, speedleft, speedright, upIsPressed, downIsPressed, leftIsPressed, rightIsPressed, spaceIsPressed, lshiftIsPressed, mode
+def get_key_board_input(running, speed_left, speed_right, upIsPressed, downIsPressed, leftIsPressed, rightIsPressed, spaceIsPressed, lshiftIsPressed, mode):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = 0
-            speedleft = 0
-            speedright = 0
+            speed_left = 0
+            speed_right = 0
             pygame.quit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
@@ -139,14 +138,50 @@ def getKeyBoardInput():
                 spaceIsPressed = 0
             if event.key == pygame.K_LSHIFT:
                 lshiftIsPressed = 0
+    return running, speed_left, speed_right, upIsPressed, downIsPressed, leftIsPressed, rightIsPressed, spaceIsPressed, lshiftIsPressed, mode
+
+
+def get_pressure_sensor_input(value, reverse_value):
+    try:
+        value = BP.get_sensor(BP.PORT_2)
+        reverse_value = BP.get_sensor(BP.PORT_3)
+    except brickpi3.SensorError as error:
+        print(error)
+    return value, reverse_value
+
+
+def sensor_testing_modes(speed_left, speed_right):
+    print(BP.get_sensor(BP.PORT_4))
+    print(BP.get_sensor(BP.PORT_1))
+    if spaceIsPressed:
+        speed_left = -50
+        speed_right = -50
+    elif lshiftIsPressed:
+        speed_left = 0
+        speed_right = 0
+    elif (BP.get_sensor(BP.PORT_1) < 20) and mode == 1:
+        speed_left = 0
+        speed_right = 0
+    elif (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)) and mode == 2:
+        speed_left = 0
+        speed_right = 0
+    elif (BP.get_sensor(BP.PORT_4)[0] > 90) and (BP.get_sensor(BP.PORT_4)[1] < 30) and (
+            BP.get_sensor(BP.PORT_4)[2] < 30) and mode == 3:
+        speed_left = 0
+        speed_right = 0
+    elif (BP.get_sensor(BP.PORT_4)[0] < 30) and (BP.get_sensor(BP.PORT_4)[1] < 30) and (
+            BP.get_sensor(BP.PORT_4)[2] < 30) and mode == 3:
+        speed_left = 0
+        speed_right = 0
+    return speed_left, speed_right
 
 
 try:
     print("Use arrowkeys to control.")
     value = 0
-    reversevalue = 0
-    speedleft = 0
-    speedright = 0
+    reverse_value = 0
+    speed_left = 0
+    speed_right = 0
     speedblade = 0
     spaceIsPressed = 0
     upIsPressed = 0
@@ -162,47 +197,24 @@ try:
 
 
     while running:
-        try:
-            value = BP.get_sensor(BP.PORT_2)
-            reversevalue = BP.get_sensor(BP.PORT_3)
-        except brickpi3.SensorError as error:
-            print(error)
+        value, reverse_value = get_pressure_sensor_input(value, reverse_value)
 
-        getKeyBoardInput()
+        running, speed_left, speed_right, upIsPressed, downIsPressed, leftIsPressed, rightIsPressed, spaceIsPressed, lshiftIsPressed, mode = (
+            get_key_board_input(running, speed_left, speed_right, upIsPressed, downIsPressed, leftIsPressed, rightIsPressed, spaceIsPressed, lshiftIsPressed, mode))
 
         if mode == 0:
-            speedright, speedleft, speedblade = manualDriving(speedright, speedleft, speedblade)
+            speed_right, speed_left, speedblade = manualDriving()
 
         if mode == 8:
-            turntime, justbumped, speedleft,speedright,reversetime = selfDriving(turntime, justbumped, speedleft,speedright,reversetime)
+            turntime, justbumped, speed_left,speed_right,reversetime = selfDriving(turntime, justbumped, speed_left, speed_right, reversetime)
         else:
             try:
-                print(BP.get_sensor(BP.PORT_4))
-                print(BP.get_sensor(BP.PORT_1))
-                if spaceIsPressed:
-                    speedleft = -50
-                    speedright = -50
-                elif lshiftIsPressed:
-                    speedleft = 0
-                    speedright = 0
-                elif (BP.get_sensor(BP.PORT_1) < 20) and mode == 1:
-                    speedleft = 0
-                    speedright = 0
-                elif (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)) and mode == 2:
-                    speedleft = 0
-                    speedright = 0
-                elif (BP.get_sensor(BP.PORT_4)[0] > 90) and (BP.get_sensor(BP.PORT_4)[1] < 30) and (BP.get_sensor(BP.PORT_4)[2] < 30) and mode == 3:
-                    speedleft = 0
-                    speedright = 0
-                elif (BP.get_sensor(BP.PORT_4)[0] < 30) and (BP.get_sensor(BP.PORT_4)[1] < 30) and (BP.get_sensor(BP.PORT_4)[2] < 30) and mode == 3:
-                    speedleft = 0
-                    speedright = 0
+                speed_left, speed_right = sensor_testing_modes(speed_left, speed_right)
             except brickpi3.SensorError as error:
                 print(error)
 
-
         # Set the motor speed for all four motors
-        setMotorPower(speedleft,speedright,speedblade)
+        setMotorPower(speed_left, speed_right, speedblade)
 
         time.sleep(0.02)  # delay for 0.02 seconds (20ms) to reduce the Raspberry Pi CPU load.
 

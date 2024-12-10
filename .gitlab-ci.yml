@@ -28,7 +28,7 @@ stages: ## Organize and Order parts of the pipeline
 #  before_script:
 #    - pip install pycodestyle==2.11.1
 #  script:
-#    - pycodestyle src/ --exclude src/main/old_test_scripts || exit 1
+#    - pycodestyle src/ || exit 1
 
 deploy-job:
   stage: deploy

@@ -102,21 +102,21 @@ try:
             if spaceIsPressed:
                 speedblade = 200
         try:
-            print(BP.get_sensor(BP.PORT_4)[0])
-            print((BP.get_sensor(BP.PORT_2)))
+            print(BP.get_sensor(BP.PORT_4))
+            print(BP.get_sensor(BP.PORT_1))
             if spaceIsPressed:
                 speedleft = -50
                 speedright = -50
             elif lshiftIsPressed:
                 speedleft = 0
                 speedright = 0
-            elif (BP.get_sensor(BP.PORT_2) < 10) and sensorPortUsed == 1:
+            elif (BP.get_sensor(BP.PORT_1) < 20) and sensorPortUsed == 1:
                 speedleft = 0
                 speedright = 0
             elif (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)) and sensorPortUsed == 2:
                 speedleft = 0
                 speedright = 0
-            elif (BP.get_sensor(BP.PORT_4)[0] > 175) and sensorPortUsed == 3:
+            elif (BP.get_sensor(BP.PORT_4)[0] > 120) and sensorPortUsed == 3:
                 speedleft = 0
                 speedright = 0
             elif (BP.get_sensor(BP.PORT_4)[0] < 50) and (BP.get_sensor(BP.PORT_4)[1] < 50) and (BP.get_sensor(BP.PORT_4)[2] < 50) and sensorPortUsed == 3:

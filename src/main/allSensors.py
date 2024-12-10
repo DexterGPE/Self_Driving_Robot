@@ -149,7 +149,7 @@ try:
                 speedblade = 200
 
         if mode == 8:
-            selfDriving(turntime, justbumped, speedleft,speedright,reversetime)
+            turntime, justbumped, speedleft,speedright,reversetime = selfDriving(turntime, justbumped, speedleft,speedright,reversetime)
         else:
             try:
                 print(BP.get_sensor(BP.PORT_4))

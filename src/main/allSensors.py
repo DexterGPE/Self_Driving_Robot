@@ -7,6 +7,8 @@ import time  # import the time library for the sleep function
 import brickpi3  # import the BrickPi3 drivers
 import pygame
 
+from src.main.ServoBasic import upIsPressed, downIsPressed, leftIsPressed, rightIsPressed
+
 BP = brickpi3.BrickPi3()  # Create an instance of the BrickPi3 class. BP will be the BrickPi3 object.
 
 BP.set_sensor_type(BP.PORT_1, BP.SENSOR_TYPE.EV3_INFRARED_PROXIMITY)
@@ -26,6 +28,10 @@ try:
     speedright = 0
     speedblade = 0
     spaceIsPressed = 0
+    upIsPressed = 0
+    downIsPressed = 0
+    leftIsPressed = 0
+    rightIsPressed = 0
     lshiftIsPressed = 0
     running = 1
     sensorPortUsed = 0

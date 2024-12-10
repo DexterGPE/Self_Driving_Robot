@@ -51,7 +51,6 @@ try:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     upIsPressed = 1
-                    print("up")
                 if event.key == pygame.K_DOWN:
                     downIsPressed = 1
                 if event.key == pygame.K_LEFT:
@@ -103,8 +102,8 @@ try:
             if spaceIsPressed:
                 speedblade = 200
         try:
-            #print(BP.get_sensor(BP.PORT_4))
-            #print(BP.get_sensor(BP.PORT_1))
+            print(BP.get_sensor(BP.PORT_4))
+            print(BP.get_sensor(BP.PORT_1))
             if spaceIsPressed:
                 speedleft = -50
                 speedright = -50

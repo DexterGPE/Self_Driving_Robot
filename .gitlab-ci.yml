@@ -33,7 +33,8 @@ stages: ## Organize and Order parts of the pipeline
 deploy-job:
   stage: deploy
   before_script:
-    - apt install sshpass
+    - apt-get update
+    - apt-get install -y sshpass
   script:
 #    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
 #    - eval $(ssh-agent -s)

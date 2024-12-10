@@ -102,6 +102,8 @@ try:
             if spaceIsPressed:
                 speedblade = 200
         try:
+            print(BP.get_sensor(BP.PORT_4)[0])
+            print((BP.get_sensor(BP.PORT_2)))
             if spaceIsPressed:
                 speedleft = -50
                 speedright = -50
@@ -121,7 +123,7 @@ try:
                 speedleft = 0
                 speedright = 0
         except:
-            print()
+            continue
 
 
         # Set the motor speed for all four motors

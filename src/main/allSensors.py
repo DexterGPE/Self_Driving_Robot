@@ -108,7 +108,7 @@ try:
             elif lshiftIsPressed:
                 speedleft = 0
                 speedright = 0
-            elif (BP.get_sensor(BP.PORT_2) < 30) and sensorPortUsed == 1:
+            elif (BP.get_sensor(BP.PORT_2) < 10) and sensorPortUsed == 1:
                 speedleft = 0
                 speedright = 0
             elif (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)) and sensorPortUsed == 2:

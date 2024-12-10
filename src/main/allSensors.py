@@ -115,12 +115,12 @@ try:
             else:
                 if justbumped:
                     justbumped = False
-                    if (BP.get_sensor(BP.PORT_1) < 20):
-                        turntime = 80
+                    if (BP.get_sensor(BP.PORT_1) < 40):
+                        turntime = 40
                         speedleft = 30
                         speedright = -30
                     else:
-                        turntime = 80
+                        turntime = 40
                         speedleft = -30
                         speedright = 30
 

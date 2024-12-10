@@ -114,7 +114,7 @@ try:
             elif (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)) and sensorPortUsed == 2:
                 speedleft = 0
                 speedright = 0
-            elif (BP.get_sensor(BP.PORT_4)[0] > 100) and sensorPortUsed == 3:
+            elif (BP.get_sensor(BP.PORT_4)[0] > 175) and sensorPortUsed == 3:
                 speedleft = 0
                 speedright = 0
             elif (BP.get_sensor(BP.PORT_4)[0] < 50) and (BP.get_sensor(BP.PORT_4)[1] < 50) and (BP.get_sensor(BP.PORT_4)[2] < 50) and sensorPortUsed == 3:

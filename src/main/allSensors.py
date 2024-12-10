@@ -50,14 +50,14 @@ def drive_backwards_after_bump(reversetime, speedleft,speedright,justbumped):
     return reversetime, speedleft, speedright, justbumped
 
 def selfDriving(turntime, justbumped, speedleft,speedright,reversetime,bumptime, stoppedbumping):
-    justbumped = True if bumptime == 0 else False
+    stoppedbumping = True if bumptime == 0 else False
     if bumptime > 0:
         bumptime -= 1
     else:
         if stoppedbumping:
             reversetime, speedleft, speedright, justbumped = drive_backwards_after_bump(reversetime, speedleft,
                                                                                         speedright, justbumped)
-            justbumped = False
+            stoppedbumping = False
         if turntime > 0:
             turntime -= 1
         else:

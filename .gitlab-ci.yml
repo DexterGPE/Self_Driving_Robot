@@ -36,8 +36,12 @@ deploy-job:
     - apt-get update
     - apt-get install -y sshpass
   script:
+    - sshpass -p raspberry ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "mkdir -p ./Team3-Repo"
+    - sshpass -p 'raspberry' scp -o StrictHostKeyChecking=no . pi@10.10.1.151:./Team3-Repo/
 #    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
 #    - eval $(ssh-agent -s)
 #    - chmod 400 "$AWS_SECRET_ACCESS_KEY"
 #    - ssh-add "$AWS_SECRET_ACCESS_KEY"
-    - sshpass -p raspberry ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "mkdir -p ~/testingSSHfolder"
+#    - sshpass -p raspberry ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "mkdir -p ~/testingSSHfolder"
+
+

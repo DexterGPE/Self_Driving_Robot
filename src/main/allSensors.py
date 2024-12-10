@@ -64,6 +64,7 @@ def selfDriving(turntime, justbumped, speedleft,speedright,reversetime,bumptime,
             if reversetime == 0:
                 justbumped = True
 
+
             else:
                 reversetime -= 1
 

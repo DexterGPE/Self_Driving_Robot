@@ -49,27 +49,36 @@ def drive_backwards_after_bump(reversetime, speedleft,speedright,justbumped):
     justbumped = True
     return reversetime, speedleft, speedright, justbumped
 
-def selfDriving(turntime, justbumped, speedleft,speedright,reversetime):
-    if turntime > 0:
-        turntime -= 1
+def selfDriving(turntime, justbumped, speedleft,speedright,reversetime,bumptime, stoppedbumping):
+    justbumped = True if bumptime == 0 else False
+    if bumptime > 0:
+        bumptime -= 1
     else:
-        if justbumped:
+        if stoppedbumping:
+            reversetime, speedleft, speedright, justbumped = drive_backwards_after_bump(reversetime, speedleft,
+                                                                                        speedright, justbumped)
             justbumped = False
-            if BP.get_sensor(BP.PORT_1) < 40:
-                turntime, speedright, speedleft = turn_left()
-            else:
-                turntime, speedright, speedleft = turn_right()
-
-        if reversetime == 0:
-            speedleft = -60
-            speedright = -60
+        if turntime > 0:
+            turntime -= 1
         else:
-            reversetime -= 1
+            if justbumped:
+                justbumped = False
+                if BP.get_sensor(BP.PORT_1) < 40:
+                    turntime, speedright, speedleft = turn_left()
+                else:
+                    turntime, speedright, speedleft = turn_right()
 
-        if (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)):
-            reversetime, speedleft, speedright, justbumped = drive_backwards_after_bump(reversetime, speedleft, speedright, justbumped)
+            if reversetime == 0:
+                speedleft = -60
+                speedright = -60
+            else:
+                reversetime -= 1
 
-    return turntime, justbumped, speedleft,speedright,reversetime
+            if (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)):
+                bumptime = 10
+
+
+    return turntime, justbumped, speedleft,speedright,reversetime,bumptime, stoppedbumping
 
 def manualDriving():
     speed_left = 0
@@ -194,6 +203,8 @@ try:
     running = 1
     mode = 0
     reversetime = 0
+    stoppedbumping = False
+    bumptime = 0
 
 
     while running:
@@ -206,7 +217,7 @@ try:
             speed_right, speed_left, speedblade = manualDriving()
 
         if mode == 8:
-            turntime, justbumped, speed_left,speed_right,reversetime = selfDriving(turntime, justbumped, speed_left, speed_right, reversetime)
+            turntime, justbumped, speed_left,speed_right,reversetime, bumptime, stoppedbumping = selfDriving(turntime, justbumped, speed_left, speed_right, reversetime, bumptime, stoppedbumping)
         else:
             try:
                 speed_left, speed_right = sensor_testing_modes(speed_left, speed_right)

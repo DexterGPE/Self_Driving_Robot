@@ -101,25 +101,27 @@ try:
                 speedleft += 20
             if spaceIsPressed:
                 speedblade = 200
-
-        if spaceIsPressed:
-            speedleft = -50
-            speedright = -50
-        elif lshiftIsPressed:
-            speedleft = 0
-            speedright = 0
-        elif (BP.get_sensor(BP.PORT_2) < 30) and sensorPortUsed == 1:
-            speedleft = 0
-            speedright = 0
-        elif (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)) and sensorPortUsed == 2:
-            speedleft = 0
-            speedright = 0
-        elif (BP.get_sensor(BP.PORT_4)[0] > 100) and sensorPortUsed == 3:
-            speedleft = 0
-            speedright = 0
-        elif (BP.get_sensor(BP.PORT_4)[0] < 50) and (BP.get_sensor(BP.PORT_4)[1] < 50) and (BP.get_sensor(BP.PORT_4)[2] < 50) and sensorPortUsed == 3:
-            speedleft = 0
-            speedright = 0
+        try:
+            if spaceIsPressed:
+                speedleft = -50
+                speedright = -50
+            elif lshiftIsPressed:
+                speedleft = 0
+                speedright = 0
+            elif (BP.get_sensor(BP.PORT_2) < 30) and sensorPortUsed == 1:
+                speedleft = 0
+                speedright = 0
+            elif (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)) and sensorPortUsed == 2:
+                speedleft = 0
+                speedright = 0
+            elif (BP.get_sensor(BP.PORT_4)[0] > 100) and sensorPortUsed == 3:
+                speedleft = 0
+                speedright = 0
+            elif (BP.get_sensor(BP.PORT_4)[0] < 50) and (BP.get_sensor(BP.PORT_4)[1] < 50) and (BP.get_sensor(BP.PORT_4)[2] < 50) and sensorPortUsed == 3:
+                speedleft = 0
+                speedright = 0
+        except:
+            print()
 
 
         # Set the motor speed for all four motors

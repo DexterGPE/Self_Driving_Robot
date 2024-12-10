@@ -11,15 +11,54 @@ import pygame
 # grijs op bord: R en G rond de 30, B 15
 # Rood op bord: R 40-50, andere onder de 15
 
-BP = brickpi3.BrickPi3()  # Create an instance of the BrickPi3 class. BP will be the BrickPi3 object.
+def setMotorPower(speedleft, speedright, speedblade):
+    BP.set_motor_power(BP.PORT_D, speedleft)
+    BP.set_motor_power(BP.PORT_A, speedright)
+    BP.set_motor_power(BP.PORT_B, speedblade)
 
-BP.set_sensor_type(BP.PORT_1, BP.SENSOR_TYPE.EV3_INFRARED_PROXIMITY)
-BP.set_sensor_type(BP.PORT_2, BP.SENSOR_TYPE.TOUCH)
-BP.set_sensor_type(BP.PORT_3, BP.SENSOR_TYPE.TOUCH)
-BP.set_sensor_type(BP.PORT_4, BP.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS)
+def initialize_brickpi_sensors():
 
-pygame.init()
-pygame.display.set_mode((100, 100))
+    BP = brickpi3.BrickPi3()  # Create an instance of the BrickPi3 class. BP will be the BrickPi3 object.
+
+    BP.set_sensor_type(BP.PORT_1, BP.SENSOR_TYPE.EV3_INFRARED_PROXIMITY)
+    BP.set_sensor_type(BP.PORT_2, BP.SENSOR_TYPE.TOUCH)
+    BP.set_sensor_type(BP.PORT_3, BP.SENSOR_TYPE.TOUCH)
+    BP.set_sensor_type(BP.PORT_4, BP.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS)
+    return BP
+
+def initialize_pygame():
+    pygame.init()
+    pygame.display.set_mode((100, 100))
+
+def selfDriving(turntime, justbumped, speedleft,speedright,reversetime):
+    if turntime > 0:
+        turntime -= 1
+    else:
+        if justbumped:
+            justbumped = False
+            if BP.get_sensor(BP.PORT_1) < 40:
+                turntime = 2
+                speedleft = 26
+                speedright = -26
+            else:
+                turntime = 2
+                speedleft = -26
+                speedright = 26
+
+        if reversetime == 0:
+            speedleft = -60
+            speedright = -60
+        else:
+            reversetime -= 1
+        if (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)):
+            reversetime = 80
+            speedleft = 30
+            speedright = 30
+            justbumped = True
+    return turntime, justbumped, speedleft,speedright,reversetime
+
+BP = initialize_brickpi_sensors()
+initialize_pygame()
 
 try:
     print("Use arrowkeys to control.")
@@ -110,31 +149,7 @@ try:
                 speedblade = 200
 
         if mode == 8:
-            if turntime > 0:
-                turntime -= 1
-            else:
-                if justbumped:
-                    justbumped = False
-                    if (BP.get_sensor(BP.PORT_1) < 40):
-                        turntime = 2
-                        speedleft = 26
-                        speedright = -26
-                    else:
-                        turntime = 2
-                        speedleft = -26
-                        speedright = 26
-
-
-                if reversetime == 0:
-                    speedleft = -60
-                    speedright = -60
-                else:
-                    reversetime -= 1
-                if (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)):
-                    reversetime = 80
-                    speedleft = 30
-                    speedright = 30
-                    justbumped = True
+            selfDriving(turntime, justbumped, speedleft,speedright,reversetime)
         else:
             try:
                 print(BP.get_sensor(BP.PORT_4))
@@ -162,9 +177,7 @@ try:
 
 
         # Set the motor speed for all four motors
-        BP.set_motor_power(BP.PORT_D, speedleft)
-        BP.set_motor_power(BP.PORT_A, speedright)
-        BP.set_motor_power(BP.PORT_B, speedblade)
+        setMotorPower(speedleft,speedright,speedblade)
 
         time.sleep(0.02)  # delay for 0.02 seconds (20ms) to reduce the Raspberry Pi CPU load.
 

@@ -30,6 +30,25 @@ def initialize_pygame():
     pygame.init()
     pygame.display.set_mode((100, 100))
 
+def turn_left():
+    turntime = 2
+    speedleft = 26
+    speedright = -26
+    return turntime, speedright, speedleft
+
+def turn_right():
+    turntime = 2
+    speedleft = -26
+    speedright = 26
+    return turntime, speedright, speedleft
+
+def drive_backwards_after_bump(reversetime, speedleft,speedright,justbumped):
+    reversetime = 80
+    speedleft = 30
+    speedright = 30
+    justbumped = True
+    return reversetime, speedleft, speedright, justbumped
+
 def selfDriving(turntime, justbumped, speedleft,speedright,reversetime):
     if turntime > 0:
         turntime -= 1
@@ -37,34 +56,95 @@ def selfDriving(turntime, justbumped, speedleft,speedright,reversetime):
         if justbumped:
             justbumped = False
             if BP.get_sensor(BP.PORT_1) < 40:
-                turntime = 2
-                speedleft = 26
-                speedright = -26
+                turntime, speedright, speedleft = turn_left()
             else:
-                turntime = 2
-                speedleft = -26
-                speedright = 26
+                turntime, speedright, speedleft = turn_right()
 
         if reversetime == 0:
             speedleft = -60
             speedright = -60
         else:
             reversetime -= 1
+
         if (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)):
-            reversetime = 80
-            speedleft = 30
-            speedright = 30
-            justbumped = True
+            reversetime, speedleft, speedright, justbumped = drive_backwards_after_bump(reversetime, speedleft, speedright, justbumped)
+
     return turntime, justbumped, speedleft,speedright,reversetime
+
+def manualDriving(speedright, speedleft, speedblade):
+    speedleft = 0
+    speedright = 0
+    speedblade = 0
+    if upIsPressed:
+        speedleft -= 60
+        speedright -= 60
+    if downIsPressed:
+        speedleft += 60
+        speedright += 60
+    if rightIsPressed:
+        speedright += 20
+        speedleft -= 20
+    if leftIsPressed:
+        speedright -= 20
+        speedleft += 20
+    if spaceIsPressed:
+        speedblade = 200
+    return speedright, speedleft, speedblade
 
 BP = initialize_brickpi_sensors()
 initialize_pygame()
+
+
+def getKeyBoardInput():
+    global running, speedleft, speedright, upIsPressed, downIsPressed, leftIsPressed, rightIsPressed, spaceIsPressed, lshiftIsPressed, mode
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = 0
+            speedleft = 0
+            speedright = 0
+            pygame.quit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                upIsPressed = 1
+            if event.key == pygame.K_DOWN:
+                downIsPressed = 1
+            if event.key == pygame.K_LEFT:
+                leftIsPressed = 1
+            if event.key == pygame.K_RIGHT:
+                rightIsPressed = 1
+            if event.key == pygame.K_SPACE:
+                spaceIsPressed = 1
+            if event.key == pygame.K_LSHIFT:
+                lshiftIsPressed = 1
+            if event.key == pygame.K_1:
+                mode = 1
+            if event.key == pygame.K_2:
+                mode = 2
+            if event.key == pygame.K_3:
+                mode = 3
+            if event.key == pygame.K_0:
+                mode = 0
+            if event.key == pygame.K_8:
+                mode = 8
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_UP:
+                upIsPressed = 0
+            if event.key == pygame.K_DOWN:
+                downIsPressed = 0
+            if event.key == pygame.K_LEFT:
+                leftIsPressed = 0
+            if event.key == pygame.K_RIGHT:
+                rightIsPressed = 0
+            if event.key == pygame.K_SPACE:
+                spaceIsPressed = 0
+            if event.key == pygame.K_LSHIFT:
+                lshiftIsPressed = 0
+
 
 try:
     print("Use arrowkeys to control.")
     value = 0
     reversevalue = 0
-
     speedleft = 0
     speedright = 0
     speedblade = 0
@@ -79,6 +159,8 @@ try:
     running = 1
     mode = 0
     reversetime = 0
+
+
     while running:
         try:
             value = BP.get_sensor(BP.PORT_2)
@@ -86,67 +168,10 @@ try:
         except brickpi3.SensorError as error:
             print(error)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = 0
-                speedleft = 0
-                speedright = 0
-                pygame.quit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    upIsPressed = 1
-                if event.key == pygame.K_DOWN:
-                    downIsPressed = 1
-                if event.key == pygame.K_LEFT:
-                    leftIsPressed = 1
-                if event.key == pygame.K_RIGHT:
-                    rightIsPressed = 1
-                if event.key == pygame.K_SPACE:
-                    spaceIsPressed = 1
-                if event.key == pygame.K_LSHIFT:
-                    lshiftIsPressed = 1
-                if event.key == pygame.K_1:
-                    mode = 1
-                if event.key == pygame.K_2:
-                    mode = 2
-                if event.key == pygame.K_3:
-                    mode = 3
-                if event.key == pygame.K_0:
-                    mode = 0
-                if event.key == pygame.K_8:
-                    mode = 8
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_UP:
-                    upIsPressed = 0
-                if event.key == pygame.K_DOWN:
-                    downIsPressed = 0
-                if event.key == pygame.K_LEFT:
-                    leftIsPressed = 0
-                if event.key == pygame.K_RIGHT:
-                    rightIsPressed = 0
-                if event.key == pygame.K_SPACE:
-                    spaceIsPressed = 0
-                if event.key == pygame.K_LSHIFT:
-                    lshiftIsPressed = 0
+        getKeyBoardInput()
 
         if mode == 0:
-            speedleft = 0
-            speedright = 0
-            speedblade = 0
-            if upIsPressed:
-                speedleft -= 60
-                speedright -= 60
-            if downIsPressed:
-                speedleft += 60
-                speedright += 60
-            if rightIsPressed:
-                speedright += 20
-                speedleft -= 20
-            if leftIsPressed:
-                speedright -= 20
-                speedleft += 20
-            if spaceIsPressed:
-                speedblade = 200
+            speedright, speedleft, speedblade = manualDriving(speedright, speedleft, speedblade)
 
         if mode == 8:
             turntime, justbumped, speedleft,speedright,reversetime = selfDriving(turntime, justbumped, speedleft,speedright,reversetime)

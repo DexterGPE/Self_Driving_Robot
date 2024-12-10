@@ -103,8 +103,8 @@ try:
                 speedblade = 200
 
         if spaceIsPressed:
-            speedleft = 50
-            speedright = 50
+            speedleft = -50
+            speedright = -50
         elif lshiftIsPressed:
             speedleft = 0
             speedright = 0

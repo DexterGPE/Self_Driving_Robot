@@ -46,7 +46,7 @@ def drive_backwards_after_bump():
     reversetime = 80
     speedleft = 30
     speedright = 30
-    justbumped = True
+
     return reversetime, speedleft, speedright, justbumped
 
 def selfDriving(turntime, justbumped, speedleft,speedright,reversetime,bumptime, stoppedbumping):
@@ -57,21 +57,27 @@ def selfDriving(turntime, justbumped, speedleft,speedright,reversetime,bumptime,
         if stoppedbumping:
             reversetime, speedleft, speedright, justbumped = drive_backwards_after_bump()
             stoppedbumping = False
+
         if turntime > 0:
             turntime -= 1
         else:
+            if reversetime == 0:
+                justbumped = True
+
+            else:
+                reversetime -= 1
+
             if justbumped:
                 justbumped = False
                 if BP.get_sensor(BP.PORT_1) < 40:
                     turntime, speedright, speedleft = turn_left()
                 else:
                     turntime, speedright, speedleft = turn_right()
-
-            if reversetime == 0:
+            else:
                 speedleft = -60
                 speedright = -60
-            else:
-                reversetime -= 1
+
+
 
             if (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)):
                 bumptime = 20

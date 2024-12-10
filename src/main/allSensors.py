@@ -51,6 +51,7 @@ try:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     upIsPressed = 1
+                    print("up")
                 if event.key == pygame.K_DOWN:
                     downIsPressed = 1
                 if event.key == pygame.K_LEFT:
@@ -122,8 +123,8 @@ try:
             elif (BP.get_sensor(BP.PORT_4)[0] < 50) and (BP.get_sensor(BP.PORT_4)[1] < 50) and (BP.get_sensor(BP.PORT_4)[2] < 50) and sensorPortUsed == 3:
                 speedleft = 0
                 speedright = 0
-        except:
-            print()
+        except brickpi3.SensorError as error:
+            print(error)
 
 
         # Set the motor speed for all four motors

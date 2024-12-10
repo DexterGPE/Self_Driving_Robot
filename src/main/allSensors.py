@@ -28,7 +28,7 @@ try:
     spaceIsPressed = 0
     lshiftIsPressed = 0
     running = 1
-    SensorPortUsed = 0
+    sensorPortUsed = 0
     while running:
         try:
             value = BP.get_sensor(BP.PORT_2)

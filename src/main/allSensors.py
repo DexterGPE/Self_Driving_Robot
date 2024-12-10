@@ -7,7 +7,7 @@ import time  # import the time library for the sleep function
 import brickpi3  # import the BrickPi3 drivers
 import pygame
 
-from src.main.ServoBasic import upIsPressed, downIsPressed, leftIsPressed, rightIsPressed
+# from src.main.Ser/voBasic import upIsPressed, downIsPressed, leftIsPressed, rightIsPressed
 
 BP = brickpi3.BrickPi3()  # Create an instance of the BrickPi3 class. BP will be the BrickPi3 object.
 

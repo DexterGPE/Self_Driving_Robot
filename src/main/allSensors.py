@@ -12,7 +12,7 @@ import pygame
 BP = brickpi3.BrickPi3()  # Create an instance of the BrickPi3 class. BP will be the BrickPi3 object.
 
 BP.set_sensor_type(BP.PORT_1, BP.SENSOR_TYPE.EV3_INFRARED_PROXIMITY)
-BP.set_sensor_type(BP.PORT_2,BP.SENSOR_TYPE.TOUCH)
+BP.set_sensor_type(BP.PORT_2, BP.SENSOR_TYPE.TOUCH)
 BP.set_sensor_type(BP.PORT_3, BP.SENSOR_TYPE.TOUCH)
 BP.set_sensor_type(BP.PORT_4, BP.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS)
 
@@ -122,8 +122,8 @@ try:
             elif (BP.get_sensor(BP.PORT_4)[0] < 50) and (BP.get_sensor(BP.PORT_4)[1] < 50) and (BP.get_sensor(BP.PORT_4)[2] < 50) and sensorPortUsed == 3:
                 speedleft = 0
                 speedright = 0
-        except brickpi3.SensorError as error:
-            print(error)
+        except:
+            print()
 
 
         # Set the motor speed for all four motors

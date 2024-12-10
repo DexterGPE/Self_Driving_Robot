@@ -9,8 +9,8 @@ import pygame
 
 BP = brickpi3.BrickPi3() # Create an instance of the BrickPi3 class. BP will be the BrickPi3 object.
 
-BP.set_sensor_type(BP.PORT_1, BP.SENSOR_TYPE.TOUCH) # Configure for a touch sensor. If an EV3 touch sensor is connected, it will be configured for EV3 touch, otherwise it'll configured for NXT touch.
-BP.set_sensor_type(BP.PORT_2, BP.SENSOR_TYPE.TOUCH)
+BP.set_sensor_type(BP.PORT_2, BP.SENSOR_TYPE.TOUCH) # Configure for a touch sensor. If an EV3 touch sensor is connected, it will be configured for EV3 touch, otherwise it'll configured for NXT touch.
+BP.set_sensor_type(BP.PORT_3, BP.SENSOR_TYPE.TOUCH)
 pygame.init()
 pygame.display.set_mode((100,100))
 
@@ -22,22 +22,21 @@ try:
     speedleft = 0
     speedright = 0
     speedblade = 0
-    leftIsPressed = 0
-    rightIsPressed = 0
-    upIsPressed = 0
-    downIsPressed = 0
     spaceIsPressed = 0
     running = 1
+    reversetime = 0
     while running:
         try:
-            value = BP.get_sensor(BP.PORT_1)
-            reversevalue = BP.get_sensor(BP.PORT_2)
+            value = BP.get_sensor(BP.PORT_2)
+            reversevalue = BP.get_sensor(BP.PORT_3)
         except brickpi3.SensorError as error:
             print(error)
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = 0
+                speedleft = 0
+                speedright = 0
                 pygame.quit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
@@ -61,24 +60,18 @@ try:
                     rightIsPressed = 0
                 if event.key == pygame.K_SPACE:
                     spaceIsPressed = 0
-                    
+            
+        if spaceIsPressed:
             speedleft = 0
             speedright = 0
-            speedblade = 0
-            if upIsPressed:
-                speedleft -= 60
-                speedright -= 60
-            if downIsPressed:
-                speedleft += 60
-                speedright += 60
-            if rightIsPressed:
-                speedright += 20
-                speedleft -= 20
-            if leftIsPressed:
-                speedright -= 20
-                speedleft += 20
-            if spaceIsPressed:
-                speedblade = 200
+        elif reversetime == 0:
+            speedleft = -30
+            speedright = -30
+        elif BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3):
+            reversetime = 30
+            speedleft = 30
+            speedright = 30
+        reversetime -=1
         
         # Set the motor speed for all four motors
         BP.set_motor_power(BP.PORT_D, speedleft)

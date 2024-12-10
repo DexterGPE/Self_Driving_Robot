@@ -32,9 +32,11 @@ stages: ## Organize and Order parts of the pipeline
 
 deploy-job:
   stage: deploy
+  before_script:
+    - sudo apt install sshpass
   script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - chmod 400 "$AWS_SECRET_ACCESS_KEY"
-    - ssh-add "$AWS_SECRET_ACCESS_KEY"
-    - ssh pi@10.10.1.151 'mkdir -p ~/testingSSHfolder'
+#    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+#    - eval $(ssh-agent -s)
+#    - chmod 400 "$AWS_SECRET_ACCESS_KEY"
+#    - ssh-add "$AWS_SECRET_ACCESS_KEY"
+    - sshpass -p raspberry ssh pi@10.10.1.151 "mkdir -p ~/testingSSHfolder"

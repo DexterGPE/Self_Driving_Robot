@@ -1,0 +1,47 @@
+image: python:3.9-slim-bullseye
+
+stages: ## Organize and Order parts of the pipeline
+#    - build
+#    - tests
+    - deploy
+
+#build-job:
+#  stage: build
+#  script:
+#    - pip install -r requirements.txt
+#    - echo "Fill Build Stage"
+
+#test-job:
+#  stage: tests
+#  before_script:
+#    - pip install -r requirements.txt
+#  script:
+#    - pytest --cov=src --cov-report=xml --cov-report=term --cov-fail-under=80 src/tests/
+#  coverage: '/^TOTAL\s+(\d+)%/'
+#  artifacts:
+#    paths:
+#      - coverage.xml
+#    expire_in: 1 week
+#
+#codestyle-check:
+#  stage: tests
+#  before_script:
+#    - pip install pycodestyle==2.11.1
+#  script:
+#    - pycodestyle src/ || exit 1
+
+deploy-job:
+  stage: deploy
+  before_script:
+    - apt-get update
+    - apt-get install -y sshpass
+  script:
+    - sshpass -p raspberry ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "mkdir -p ~/Team3-Repo"
+    - sshpass -p raspberry scp -o StrictHostKeyChecking=no -r ./src/main/ pi@10.10.1.151:~/Team3-Repo/
+#    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+#    - eval $(ssh-agent -s)
+#    - chmod 400 "$AWS_SECRET_ACCESS_KEY"
+#    - ssh-add "$AWS_SECRET_ACCESS_KEY"
+#    - sshpass -p raspberry ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "mkdir -p ~/testingSSHfolder"
+
+

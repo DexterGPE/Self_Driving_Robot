@@ -7,7 +7,9 @@ import time  # import the time library for the sleep function
 import brickpi3  # import the BrickPi3 drivers
 import pygame
 
-# from src.main.Ser/voBasic import upIsPressed, downIsPressed, leftIsPressed, rightIsPressed
+# zwart op bord: alles onder de 15
+# grijs op bord: R en G rond de 30, B 15
+# Rood op bord: R 40-50, andere onder de 15
 
 BP = brickpi3.BrickPi3()  # Create an instance of the BrickPi3 class. BP will be the BrickPi3 object.
 
@@ -33,8 +35,11 @@ try:
     leftIsPressed = 0
     rightIsPressed = 0
     lshiftIsPressed = 0
+    justbumped = False
+    turntime = 0
     running = 1
-    sensorPortUsed = 0
+    mode = 0
+    reversetime = 0
     while running:
         try:
             value = BP.get_sensor(BP.PORT_2)
@@ -62,13 +67,15 @@ try:
                 if event.key == pygame.K_LSHIFT:
                     lshiftIsPressed = 1
                 if event.key == pygame.K_1:
-                    sensorPortUsed = 1
+                    mode = 1
                 if event.key == pygame.K_2:
-                    sensorPortUsed = 2
+                    mode = 2
                 if event.key == pygame.K_3:
-                    sensorPortUsed = 3
+                    mode = 3
                 if event.key == pygame.K_0:
-                    sensorPortUsed = 0
+                    mode = 0
+                if event.key == pygame.K_8:
+                    mode = 8
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
                     upIsPressed = 0
@@ -83,7 +90,7 @@ try:
                 if event.key == pygame.K_LSHIFT:
                     lshiftIsPressed = 0
 
-        if sensorPortUsed == 0:
+        if mode == 0:
             speedleft = 0
             speedright = 0
             speedblade = 0
@@ -101,29 +108,62 @@ try:
                 speedleft += 20
             if spaceIsPressed:
                 speedblade = 200
-        try:
-            print(BP.get_sensor(BP.PORT_4))
-            print(BP.get_sensor(BP.PORT_1))
-            if spaceIsPressed:
-                speedleft = -50
-                speedright = -50
-            elif lshiftIsPressed:
-                speedleft = 0
-                speedright = 0
-            elif (BP.get_sensor(BP.PORT_1) < 20) and sensorPortUsed == 1:
-                speedleft = 0
-                speedright = 0
-            elif (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)) and sensorPortUsed == 2:
-                speedleft = 0
-                speedright = 0
-            elif (BP.get_sensor(BP.PORT_4)[0] > 90) and (BP.get_sensor(BP.PORT_4)[1] < 30) and (BP.get_sensor(BP.PORT_4)[2] < 30) and sensorPortUsed == 3:
-                speedleft = 0
-                speedright = 0
-            elif (BP.get_sensor(BP.PORT_4)[0] < 30) and (BP.get_sensor(BP.PORT_4)[1] < 30) and (BP.get_sensor(BP.PORT_4)[2] < 30) and sensorPortUsed == 3:
-                speedleft = 0
-                speedright = 0
-        except brickpi3.SensorError as error:
-            print(error)
+
+        if mode == 8:
+            if turntime > 0:
+                turntime -= 1
+            else:
+                if justbumped:
+                    justbumped = False
+                    if (BP.get_sensor(BP.PORT_1) < 20):
+                        turntime = 80
+                        speedleft = 30
+                        speedright = -30
+                    else:
+                        turntime = 80
+                        speedleft = -30
+                        speedright = 30
+
+
+                if reversetime == 0:
+                    speedleft = -60
+                    speedright = -60
+                else:
+                    reversetime -= 1
+                if (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)):
+                    reversetime = 80
+                    speedleft = 30
+                    speedright = 30
+                    justbumped = True
+
+
+
+
+        else:
+
+            try:
+                print(BP.get_sensor(BP.PORT_4))
+                print(BP.get_sensor(BP.PORT_1))
+                if spaceIsPressed:
+                    speedleft = -50
+                    speedright = -50
+                elif lshiftIsPressed:
+                    speedleft = 0
+                    speedright = 0
+                elif (BP.get_sensor(BP.PORT_1) < 20) and mode == 1:
+                    speedleft = 0
+                    speedright = 0
+                elif (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)) and mode == 2:
+                    speedleft = 0
+                    speedright = 0
+                elif (BP.get_sensor(BP.PORT_4)[0] > 90) and (BP.get_sensor(BP.PORT_4)[1] < 30) and (BP.get_sensor(BP.PORT_4)[2] < 30) and mode == 3:
+                    speedleft = 0
+                    speedright = 0
+                elif (BP.get_sensor(BP.PORT_4)[0] < 30) and (BP.get_sensor(BP.PORT_4)[1] < 30) and (BP.get_sensor(BP.PORT_4)[2] < 30) and mode == 3:
+                    speedleft = 0
+                    speedright = 0
+            except brickpi3.SensorError as error:
+                print(error)
 
 
         # Set the motor speed for all four motors

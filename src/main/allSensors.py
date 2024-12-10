@@ -74,7 +74,7 @@ def selfDriving(turntime, justbumped, speedleft,speedright,reversetime,bumptime,
                 reversetime -= 1
 
             if (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)):
-                bumptime = 10
+                bumptime = 20
 
 
     return turntime, justbumped, speedleft,speedright,reversetime,bumptime, stoppedbumping

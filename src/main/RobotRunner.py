@@ -163,7 +163,7 @@ def turn_after_bump():
     else:
         speed_left, speed_right = turn_right()
     set_motor_power(BP, speed_left, speed_right)
-    time.sleep(2) # let it turn for this amount of time
+    time.sleep(1.85) # let it turn for this amount of time
 
 def normal_driving_speed():
     speed_left = -60

@@ -6,14 +6,15 @@ import time
 
 def self_driving(bp):
     if Self_Driving_Naive.bumped_into_wall(bp):
-        if detect_black(bp):
-            Control_BrickPi.set_motor_power(bp,0,0)
+        if detect_finish(bp):
+            speed_left = 0
+            speed_right = 0
         else:
             turn_left_after_bump(bp)
             speed_left = 0
             speed_right = 0
     elif is_right_wall_found(bp):
-        speed_left, speed_right = Self_Driving_Naive.normal_driving_speed(-30, -30)
+        speed_left, speed_right = turn_left_on_bridge()
     elif red_line_found(bp):
         speed_left, speed_right = turn_left_on_bridge()
     else:
@@ -58,3 +59,6 @@ def turn_left_on_bridge():
 def detect_black(bp):
     return (bp.get_sensor(bp.PORT_4)[0] < 20) and (bp.get_sensor(bp.PORT_4)[1] < 20) and (
             bp.get_sensor(bp.PORT_4)[2] < 20)
+
+def detect_finish(bp):
+    return detect_black(bp) and is_right_wall_found(bp)

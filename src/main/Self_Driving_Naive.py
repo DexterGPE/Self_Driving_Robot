@@ -13,9 +13,7 @@ def self_driving(bp):
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
 
 
-def normal_driving_speed():
-    speed_left = -60
-    speed_right = -60
+def normal_driving_speed(speed_left = -60, speed_right = 60):
     return speed_left, speed_right
 
 

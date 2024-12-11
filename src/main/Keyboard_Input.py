@@ -72,8 +72,10 @@ def get_key_pressed(event, key_states):
         key_states["mode"] = 2
     elif event.key == pygame.K_3:
         key_states["mode"] = 3
+    elif event.key == pygame.K_4:
+        key_states["mode"] = 4
+    elif event.key == pygame.K_5:
+        key_states["mode"] = 5
     elif event.key == pygame.K_0:
         key_states["mode"] = 0
-    elif event.key == pygame.K_8:
-        key_states["mode"] = 8
     return key_states

@@ -1,6 +1,7 @@
 import time
 
-import Self_Driving_1
+import Self_Driving_Naive
+import Self_Driving_Follow_Right_Wall
 import Manual_Driving
 import Keyboard_Input
 import Control_BrickPi
@@ -24,7 +25,9 @@ if __name__ == "__main__":
 
         if key_states["mode"] == 0:
             Manual_Driving.manual_driving(BP, key_states)
-        elif key_states["mode"] == 8:
-            Self_Driving_1.self_driving(BP)
+        elif key_states["mode"] == 1:
+            Self_Driving_Naive.self_driving(BP)
+        elif key_states["mode"] == 2:
+            Self_Driving_Follow_Right_Wall.self_driving(BP)
 
         time.sleep(0.02)

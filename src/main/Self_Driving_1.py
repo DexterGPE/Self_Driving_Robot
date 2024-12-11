@@ -1,6 +1,6 @@
 import time
 
-import RobotRunner
+import Control_BrickPi
 
 
 def normal_driving_speed():
@@ -16,7 +16,7 @@ def self_driving(bp):
         turn_after_bump(bp)
 
     speed_left, speed_right = normal_driving_speed()
-    RobotRunner.set_motor_power(bp, speed_left, speed_right)
+    Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
 
 
 def bumped_into_wall(BP):
@@ -26,7 +26,7 @@ def bumped_into_wall(BP):
 def reverse_after_bump(BP):
     speed_left = 30
     speed_right = 30
-    RobotRunner.set_motor_power(BP, speed_left, speed_right)
+    Control_BrickPi.set_motor_power(BP, speed_left, speed_right)
     time.sleep(0.35)
 
 
@@ -43,9 +43,9 @@ def turn_right():
 
 
 def turn_after_bump(BP):
-    if BP.get_sensor(BP.PORT_1) < 40:
+    if BP.get_sensor(BP.PORT_1) < 60:
         speed_left, speed_right = turn_left()
     else:
         speed_left, speed_right = turn_right()
-    RobotRunner.set_motor_power(BP, speed_left, speed_right)
+    Control_BrickPi.set_motor_power(BP, speed_left, speed_right)
     time.sleep(1.65)  # let it turn for this amount of time

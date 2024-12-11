@@ -7,6 +7,7 @@ import time  # import the time library for the sleep function
 import brickpi3  # import the BrickPi3 drivers
 import pygame
 
+
 # zwart op bord: alles onder de 15
 # grijs op bord: R en G rond de 30, B 15
 # Rood op bord: R 40-50, andere onder de 15
@@ -16,8 +17,8 @@ def setMotorPower(speed_left, speed_right, speed_blade):
     BP.set_motor_power(BP.PORT_A, speed_right)
     BP.set_motor_power(BP.PORT_B, speed_blade)
 
-def initialize_brickpi_sensors():
 
+def initialize_brickpi_sensors():
     BP = brickpi3.BrickPi3()  # Create an instance of the BrickPi3 class. BP will be the BrickPi3 object.
 
     BP.set_sensor_type(BP.PORT_1, BP.SENSOR_TYPE.EV3_INFRARED_PROXIMITY)
@@ -26,9 +27,11 @@ def initialize_brickpi_sensors():
     BP.set_sensor_type(BP.PORT_4, BP.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS)
     return BP
 
+
 def initialize_pygame():
     pygame.init()
     pygame.display.set_mode((100, 100))
+
 
 def turn_left():
     turntime = 2
@@ -36,11 +39,13 @@ def turn_left():
     speedright = -26
     return turntime, speedright, speedleft
 
+
 def turn_right():
     turntime = 2
     speedleft = -26
     speedright = 26
     return turntime, speedright, speedleft
+
 
 def drive_backwards_after_bump():
     reversetime = 80
@@ -49,7 +54,8 @@ def drive_backwards_after_bump():
 
     return reversetime, speedleft, speedright, justbumped
 
-def selfDriving(turntime, justbumped, speedleft,speedright,reversetime,bumptime, stoppedbumping):
+
+def selfDriving(turntime, justbumped, speedleft, speedright, reversetime, bumptime, stoppedbumping):
     if bumptime > 0:
         bumptime -= 1
         stoppedbumping = True if bumptime == 0 else False
@@ -78,13 +84,11 @@ def selfDriving(turntime, justbumped, speedleft,speedright,reversetime,bumptime,
                 speedleft = -60
                 speedright = -60
 
-
-
             if (BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)):
                 bumptime = 20
 
+    return turntime, justbumped, speedleft, speedright, reversetime, bumptime, stoppedbumping
 
-    return turntime, justbumped, speedleft,speedright,reversetime,bumptime, stoppedbumping
 
 def manualDriving():
     speed_left = 0
@@ -106,11 +110,13 @@ def manualDriving():
         speed_blade = 200
     return speed_right, speed_left, speed_blade
 
+
 BP = initialize_brickpi_sensors()
 initialize_pygame()
 
 
-def get_key_board_input(running, speed_left, speed_right, upIsPressed, downIsPressed, leftIsPressed, rightIsPressed, spaceIsPressed, lshiftIsPressed, mode):
+def get_key_board_input(running, speed_left, speed_right, upIsPressed, downIsPressed, leftIsPressed, rightIsPressed,
+                        spaceIsPressed, lshiftIsPressed, mode):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = 0
@@ -212,18 +218,24 @@ try:
     stoppedbumping = False
     bumptime = 0
 
-
     while running:
         value, reverse_value = get_pressure_sensor_input(value, reverse_value)
 
         running, speed_left, speed_right, upIsPressed, downIsPressed, leftIsPressed, rightIsPressed, spaceIsPressed, lshiftIsPressed, mode = (
-            get_key_board_input(running, speed_left, speed_right, upIsPressed, downIsPressed, leftIsPressed, rightIsPressed, spaceIsPressed, lshiftIsPressed, mode))
+            get_key_board_input(running, speed_left, speed_right, upIsPressed, downIsPressed, leftIsPressed,
+                                rightIsPressed, spaceIsPressed, lshiftIsPressed, mode))
 
         if mode == 0:
             speed_right, speed_left, speedblade = manualDriving()
 
         if mode == 8:
-            turntime, justbumped, speed_left,speed_right,reversetime, bumptime, stoppedbumping = selfDriving(turntime, justbumped, speed_left, speed_right, reversetime, bumptime, stoppedbumping)
+            turntime, justbumped, speed_left, speed_right, reversetime, bumptime, stoppedbumping = selfDriving(turntime,
+                                                                                                               justbumped,
+                                                                                                               speed_left,
+                                                                                                               speed_right,
+                                                                                                               reversetime,
+                                                                                                               bumptime,
+                                                                                                               stoppedbumping)
         else:
             try:
                 speed_left, speed_right = sensor_testing_modes(speed_left, speed_right)
@@ -237,5 +249,3 @@ try:
 
 except KeyboardInterrupt:  # except the program gets interrupted by Ctrl+C on the keyboard.
     BP.reset_all()  # Unconfigure the sensors, disable the motors, and restore the LED to the control of the BrickPi3 firmware.
-
-

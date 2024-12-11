@@ -1,17 +1,14 @@
 from __future__ import print_function
 from __future__ import division
 
-import brickpi3
 import pygame
-import time
-
-import Self_Driving_1
-import Manual_Driving
+import Control_BrickPi
 
 
-# zwart op bord: alles onder de 15
-# grijs op bord: R en G rond de 30, B 15
-# Rood op bord: R 40-50, andere onder de 15
+def initialize_pygame():
+    pygame.init()
+    pygame.display.set_mode((100, 100))
+
 
 def initialize_keyboard_inputs():
     key_states = {
@@ -29,7 +26,7 @@ def initialize_keyboard_inputs():
 def get_keyboard_input(key_states, running, bp):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            set_motor_power(bp, 0, 0)
+            Control_BrickPi.set_motor_power(bp, 0, 0)
             running = 0
             pygame.quit()
         elif event.type == pygame.KEYDOWN:
@@ -80,48 +77,3 @@ def get_key_pressed(event, key_states):
     elif event.key == pygame.K_8:
         key_states["mode"] = 8
     return key_states
-
-
-def set_motor_power(bp, speed_left, speed_right):
-    bp.set_motor_power(bp.PORT_D, speed_left)
-    bp.set_motor_power(bp.PORT_A, speed_right)
-
-
-def set_blade_power(bp, speed_blade):
-    bp.set_motor_power(bp.PORT_B, speed_blade)
-
-
-def initialize_brickpi_sensors():
-    bp = brickpi3.BrickPi3()  # Create an instance of the BrickPi3 class.
-
-    bp.set_sensor_type(bp.PORT_1, bp.SENSOR_TYPE.EV3_INFRARED_PROXIMITY)
-    bp.set_sensor_type(bp.PORT_2, bp.SENSOR_TYPE.TOUCH)
-    bp.set_sensor_type(bp.PORT_3, bp.SENSOR_TYPE.TOUCH)
-    bp.set_sensor_type(bp.PORT_4, bp.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS)
-    return bp
-
-
-def initialize_pygame():
-    pygame.init()
-    pygame.display.set_mode((100, 100))
-
-
-if __name__ == "__main__":
-    running = True
-
-    BP = initialize_brickpi_sensors()
-    initialize_pygame()
-
-    key_states = initialize_keyboard_inputs()
-
-    while running:
-
-        # check mode input van keyboard
-        key_states, running = get_keyboard_input(key_states, running, BP)
-
-        if key_states["mode"] == 0:
-            Manual_Driving.manual_driving(BP, key_states)
-        elif key_states["mode"] == 8:
-            Self_Driving_1.self_driving(BP)
-
-        time.sleep(0.02)

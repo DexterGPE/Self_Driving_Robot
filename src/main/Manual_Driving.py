@@ -1,4 +1,4 @@
-import RobotRunner
+import Control_BrickPi
 
 
 def manual_driving(bp, key_states):
@@ -25,5 +25,5 @@ def manual_driving(bp, key_states):
         speed_right = 0
         speed_blade = 0
 
-    RobotRunner.set_motor_power(bp, speed_left, speed_right)
-    RobotRunner.set_blade_power(bp, speed_blade)
+    Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
+    Control_BrickPi.set_blade_power(bp, speed_blade)

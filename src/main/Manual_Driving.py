@@ -1,4 +1,4 @@
-from RobotRunner import *
+from RobotRunner import set_motor_power, set_blade_power
 
 
 def manual_driving(bp, key_states):

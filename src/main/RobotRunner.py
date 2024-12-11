@@ -1,9 +1,9 @@
 from __future__ import print_function
 from __future__ import division
 
-import time
 import brickpi3
 import pygame
+import time
 
 from Self_Driving_1 import *
 from Manual_Driving import *

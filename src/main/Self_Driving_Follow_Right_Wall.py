@@ -3,9 +3,6 @@ import Control_BrickPi
 
 import time
 
-from src.main.old_test_scripts.Touch_Response_Testing import speed_right
-from src.main.old_test_scripts.selfdriving_and_manual_but_not_working import speed_left
-
 
 def self_driving(bp):
     if Self_Driving_Naive.bumped_into_wall(bp):

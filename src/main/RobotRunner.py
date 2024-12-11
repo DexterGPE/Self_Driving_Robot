@@ -16,94 +16,155 @@ def end_movement_when_closing_pygame(BP):
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
-            setMotorPower(BP, 0, 0, 0)
+            set_motor_power(BP, 0, 0, 0)
     return running
 
+def initialize_keyboard_inputs():
+    key_states = {
+        "up": 0,
+        "down": 0,
+        "left": 0,
+        "right": 0,
+        "space": 0,
+        "lshift": 0,
+        "mode": 0
+    }
+    return key_states
 
-def get_key_board_input(upIsPressed, downIsPressed, leftIsPressed, rightIsPressed, spaceIsPressed, lshiftIsPressed, mode):
+def get_keyboard_input(key_states):
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                upIsPressed = 1
-            if event.key == pygame.K_DOWN:
-                downIsPressed = 1
-            if event.key == pygame.K_LEFT:
-                leftIsPressed = 1
-            if event.key == pygame.K_RIGHT:
-                rightIsPressed = 1
-            if event.key == pygame.K_SPACE:
-                spaceIsPressed = 1
-            if event.key == pygame.K_LSHIFT:
-                lshiftIsPressed = 1
-            if event.key == pygame.K_1:
-                mode = 1
-            if event.key == pygame.K_2:
-                mode = 2
-            if event.key == pygame.K_3:
-                mode = 3
-            if event.key == pygame.K_0:
-                mode = 0
-            if event.key == pygame.K_8:
-                mode = 8
+            key_states = get_key_pressed(event, key_states)
         elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP:
-                upIsPressed = 0
-            if event.key == pygame.K_DOWN:
-                downIsPressed = 0
-            if event.key == pygame.K_LEFT:
-                leftIsPressed = 0
-            if event.key == pygame.K_RIGHT:
-                rightIsPressed = 0
-            if event.key == pygame.K_SPACE:
-                spaceIsPressed = 0
-            if event.key == pygame.K_LSHIFT:
-                lshiftIsPressed = 0
-    return upIsPressed, downIsPressed, leftIsPressed, rightIsPressed, spaceIsPressed, lshiftIsPressed, mode
+            key_states = get_key_released(event, key_states)
 
-def setMotorPower(BP, speed_left, speed_right, speed_blade):
-    BP.set_motor_power(BP.PORT_D, speed_left)
-    BP.set_motor_power(BP.PORT_A, speed_right)
-    BP.set_motor_power(BP.PORT_B, speed_blade)
+    return key_states
+
+
+def get_key_released(event, key_states):
+    if event.key == pygame.K_UP:
+        key_states["up"] = 0
+    elif event.key == pygame.K_DOWN:
+        key_states["down"] = 0
+    elif event.key == pygame.K_LEFT:
+        key_states["left"] = 0
+    elif event.key == pygame.K_RIGHT:
+        key_states["right"] = 0
+    elif event.key == pygame.K_SPACE:
+        key_states["space"] = 0
+    elif event.key == pygame.K_LSHIFT:
+        key_states["lshift"] = 0
+    return key_states
+
+
+def get_key_pressed(event, key_states):
+    if event.key == pygame.K_UP:
+        key_states["up"] = 1
+    elif event.key == pygame.K_DOWN:
+        key_states["down"] = 1
+    elif event.key == pygame.K_LEFT:
+        key_states["left"] = 1
+    elif event.key == pygame.K_RIGHT:
+        key_states["right"] = 1
+    elif event.key == pygame.K_SPACE:
+        key_states["space"] = 1
+    elif event.key == pygame.K_LSHIFT:
+        key_states["lshift"] = 1
+    elif event.key == pygame.K_1:
+        key_states["mode"] = 1
+    elif event.key == pygame.K_2:
+        key_states["mode"] = 2
+    elif event.key == pygame.K_3:
+        key_states["mode"] = 3
+    elif event.key == pygame.K_0:
+        key_states["mode"] = 0
+    elif event.key == pygame.K_8:
+        key_states["mode"] = 8
+    return key_states
+
+
+def set_motor_power(bp, speed_left, speed_right, speed_blade):
+    bp.set_motor_power(bp.PORT_D, speed_left)
+    bp.set_motor_power(bp.PORT_A, speed_right)
+    bp.set_motor_power(bp.PORT_B, speed_blade)
 
 def initialize_brickpi_sensors():
-    BP = brickpi3.BrickPi3()  # Create an instance of the BrickPi3 class. BP will be the BrickPi3 object.
+    bp = brickpi3.BrickPi3()  # Create an instance of the BrickPi3 class. BP will be the BrickPi3 object.
 
-    BP.set_sensor_type(BP.PORT_1, BP.SENSOR_TYPE.EV3_INFRARED_PROXIMITY)
-    BP.set_sensor_type(BP.PORT_2, BP.SENSOR_TYPE.TOUCH)
-    BP.set_sensor_type(BP.PORT_3, BP.SENSOR_TYPE.TOUCH)
-    BP.set_sensor_type(BP.PORT_4, BP.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS)
-    return BP
+    bp.set_sensor_type(bp.PORT_1, bp.SENSOR_TYPE.EV3_INFRARED_PROXIMITY)
+    bp.set_sensor_type(bp.PORT_2, bp.SENSOR_TYPE.TOUCH)
+    bp.set_sensor_type(bp.PORT_3, bp.SENSOR_TYPE.TOUCH)
+    bp.set_sensor_type(bp.PORT_4, bp.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS)
+    return bp
 
 def initialize_pygame():
     pygame.init()
     pygame.display.set_mode((100, 100))
 
-def manualDriving(BP, upIsPressed, downIsPressed, rightIsPressed,leftIsPressed,spaceIsPressed):
+def manual_driving(bp, key_states):
     speed_left = 0
     speed_right = 0
     speed_blade = 0
 
-    if upIsPressed:
+    if key_states["up_is_pressed"]:
         speed_left -= 60
         speed_right -= 60
-    if downIsPressed:
+    if key_states["down_is_pressed"]:
         speed_left += 60
         speed_right += 60
-    if rightIsPressed:
+    if key_states["right_is_pressed"]:
         speed_right += 20
         speed_left -= 20
-    if leftIsPressed:
+    if key_states["left_is_pressed"]:
         speed_right -= 20
         speed_left += 20
-    if spaceIsPressed:
-        speed_blade = 200
+    if key_states["space_is_pressed"]:
+        speed_blade = 100
 
-    setMotorPower(BP, speed_left, speed_right, speed_blade)
+    set_motor_power(bp, speed_left, speed_right, speed_blade)
 
+def bumped_into_wall():
+    return BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)
 
-def selfDriving():
-    # ipv variables voor tijd afwachten in loop gewoon sleeptime doen en dan weer door
-    pass
+def reverse_after_bump(speed_blade):
+    speed_left = 30
+    speed_right = 30
+    set_motor_power(BP, speed_left, speed_right, speed_blade)
+    time.sleep(0.5) # let it reverse for this amount of time
+
+def turn_left():
+    speed_left = 26
+    speed_right = -26
+    return speed_left, speed_right
+
+def turn_right():
+    speed_left = -26
+    speed_right = 26
+    return speed_left, speed_right
+
+def turn_after_bump(speed_blade):
+    if BP.get_sensor(BP.PORT_1) < 40:
+        speed_left, speed_right = turn_left()
+    else:
+        speed_left, speed_right = turn_right()
+    set_motor_power(BP, speed_left, speed_right, speed_blade)
+    time.sleep(0.5) # let it turn for this amount of time
+
+def normal_driving_speed():
+    speed_left = -60
+    speed_right = -60
+    speed_blade = 0
+    return speed_left, speed_right, speed_blade
+
+def self_driving(bp):
+    speed_left, speed_right, speed_blade = normal_driving_speed()
+
+    if bumped_into_wall():
+        time.sleep(0.5)  # let it continue driving into wall for a bit to straighten it
+        reverse_after_bump(speed_blade)
+        turn_after_bump(speed_blade)
+
+    set_motor_power(bp, speed_left, speed_right, speed_blade)
 
 
 if __name__ == "__main__":
@@ -117,11 +178,12 @@ if __name__ == "__main__":
         running = end_movement_when_closing_pygame(BP)
 
         # check mode input van keyboard
-        upIsPressed, downIsPressed, leftIsPressed, rightIsPressed, spaceIsPressed, lshiftIsPressed, mode = get_key_board_input(upIsPressed, downIsPressed, leftIsPressed, rightIsPressed, spaceIsPressed, lshiftIsPressed, mode)
+        key_states = initialize_keyboard_inputs()
+        key_states = get_keyboard_input(key_states)
 
-        if mode == 0:
-            manualDriving(BP, upIsPressed, downIsPressed, rightIsPressed,leftIsPressed,spaceIsPressed)
-        elif mode == 8:
-            selfDriving()
+        if key_states["mode"] == 0:
+            manual_driving(BP, key_states)
+        elif key_states["mode"] == 8:
+            self_driving(BP)
 
         time.sleep(0.02)

@@ -43,8 +43,8 @@ def turn_left():
 
 
 def turn_right():
-    speed_left = -30
-    speed_right = -10
+    speed_left = -40
+    speed_right = -5
     return speed_left, speed_right
 
 def turn_left_on_bridge():

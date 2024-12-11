@@ -35,11 +35,55 @@ def initialize_keyboard_inputs():
 def get_keyboard_input(key_states):
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            key_states = get_key_pressed(event, key_states)
+            if event.key == pygame.K_UP:
+                key_states["up"] = 1
+            elif event.key == pygame.K_DOWN:
+                key_states["down"] = 1
+            elif event.key == pygame.K_LEFT:
+                key_states["left"] = 1
+            elif event.key == pygame.K_RIGHT:
+                key_states["right"] = 1
+            elif event.key == pygame.K_SPACE:
+                key_states["space"] = 1
+            elif event.key == pygame.K_LSHIFT:
+                key_states["lshift"] = 1
+            elif event.key == pygame.K_1:
+                key_states["mode"] = 1
+            elif event.key == pygame.K_2:
+                key_states["mode"] = 2
+            elif event.key == pygame.K_3:
+                key_states["mode"] = 3
+            elif event.key == pygame.K_0:
+                key_states["mode"] = 0
+            elif event.key == pygame.K_8:
+                key_states["mode"] = 8
         elif event.type == pygame.KEYUP:
-            key_states = get_key_released(event, key_states)
+            if event.key == pygame.K_UP:
+                print("up")
+                key_states["up"] = 0
+            elif event.key == pygame.K_DOWN:
+                print("down")
+                key_states["down"] = 0
+            elif event.key == pygame.K_LEFT:
+                key_states["left"] = 0
+            elif event.key == pygame.K_RIGHT:
+                key_states["right"] = 0
+            elif event.key == pygame.K_SPACE:
+                key_states["space"] = 0
+            elif event.key == pygame.K_LSHIFT:
+                key_states["lshift"] = 0
 
     return key_states
+
+
+# def get_keyboard_input(key_states):
+#     for event in pygame.event.get():
+#         if event.type == pygame.KEYDOWN:
+#             key_states = get_key_pressed(event, key_states)
+#         elif event.type == pygame.KEYUP:
+#             key_states = get_key_released(event, key_states)
+#
+#     return key_states
 
 
 def get_key_released(event, key_states):

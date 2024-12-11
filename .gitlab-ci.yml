@@ -37,4 +37,5 @@ deploy-job:
     - apt-get install -y sshpass
   script:
     - sshpass -p raspberry ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "mkdir -p ~/Team3-Repo"
+    - sshpass -p raspberry ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "rm -r ~/Team3-Repo/main"
     - sshpass -p raspberry scp -o StrictHostKeyChecking=no -r ./src/main/ pi@10.10.1.151:~/Team3-Repo/

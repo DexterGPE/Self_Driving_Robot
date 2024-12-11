@@ -51,8 +51,8 @@ def turn_right():
     return speed_left, speed_right
 
 def turn_left_on_bridge():
-    speed_left = -10
-    speed_right = -30
+    speed_left = -5
+    speed_right = -50
     return speed_left, speed_right
 
 def detect_black(bp):

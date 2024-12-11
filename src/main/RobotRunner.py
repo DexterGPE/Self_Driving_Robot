@@ -10,13 +10,14 @@ import pygame
 # Rood op bord: R 40-50, andere onder de 15
 
 
-def end_movement_when_closing_pygame(BP):
+def end_movement_when_closing_pygame(bp):
     running = True
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
-            set_motor_power(BP, 0, 0, 0)
+            set_motor_power(bp, 0, 0)
+            set_blade_power(bp, 0)
     return running
 
 def initialize_keyboard_inputs():
@@ -56,7 +57,6 @@ def get_key_released(event, key_states):
         key_states["lshift"] = 0
     return key_states
 
-
 def get_key_pressed(event, key_states):
     if event.key == pygame.K_UP:
         key_states["up"] = 1
@@ -83,9 +83,11 @@ def get_key_pressed(event, key_states):
     return key_states
 
 
-def set_motor_power(bp, speed_left, speed_right, speed_blade):
+def set_motor_power(bp, speed_left, speed_right):
     bp.set_motor_power(bp.PORT_D, speed_left)
     bp.set_motor_power(bp.PORT_A, speed_right)
+
+def set_blade_power(bp, speed_blade):
     bp.set_motor_power(bp.PORT_B, speed_blade)
 
 def initialize_brickpi_sensors():
@@ -121,15 +123,16 @@ def manual_driving(bp, key_states):
     if key_states["space_is_pressed"]:
         speed_blade = 100
 
-    set_motor_power(bp, speed_left, speed_right, speed_blade)
+    set_motor_power(bp, speed_left, speed_right)
+    set_blade_power(bp, speed_blade)
 
 def bumped_into_wall():
     return BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)
 
-def reverse_after_bump(speed_blade):
+def reverse_after_bump():
     speed_left = 30
     speed_right = 30
-    set_motor_power(BP, speed_left, speed_right, speed_blade)
+    set_motor_power(BP, speed_left, speed_right)
     time.sleep(0.5) # let it reverse for this amount of time
 
 def turn_left():
@@ -142,29 +145,27 @@ def turn_right():
     speed_right = 26
     return speed_left, speed_right
 
-def turn_after_bump(speed_blade):
+def turn_after_bump():
     if BP.get_sensor(BP.PORT_1) < 40:
         speed_left, speed_right = turn_left()
     else:
         speed_left, speed_right = turn_right()
-    set_motor_power(BP, speed_left, speed_right, speed_blade)
+    set_motor_power(BP, speed_left, speed_right)
     time.sleep(0.5) # let it turn for this amount of time
 
 def normal_driving_speed():
     speed_left = -60
     speed_right = -60
-    speed_blade = 0
-    return speed_left, speed_right, speed_blade
+    return speed_left, speed_right
 
 def self_driving(bp):
-    speed_left, speed_right, speed_blade = normal_driving_speed()
-
     if bumped_into_wall():
         time.sleep(0.5)  # let it continue driving into wall for a bit to straighten it
-        reverse_after_bump(speed_blade)
-        turn_after_bump(speed_blade)
+        reverse_after_bump()
+        turn_after_bump()
 
-    set_motor_power(bp, speed_left, speed_right, speed_blade)
+    speed_left, speed_right = normal_driving_speed()
+    set_motor_power(bp, speed_left, speed_right)
 
 
 if __name__ == "__main__":
@@ -173,12 +174,13 @@ if __name__ == "__main__":
     BP = initialize_brickpi_sensors()
     initialize_pygame()
 
+    key_states = initialize_keyboard_inputs()
+
     while running:
 
         running = end_movement_when_closing_pygame(BP)
 
         # check mode input van keyboard
-        key_states = initialize_keyboard_inputs()
         key_states = get_keyboard_input(key_states)
 
         if key_states["mode"] == 0:

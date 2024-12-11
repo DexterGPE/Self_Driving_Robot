@@ -32,59 +32,18 @@ def initialize_keyboard_inputs():
     }
     return key_states
 
-def get_keyboard_input(key_states):
+def get_keyboard_input(key_states,running,bp):
     for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                key_states["up"] = 1
-            elif event.key == pygame.K_DOWN:
-                key_states["down"] = 1
-            elif event.key == pygame.K_LEFT:
-                key_states["left"] = 1
-            elif event.key == pygame.K_RIGHT:
-                key_states["right"] = 1
-            elif event.key == pygame.K_SPACE:
-                key_states["space"] = 1
-            elif event.key == pygame.K_LSHIFT:
-                key_states["lshift"] = 1
-            elif event.key == pygame.K_1:
-                key_states["mode"] = 1
-            elif event.key == pygame.K_2:
-                key_states["mode"] = 2
-            elif event.key == pygame.K_3:
-                key_states["mode"] = 3
-            elif event.key == pygame.K_0:
-                key_states["mode"] = 0
-            elif event.key == pygame.K_8:
-                key_states["mode"] = 8
+        if event.type == pygame.QUIT:
+            set_motor_power(bp, 0,0)
+            running=0
+            pygame.quit()
+        elif event.type == pygame.KEYDOWN:
+            key_states = get_key_pressed(event, key_states)
         elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP:
-                print("up")
-                key_states["up"] = 0
-            elif event.key == pygame.K_DOWN:
-                print("down")
-                key_states["down"] = 0
-            elif event.key == pygame.K_LEFT:
-                key_states["left"] = 0
-            elif event.key == pygame.K_RIGHT:
-                key_states["right"] = 0
-            elif event.key == pygame.K_SPACE:
-                key_states["space"] = 0
-            elif event.key == pygame.K_LSHIFT:
-                key_states["lshift"] = 0
+            key_states = get_key_released(event, key_states)
 
-    return key_states
-
-
-# def get_keyboard_input(key_states):
-#     for event in pygame.event.get():
-#         if event.type == pygame.KEYDOWN:
-#             key_states = get_key_pressed(event, key_states)
-#         elif event.type == pygame.KEYUP:
-#             key_states = get_key_released(event, key_states)
-#
-#     return key_states
-
+    return key_states,running
 
 def get_key_released(event, key_states):
     if event.key == pygame.K_UP:
@@ -105,8 +64,10 @@ def get_key_released(event, key_states):
 
 def get_key_pressed(event, key_states):
     if event.key == pygame.K_UP:
+        print("up")
         key_states["up"] = 1
     elif event.key == pygame.K_DOWN:
+        print("down")
         key_states["down"] = 1
     elif event.key == pygame.K_LEFT:
         key_states["left"] = 1
@@ -229,10 +190,10 @@ if __name__ == "__main__":
 
     while running:
 
-        running = end_movement_when_closing_pygame(BP)
+        # running = end_movement_when_closing_pygame(BP)
 
         # check mode input van keyboard
-        key_states = get_keyboard_input(key_states)
+        key_states,running = get_keyboard_input(key_states,running,BP)
 
         if key_states["mode"] == 0:
             manual_driving(BP, key_states)

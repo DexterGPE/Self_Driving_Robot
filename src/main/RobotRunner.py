@@ -47,10 +47,8 @@ def get_keyboard_input(key_states,running,bp):
 
 def get_key_released(event, key_states):
     if event.key == pygame.K_UP:
-        print("up")
         key_states["up"] = 0
     elif event.key == pygame.K_DOWN:
-        print("down")
         key_states["down"] = 0
     elif event.key == pygame.K_LEFT:
         key_states["left"] = 0
@@ -64,10 +62,8 @@ def get_key_released(event, key_states):
 
 def get_key_pressed(event, key_states):
     if event.key == pygame.K_UP:
-        print("up")
         key_states["up"] = 1
     elif event.key == pygame.K_DOWN:
-        print("down")
         key_states["down"] = 1
     elif event.key == pygame.K_LEFT:
         key_states["left"] = 1
@@ -114,7 +110,6 @@ def manual_driving(bp, key_states):
     speed_left = 0
     speed_right = 0
     speed_blade = 0
-    print("in manual")
 
     if key_states["up"]:
         speed_left -= 60
@@ -145,7 +140,7 @@ def reverse_after_bump():
     speed_left = 30
     speed_right = 30
     set_motor_power(BP, speed_left, speed_right)
-    time.sleep(1.5) # let it reverse for this amount of time
+    time.sleep(0.75) # let it reverse for this amount of time
 
 def turn_left():
     speed_left = 30
@@ -172,7 +167,7 @@ def normal_driving_speed():
 
 def self_driving(bp):
     if bumped_into_wall():
-        time.sleep(0.5)  # let it continue driving into wall for a bit to straighten it
+        time.sleep(0.4)  # let it continue driving into wall for a bit to straighten it
         reverse_after_bump()
         turn_after_bump()
 

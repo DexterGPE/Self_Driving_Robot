@@ -12,13 +12,10 @@ def self_driving(bp):
         turn_left_after_bump(bp)
         speed_left = 0
         speed_right = 0
-
     elif is_right_wall_found(bp):
-        speed_left, speed_right = Self_Driving_Naive.normal_driving_speed(-30, 30)
-
+        speed_left, speed_right = Self_Driving_Naive.normal_driving_speed(30, 30)
     elif red_line_found(bp):
         speed_left, speed_right = turn_left()
-
     else:
         speed_left, speed_right = turn_right()
 

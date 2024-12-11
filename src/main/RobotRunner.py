@@ -5,8 +5,8 @@ import brickpi3
 import pygame
 import time
 
-from Self_Driving_1 import *
-from Manual_Driving import *
+import Self_Driving_1
+import Manual_Driving
 
 
 # zwart op bord: alles onder de 15
@@ -120,8 +120,8 @@ if __name__ == "__main__":
         key_states, running = get_keyboard_input(key_states, running, BP)
 
         if key_states["mode"] == 0:
-            manual_driving(BP, key_states)
+            Manual_Driving.manual_driving(BP, key_states)
         elif key_states["mode"] == 8:
-            self_driving(BP)
+            Self_Driving_1.self_driving(BP)
 
         time.sleep(0.02)

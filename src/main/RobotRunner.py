@@ -188,8 +188,10 @@ if __name__ == "__main__":
         key_states = get_keyboard_input(key_states)
 
         if key_states["mode"] == 0:
+            print("mode=0")
             manual_driving(BP, key_states)
         elif key_states["mode"] == 8:
+            print("mode=8")
             self_driving(BP)
 
         time.sleep(0.02)

@@ -44,8 +44,10 @@ def get_keyboard_input(key_states):
 
 def get_key_released(event, key_states):
     if event.key == pygame.K_UP:
+        print("up")
         key_states["up"] = 0
     elif event.key == pygame.K_DOWN:
+        print("down")
         key_states["down"] = 0
     elif event.key == pygame.K_LEFT:
         key_states["left"] = 0
@@ -107,6 +109,7 @@ def manual_driving(bp, key_states):
     speed_left = 0
     speed_right = 0
     speed_blade = 0
+    print("in manual")
 
     if key_states["up"]:
         speed_left -= 60
@@ -188,10 +191,8 @@ if __name__ == "__main__":
         key_states = get_keyboard_input(key_states)
 
         if key_states["mode"] == 0:
-            print("mode=0")
             manual_driving(BP, key_states)
         elif key_states["mode"] == 8:
-            print("mode=8")
             self_driving(BP)
 
         time.sleep(0.02)

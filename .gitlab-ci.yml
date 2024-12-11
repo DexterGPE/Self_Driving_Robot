@@ -22,7 +22,7 @@ stages: ## Organize and Order parts of the pipeline
 #    paths:
 #      - coverage.xml
 #    expire_in: 1 week
-#
+
 #codestyle-check:
 #  stage: tests
 #  before_script:
@@ -38,10 +38,3 @@ deploy-job:
   script:
     - sshpass -p raspberry ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "mkdir -p ~/Team3-Repo"
     - sshpass -p raspberry scp -o StrictHostKeyChecking=no -r ./src/main/ pi@10.10.1.151:~/Team3-Repo/
-#    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-#    - eval $(ssh-agent -s)
-#    - chmod 400 "$AWS_SECRET_ACCESS_KEY"
-#    - ssh-add "$AWS_SECRET_ACCESS_KEY"
-#    - sshpass -p raspberry ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "mkdir -p ~/testingSSHfolder"
-
-

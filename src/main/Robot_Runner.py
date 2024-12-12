@@ -13,10 +13,15 @@ import Smooth_Operator
 
 
 def print_sensors(bp, countdown):
-    if countdown == 0:
-        print("Wall distance: {0}".format(bp.get_sensor(bp.PORT_1)))
-        print("Color: {0}".format(bp.get_sensor(bp.PORT_4)))
-        countdown = 50
+    try:
+        if countdown == 0:
+            print("Wall distance: {0}".format(bp.get_sensor(bp.PORT_1)))
+            print("Color: {0}".format(bp.get_sensor(bp.PORT_4)))
+            print("Left touch pushed: {0}".format(bp.get_sensor(bp.Port_3)))
+            print("Right touch pushed: {0}".format(bp.get_sensor(bp.Port_2)))
+            countdown = 50
+    except:
+        print("Invalid sensor data")
     return countdown - 1
 
 if __name__ == "__main__":
@@ -37,7 +42,7 @@ if __name__ == "__main__":
 
         if key_states["mode"] == 0:
             Manual_Driving.manual_driving(bp, key_states)
-            # countdown = print_sensors(bp,countdown)
+            countdown = print_sensors(bp,countdown)
         elif key_states["mode"] == 1:
             Self_Driving_Naive.self_driving(bp)
         elif key_states["mode"] == 2:

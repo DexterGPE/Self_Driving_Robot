@@ -34,7 +34,7 @@ def turn_left_after_bump(bp):
 
 
 def is_right_wall_found(bp):
-    return bp.get_sensor(bp.PORT_1) < 20
+    return bp.get_sensor(bp.PORT_1) < 15
 
 
 def red_line_found(bp):

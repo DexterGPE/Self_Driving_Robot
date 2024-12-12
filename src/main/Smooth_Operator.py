@@ -9,6 +9,8 @@ TURN_SPEED = 15
 
 
 def self_driving(bp):
+    speed_left = 0
+    speed_right = 0
     if Self_Driving_Naive.bumped_into_wall(bp):
         if detect_finish(bp):
             speed_left = 0

@@ -37,6 +37,8 @@ if __name__ == "__main__":
     wall_finding = 25
     time_since_black_line = 0
 
+    time.sleep(1)
+
     while running:
         # check mode input van keyboard
         key_states, running = Keyboard_Input.get_keyboard_input(key_states, running, bp)

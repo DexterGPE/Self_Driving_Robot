@@ -18,20 +18,23 @@ def self_driving(bp, speed_left, speed_right, smoothness, bridgesmoothness, stan
         "turn_speed" : turn_speed, 
         "distance_to_wall" : distance_to_wall
     }
-    if Self_Driving_Naive.bumped_into_wall(bp):
-        if detect_finish(bp):
-            speed_left = 0
-            speed_right = 0
+    try:    
+        if Self_Driving_Naive.bumped_into_wall(bp):
+            if detect_finish(bp):
+                speed_left = 0
+                speed_right = 0
+            else:
+                turn_left_after_bump(bp)
+                speed_left = 0
+                speed_right = 0
+        elif red_line_found(bp):
+            speed_left, speed_right = smooth_left_turn_on_bridge(speed_left, speed_right, pars)
+        elif get_right_wall_distance(bp) > 80:
+            speed_left, speed_right = smooth_right_turn_on_bridge(speed_left, speed_right, pars)
         else:
-            turn_left_after_bump(bp)
-            speed_left = 0
-            speed_right = 0
-    elif red_line_found(bp):
-        speed_left, speed_right = smooth_left_turn_on_bridge(speed_left, speed_right, pars)
-    elif get_right_wall_distance(bp) > 80:
-        speed_left, speed_right = smooth_right_turn_on_bridge(speed_left, speed_right, pars)
-    else:
-        speed_left, speed_right = smooth_turn_at_wall(bp, pars)
+            speed_left, speed_right = smooth_turn_at_wall(bp, pars)
+    except:
+        print("Invalid sensor data.")
     
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
 
@@ -69,7 +72,6 @@ def smooth_right_turn_on_bridge(speed_left, speed_right, pars):
     return speed_left, speed_right
 
 def red_line_found(bp):
-    print("Red line found!")
     return (bp.get_sensor(bp.PORT_4)[0] > 15) and (bp.get_sensor(bp.PORT_4)[1] < 5) and (
             bp.get_sensor(bp.PORT_4)[2] < 5)
 

@@ -37,15 +37,13 @@ if __name__ == "__main__":
     wall_finding = 25
     time_since_black_line = 0
 
-    time.sleep(1)
-
     while running:
         # check mode input van keyboard
         key_states, running = Keyboard_Input.get_keyboard_input(key_states, running, bp)
 
         if key_states["mode"] == 0:
             Manual_Driving.manual_driving(bp, key_states)
-            countdown = print_sensors(bp,countdown)
+            # countdown = print_sensors(bp,countdown)
         elif key_states["mode"] == 1:
             Self_Driving_Naive.self_driving(bp)
         elif key_states["mode"] == 2:

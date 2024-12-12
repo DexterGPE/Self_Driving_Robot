@@ -5,6 +5,7 @@ import time
 
 STANDARD_SPEED = -25
 TURN_SPEED = 15
+DISTANCE_TO_WALL = 15
 
 def self_driving(bp):
     if Self_Driving_Naive.bumped_into_wall(bp):
@@ -34,13 +35,13 @@ def turn_left_after_bump(bp):
 
 
 def is_right_wall_found(bp):
-    return bp.get_sensor(bp.PORT_1) < 15
+    return bp.get_sensor(bp.PORT_1) < DISTANCE_TO_WALL
 
 
 def red_line_found(bp):
     print("Red line found!")
-    return (bp.get_sensor(bp.PORT_4)[0] > 35) and (bp.get_sensor(bp.PORT_4)[1] < 20) and (
-            bp.get_sensor(bp.PORT_4)[2] < 20)
+    return (bp.get_sensor(bp.PORT_4)[0] > 15) and (bp.get_sensor(bp.PORT_4)[1] < 5) and (
+            bp.get_sensor(bp.PORT_4)[2] < 5)
 
 
 def turn_left():
@@ -60,8 +61,8 @@ def turn_left_on_bridge():
     return speed_left, speed_right
 
 def detect_black(bp):
-    return (bp.get_sensor(bp.PORT_4)[0] < 20) and (bp.get_sensor(bp.PORT_4)[1] < 20) and (
-            bp.get_sensor(bp.PORT_4)[2] < 20)
+    return (bp.get_sensor(bp.PORT_4)[0] < 5) and (bp.get_sensor(bp.PORT_4)[1] < 5) and (
+            bp.get_sensor(bp.PORT_4)[2] < 5)
 
 def detect_finish(bp):
     return detect_black(bp) and is_right_wall_found(bp)

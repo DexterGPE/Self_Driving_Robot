@@ -2,8 +2,8 @@ from RobotRunner import *
 
 
 def manual_driving(bp, key_states):
-    # print(bp.get_sensor(bp.PORT_1))
-    # print(bp.get_sensor(bp.PORT_4))
+    print(bp.get_sensor(bp.PORT_1))
+    print(bp.get_sensor(bp.PORT_4))
     speed_left = 0
     speed_right = 0
     speed_blade = 0

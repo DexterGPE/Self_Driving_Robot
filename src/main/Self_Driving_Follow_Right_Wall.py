@@ -38,6 +38,7 @@ def is_right_wall_found(bp):
 
 
 def red_line_found(bp):
+    print("Red line found!")
     return (bp.get_sensor(bp.PORT_4)[0] > 35) and (bp.get_sensor(bp.PORT_4)[1] < 20) and (
             bp.get_sensor(bp.PORT_4)[2] < 20)
 

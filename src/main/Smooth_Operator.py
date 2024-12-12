@@ -9,8 +9,6 @@ TURN_SPEED = 15
 
 
 def self_driving(bp):
-    speed_left = 0
-    speed_right = 0
     if Self_Driving_Naive.bumped_into_wall(bp):
         if detect_finish(bp):
             speed_left = 0
@@ -49,17 +47,18 @@ def smooth_turn_at_wall(bp):
     speed_right = STANDARD_SPEED + TURN_SPEED * correction_factor
     return speed_left, speed_right
 
-def smooth_left_turn_on_bridge(speed_left, speed_right):
+def smooth_left_turn_on_bridge(speed_left = STANDARD_SPEED, speed_right = STANDARD_SPEED):
     speed_left = max(STANDARD_SPEED + TURN_SPEED, speed_left + TURN_SPEED/(10*SMOOTHNESS))
     speed_right = max(STANDARD_SPEED - TURN_SPEED, speed_right -TURN_SPEED/(10*SMOOTHNESS))
     return speed_left, speed_right
 
-def smooth_right_turn_on_bridge(speed_left, speed_right):
+def smooth_right_turn_on_bridge(speed_left = STANDARD_SPEED, speed_right = STANDARD_SPEED):
     speed_left = max(STANDARD_SPEED - TURN_SPEED, speed_left -TURN_SPEED/SMOOTHNESS)
     speed_right = max(STANDARD_SPEED + TURN_SPEED, speed_right + TURN_SPEED/SMOOTHNESS)
     return speed_left, speed_right
 
 def red_line_found(bp):
+    print("Red line found!")
     return (bp.get_sensor(bp.PORT_4)[0] > 35) and (bp.get_sensor(bp.PORT_4)[1] < 20) and (
             bp.get_sensor(bp.PORT_4)[2] < 20)
 

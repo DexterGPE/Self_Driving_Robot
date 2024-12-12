@@ -27,6 +27,8 @@ if __name__ == "__main__":
 
     key_states = Keyboard_Input.initialize_keyboard_inputs()
     countdown = 50
+    speed_left = 0
+    speed_right = 0
 
     while running:
 
@@ -41,7 +43,7 @@ if __name__ == "__main__":
         elif key_states["mode"] == 2:
             Self_Driving_Follow_Right_Wall.self_driving(bp)
         elif key_states["mode"] == 3:
-            Smooth_Operator.self_driving(bp)
+            Smooth_Operator.self_driving(bp,speed_left, speed_right)
 
         time.sleep(0.02)
     

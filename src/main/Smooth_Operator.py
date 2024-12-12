@@ -8,7 +8,7 @@ STANDARD_SPEED = -25
 TURN_SPEED = 15
 
 
-def self_driving(bp):
+def self_driving(bp, speed_left, speed_right):
     if Self_Driving_Naive.bumped_into_wall(bp):
         if detect_finish(bp):
             speed_left = 0
@@ -25,6 +25,8 @@ def self_driving(bp):
         speed_left, speed_right = smooth_turn_at_wall(bp)
     
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
+
+    return speed_left, speed_right
 
 def turn_left_after_bump(bp):
     time.sleep(0.4)  # drive into wall to set it straight
@@ -47,12 +49,12 @@ def smooth_turn_at_wall(bp):
     speed_right = STANDARD_SPEED + TURN_SPEED * correction_factor
     return speed_left, speed_right
 
-def smooth_left_turn_on_bridge(speed_left = STANDARD_SPEED, speed_right = STANDARD_SPEED):
+def smooth_left_turn_on_bridge(speed_left, speed_right):
     speed_left = max(STANDARD_SPEED + TURN_SPEED, speed_left + TURN_SPEED/(10*SMOOTHNESS))
     speed_right = max(STANDARD_SPEED - TURN_SPEED, speed_right -TURN_SPEED/(10*SMOOTHNESS))
     return speed_left, speed_right
 
-def smooth_right_turn_on_bridge(speed_left = STANDARD_SPEED, speed_right = STANDARD_SPEED):
+def smooth_right_turn_on_bridge(speed_left, speed_right):
     speed_left = max(STANDARD_SPEED - TURN_SPEED, speed_left -TURN_SPEED/SMOOTHNESS)
     speed_right = max(STANDARD_SPEED + TURN_SPEED, speed_right + TURN_SPEED/SMOOTHNESS)
     return speed_left, speed_right

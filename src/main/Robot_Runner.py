@@ -11,6 +11,14 @@ import Smooth_Operator
 # grijs op bord: R en G rond de 30, B 15
 # Rood op bord: R 40-50, andere onder de 15
 
+
+def print_sensors(bp, countdown):
+    if countdown == 0:
+        print(bp.get_sensor(bp.PORT_1))
+        print(bp.get_sensor(bp.PORT_4))
+        countdown = 50
+    return countdown - 1
+
 if __name__ == "__main__":
     running = True
 
@@ -35,12 +43,4 @@ if __name__ == "__main__":
             Smooth_Operator.self_driving(bp)
 
         time.sleep(0.02)
-
-
-def print_sensors(bp, countdown):
-    if countdown == 0:
-        print(bp.get_sensor(bp.PORT_1))
-        print(bp.get_sensor(bp.PORT_4))
-        countdown = 50
-    return countdown - 1
     

@@ -72,8 +72,8 @@ def smooth_right_turn_on_bridge(speed_left, speed_right, pars):
     return speed_left, speed_right
 
 def red_line_found(bp):
-    return (bp.get_sensor(bp.PORT_4)[0] > 15) and (bp.get_sensor(bp.PORT_4)[1] < 5) and (
-            bp.get_sensor(bp.PORT_4)[2] < 5)
+    return (bp.get_sensor(bp.PORT_4)[0] > 160) and (bp.get_sensor(bp.PORT_4)[1] < 40) and (
+            bp.get_sensor(bp.PORT_4)[2] < 40)
 
 def turn_left():
     speed_left = 30

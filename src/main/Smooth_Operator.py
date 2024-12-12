@@ -4,6 +4,8 @@ import Control_BrickPi
 import time
 
 SMOOTHNESS = 5
+STANDARD_SPEED = -25
+TURN_SPEED = 15
 
 
 def self_driving(bp):
@@ -21,11 +23,8 @@ def self_driving(bp):
         speed_left, speed_right = smooth_right_turn_on_bridge(speed_left, speed_right)
     else:
         speed_left, speed_right = smooth_turn_at_wall(bp)
-
-
-
+    
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
-
 
 def turn_left_after_bump(bp):
     time.sleep(0.4)  # drive into wall to set it straight
@@ -44,22 +43,22 @@ def get_right_wall_distance(bp):
 def smooth_turn_at_wall(bp):
     distance = get_right_wall_distance(bp)
     correction_factor = max(-1, min(1, (distance-10)/SMOOTHNESS))
-    speed_left = -17.5 - 12.5 * correction_factor
-    speed_right = -17.5 + 12.5 * correction_factor
+    speed_left = STANDARD_SPEED - TURN_SPEED * correction_factor
+    speed_right = STANDARD_SPEED + TURN_SPEED * correction_factor
     return speed_left, speed_right
 
 def smooth_left_turn_on_bridge(speed_left, speed_right):
-    speed_left = max(-5, speed_left + 12.5/(10*SMOOTHNESS))
-    speed_right = max(-30, speed_right -12.5/(10*SMOOTHNESS))
+    speed_left = max(STANDARD_SPEED + TURN_SPEED, speed_left + TURN_SPEED/(10*SMOOTHNESS))
+    speed_right = max(STANDARD_SPEED - TURN_SPEED, speed_right -TURN_SPEED/(10*SMOOTHNESS))
     return speed_left, speed_right
 
 def smooth_right_turn_on_bridge(speed_left, speed_right):
-    speed_left = max(-30, speed_left -12.5/SMOOTHNESS)
-    speed_right = max(-5, speed_right + 12.5/SMOOTHNESS)
+    speed_left = max(STANDARD_SPEED - TURN_SPEED, speed_left -TURN_SPEED/SMOOTHNESS)
+    speed_right = max(STANDARD_SPEED + TURN_SPEED, speed_right + TURN_SPEED/SMOOTHNESS)
     return speed_left, speed_right
 
 def red_line_found(bp):
-    return (bp.get_sensor(bp.PORT_4)[0] > 40) and (bp.get_sensor(bp.PORT_4)[1] < 20) and (
+    return (bp.get_sensor(bp.PORT_4)[0] > 35) and (bp.get_sensor(bp.PORT_4)[1] < 20) and (
             bp.get_sensor(bp.PORT_4)[2] < 20)
 
 def turn_left():
@@ -69,12 +68,7 @@ def turn_left():
 
 def turn_right():
     speed_left = -30
-    speed_right = -5
-    return speed_left, speed_right
-
-def turn_left_on_bridge():
-    speed_left = -5
-    speed_right = -30
+    speed_right = 30
     return speed_left, speed_right
 
 def detect_black(bp):

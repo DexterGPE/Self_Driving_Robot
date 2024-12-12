@@ -2,6 +2,8 @@ import Control_BrickPi
 
 
 def manual_driving(bp, key_states):
+    print("Distance: ", bp.get_sensor(bp.PORT_1))
+    print("Color: ", bp.get_sensor(bp.PORT_4))
     speed_left = 0
     speed_right = 0
     speed_blade = 0

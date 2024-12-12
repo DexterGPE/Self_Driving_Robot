@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, Mock
-from src.main.Manual_Driving import manual_driving
+from main.Manual_Driving import manual_driving
 
 
 class TestManualDriving(unittest.TestCase):

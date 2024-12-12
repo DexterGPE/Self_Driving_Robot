@@ -30,6 +30,8 @@ if __name__ == "__main__":
     speed_left = 0
     speed_right = 0
 
+    time.sleep(1)
+
     while running:
 
         # check mode input van keyboard

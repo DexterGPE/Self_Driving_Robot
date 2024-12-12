@@ -14,8 +14,10 @@ import Smooth_Operator
 
 def print_sensors(bp, countdown):
     if countdown == 0:
-        print(bp.get_sensor(bp.PORT_1))
-        print(bp.get_sensor(bp.PORT_4))
+        distance = bp.get_sensor(bp.PORT_1)
+        color = bp.get_sensor(bp.PORT_4)
+        print(f"Wall distance: ${distance}")
+        print(f"Color: ${color}")
         countdown = 50
     return countdown - 1
 

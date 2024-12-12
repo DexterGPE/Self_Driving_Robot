@@ -10,7 +10,7 @@ import time
 # distance_to_wall = 15
 
 
-def self_driving(bp, speed_left, speed_right, smoothness, bridgesmoothness, standard_speed, turn_speed, distance_to_wall):
+def self_driving(bp, speed_left, speed_right, wall_finding, smoothness, bridgesmoothness, standard_speed, turn_speed, distance_to_wall):
     pars = {
         "smoothness" : smoothness,
         "bridgesmoothness" : bridgesmoothness,
@@ -18,6 +18,7 @@ def self_driving(bp, speed_left, speed_right, smoothness, bridgesmoothness, stan
         "turn_speed" : turn_speed, 
         "distance_to_wall" : distance_to_wall
     }
+    wall_finding -= 1
     try:    
         if Self_Driving_Naive.bumped_into_wall(bp):
             if detect_finish(bp):
@@ -28,17 +29,18 @@ def self_driving(bp, speed_left, speed_right, smoothness, bridgesmoothness, stan
                 speed_left = 0
                 speed_right = 0
         elif red_line_found(bp):
+            wall_finding = 25
             speed_left, speed_right = smooth_left_turn_on_bridge(speed_left, speed_right, pars)
         elif get_right_wall_distance(bp) > 80:
             speed_left, speed_right = smooth_right_turn_on_bridge(speed_left, speed_right, pars)
-        else:
+        elif wall_finding < 1:
             speed_left, speed_right = smooth_turn_at_wall(bp, pars)
     except:
         print("Invalid sensor data.")
     
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
 
-    return speed_left, speed_right
+    return speed_left, speed_right, wall_finding
 
 def turn_left_after_bump(bp):
     time.sleep(0.4)  # drive into wall to set it straight

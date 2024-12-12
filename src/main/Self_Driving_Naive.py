@@ -18,7 +18,7 @@ def normal_driving_speed(speed_left = -60, speed_right = 60):
 
 
 def bumped_into_wall(bp):
-    return bp.get_sensor(bp.PORT_2) or bp.get_sensor(bp.PORT_3)
+    return bp.get_sensor(bp.PORT_2) and bp.get_sensor(bp.PORT_3)
 
 
 def reverse_after_bump(bp):

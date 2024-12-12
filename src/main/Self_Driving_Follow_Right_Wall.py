@@ -51,14 +51,17 @@ def turn_right():
     speed_right = -5
     return speed_left, speed_right
 
+
 def turn_left_on_bridge():
     speed_left = -5
     speed_right = -30
     return speed_left, speed_right
 
+
 def detect_black(bp):
     return (bp.get_sensor(bp.PORT_4)[0] < 20) and (bp.get_sensor(bp.PORT_4)[1] < 20) and (
             bp.get_sensor(bp.PORT_4)[2] < 20)
+
 
 def detect_finish(bp):
     return detect_black(bp) and is_right_wall_found(bp)

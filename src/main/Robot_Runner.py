@@ -30,8 +30,6 @@ if __name__ == "__main__":
     speed_left = 0
     speed_right = 0
 
-    time.sleep(1)
-
     while running:
 
         # check mode input van keyboard
@@ -39,7 +37,7 @@ if __name__ == "__main__":
 
         if key_states["mode"] == 0:
             Manual_Driving.manual_driving(bp, key_states)
-            countdown = print_sensors(bp,countdown)
+            # countdown = print_sensors(bp,countdown)
         elif key_states["mode"] == 1:
             Self_Driving_Naive.self_driving(bp)
         elif key_states["mode"] == 2:

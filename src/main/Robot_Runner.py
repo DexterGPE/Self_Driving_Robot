@@ -26,6 +26,7 @@ if __name__ == "__main__":
     Keyboard_Input.initialize_pygame()
 
     key_states = Keyboard_Input.initialize_keyboard_inputs()
+    countdown = 50
 
     while running:
 
@@ -34,7 +35,7 @@ if __name__ == "__main__":
 
         if key_states["mode"] == 0:
             Manual_Driving.manual_driving(bp, key_states)
-            print_sensors(bp,50)
+            countdown = print_sensors(bp,countdown)
         elif key_states["mode"] == 1:
             Self_Driving_Naive.self_driving(bp)
         elif key_states["mode"] == 2:

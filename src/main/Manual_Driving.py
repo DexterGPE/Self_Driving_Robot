@@ -19,7 +19,7 @@ def manual_driving(bp, key_states):
         speed_right -= 20
         speed_left += 20
     if key_states["space"]:
-        speed_blade = 100
+        speed_blade = 50
     if key_states["lshift"]:
         speed_left = 0
         speed_right = 0

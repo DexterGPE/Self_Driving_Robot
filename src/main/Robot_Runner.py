@@ -48,19 +48,19 @@ if __name__ == "__main__":
         elif key_states["mode"] == 2:
             Self_Driving_Follow_Right_Wall.self_driving(bp)
         elif key_states["mode"] == 3:
-            speed_left, speed_right = Smooth_Operator.self_driving(bp,speed_left, speed_right, 5, 10, -30, 10, 15)
+            speed_left, speed_right = Smooth_Operator.self_driving(bp,speed_left, speed_right, 5, 10, -30, 20, 15)
         elif key_states["mode"] == 4:
-            speed_left, speed_right = Smooth_Operator.self_driving(bp,speed_left, speed_right, 5, 10, -30, 10, 5)
+            speed_left, speed_right = Smooth_Operator.self_driving(bp,speed_left, speed_right, 5, 10, -30, 20, 10)
         elif key_states["mode"] == 5:
-            speed_left, speed_right = Smooth_Operator.self_driving(bp,speed_left, speed_right, 5, 10, -30, 10, 25)
+            speed_left, speed_right = Smooth_Operator.self_driving(bp,speed_left, speed_right, 5, 10, -30, 15, 15)
         elif key_states["mode"] == 6:
-            speed_left, speed_right = Smooth_Operator.self_driving(bp,speed_left, speed_right, 5, 10, -60, 20, 15)
+            speed_left, speed_right = Smooth_Operator.self_driving(bp,speed_left, speed_right, 5, 10, -30, 15, 10)
         elif key_states["mode"] == 7:
-            speed_left, speed_right = Smooth_Operator.self_driving(bp,speed_left, speed_right, 5, 10, -30, 5, 15)
+            speed_left, speed_right = Smooth_Operator.self_driving(bp,speed_left, speed_right, 5, 10, -60, 30, 15)
         elif key_states["mode"] == 8:
-            speed_left, speed_right = Smooth_Operator.self_driving(bp,speed_left, speed_right, 1, 5, -30, 10, 15)
+            speed_left, speed_right = Smooth_Operator.self_driving(bp,speed_left, speed_right, 5, 10, -60, 40, 15)
         elif key_states["mode"] == 9:
-            speed_left, speed_right = Smooth_Operator.self_driving(bp,speed_left, speed_right, 5, 10, -30, 10, 15)
+            speed_left, speed_right = Smooth_Operator.self_driving(bp,speed_left, speed_right, 5, 10, -30, 25, 15)
 
         time.sleep(0.02)
     

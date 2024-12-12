@@ -26,6 +26,7 @@ if __name__ == "__main__":
 
         if key_states["mode"] == 0:
             Manual_Driving.manual_driving(bp, key_states)
+            print_sensors(bp,50)
         elif key_states["mode"] == 1:
             Self_Driving_Naive.self_driving(bp)
         elif key_states["mode"] == 2:
@@ -34,3 +35,12 @@ if __name__ == "__main__":
             Smooth_Operator.self_driving(bp)
 
         time.sleep(0.02)
+
+
+def print_sensors(bp, countdown):
+    if countdown == 0:
+        print(bp.get_sensor(bp.PORT_1))
+        print(bp.get_sensor(bp.PORT_4))
+        countdown = 50
+    return countdown - 1
+    

@@ -36,7 +36,8 @@ def is_right_wall_found(bp):
 
 
 def red_line_found(bp):
-    return (bp.get_sensor(bp.PORT_4)[0] > 40) and (bp.get_sensor(bp.PORT_4)[1] < 20) and (
+    return (bp.get_sensor(bp.PORT_4)[0] > 40) and (
+            bp.get_sensor(bp.PORT_4)[1] < 20) and (
             bp.get_sensor(bp.PORT_4)[2] < 20)
 
 
@@ -59,7 +60,8 @@ def turn_left_on_bridge():
 
 
 def detect_black(bp):
-    return (bp.get_sensor(bp.PORT_4)[0] < 20) and (bp.get_sensor(bp.PORT_4)[1] < 20) and (
+    return (bp.get_sensor(bp.PORT_4)[0] < 20) and (
+            bp.get_sensor(bp.PORT_4)[1] < 20) and (
             bp.get_sensor(bp.PORT_4)[2] < 20)
 
 

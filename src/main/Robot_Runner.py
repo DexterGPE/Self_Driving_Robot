@@ -21,7 +21,8 @@ if __name__ == "__main__":
     while running:
 
         # check mode input van keyboard
-        key_states, running = Keyboard_Input.get_keyboard_input(key_states, running, BP)
+        key_states, running = Keyboard_Input.get_keyboard_input(
+            key_states, running, BP)
 
         if key_states["mode"] == 0:
             Manual_Driving.manual_driving(BP, key_states)

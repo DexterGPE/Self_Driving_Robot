@@ -18,7 +18,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
         "turn_speed" : turn_speed, 
         "distance_to_wall" : distance_to_wall
     }
-    wall_finding -= 1 # Probably obsolete
+    # wall_finding -= 1 # Probably obsolete
     time_since_black_line -= 1
     try:
         if detect_black(bp):
@@ -33,12 +33,12 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
                 speed_right = 0
         elif red_line_found(bp) and time_since_black_line > 0:
             Control_BrickPi.set_motor_power(bp, pars["standard_speed"], pars["standard_speed"])
-        elif red_line_found(bp) and get_right_wall_distance(bp) > 80:
+        elif red_line_found(bp) and get_right_wall_distance(bp) > 33:
             wall_finding = 25
             speed_left, speed_right = smooth_left_turn_on_bridge(speed_left, speed_right, pars)
-        elif get_right_wall_distance(bp) > 80:
+        elif get_right_wall_distance(bp) > 33:
             speed_left, speed_right = smooth_right_turn_on_bridge(speed_left, speed_right, pars)
-        elif wall_finding < 1:
+        else:
             speed_left, speed_right = smooth_turn_at_wall(bp, pars)
     except:
         print("Invalid sensor data.")
@@ -93,8 +93,8 @@ def turn_right():
     return speed_left, speed_right
 
 def detect_black(bp):
-    return (bp.get_sensor(bp.PORT_4)[0] < 5) and (bp.get_sensor(bp.PORT_4)[1] < 5) and (
-            bp.get_sensor(bp.PORT_4)[2] < 5)
+    return (bp.get_sensor(bp.PORT_4)[0] < 10) and (bp.get_sensor(bp.PORT_4)[1] < 10) and (
+            bp.get_sensor(bp.PORT_4)[2] < 10)
 
 def detect_finish(bp, distance_to_wall):
     return detect_black(bp) and is_right_wall_found(bp, distance_to_wall)

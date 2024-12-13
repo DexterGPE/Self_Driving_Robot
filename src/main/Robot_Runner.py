@@ -68,6 +68,6 @@ if __name__ == "__main__":
                 bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 2.5, -30, -15, 18, key_states["mode"])
         elif key_states["mode"] == 9:
             speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 2, -60, -30, 18, key_states["mode"])
+                bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 0.5, -60, -30, 18, key_states["mode"])
         time.sleep(0.02)
     

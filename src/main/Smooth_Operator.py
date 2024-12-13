@@ -94,7 +94,7 @@ def smooth_right_turn_on_bridge(speed_left, speed_right, pars):
 
 
 def red_line_found(bp):
-    return (bp.get_sensor(bp.PORT_4)[0] > 130) and (bp.get_sensor(bp.PORT_4)[1] < 40) and (
+    return (bp.get_sensor(bp.PORT_4)[0] > 110) and (bp.get_sensor(bp.PORT_4)[1] < 40) and (
             bp.get_sensor(bp.PORT_4)[2] < 40)
 
 

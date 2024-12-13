@@ -10,7 +10,7 @@ import time
 # distance_to_wall = 15
 
 
-def self_driving(bp, speed_left, speed_right, wall_finding, smoothness, bridgesmoothness, standard_speed, turn_speed, distance_to_wall):
+def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_line, smoothness, bridgesmoothness, standard_speed, turn_speed, distance_to_wall):
     pars = {
         "smoothness" : smoothness,
         "bridgesmoothness" : bridgesmoothness,
@@ -18,16 +18,21 @@ def self_driving(bp, speed_left, speed_right, wall_finding, smoothness, bridgesm
         "turn_speed" : turn_speed, 
         "distance_to_wall" : distance_to_wall
     }
-    wall_finding -= 1
-    try:    
+    wall_finding -= 1 # Probably obsolete
+    time_since_black_line -= 1
+    try:
+        if detect_black(bp):
+            time_since_black_line = 100
         if Self_Driving_Naive.bumped_into_wall(bp):
-            if detect_finish(bp):
+            if detect_finish(bp, distance_to_wall):
                 speed_left = 0
                 speed_right = 0
             else:
                 turn_left_after_bump(bp)
                 speed_left = 0
                 speed_right = 0
+        elif red_line_found(bp) and time_since_black_line > 0:
+            Control_BrickPi.set_motor_power(bp, pars["standard_speed"], pars["standard_speed"])
         elif red_line_found(bp) and get_right_wall_distance(bp) > 80:
             wall_finding = 25
             speed_left, speed_right = smooth_left_turn_on_bridge(speed_left, speed_right, pars)
@@ -40,7 +45,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, smoothness, bridgesm
     
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
 
-    return speed_left, speed_right, wall_finding
+    return speed_left, speed_right, wall_finding, time_since_black_line
 
 def turn_left_after_bump(bp):
     time.sleep(0.4)  # drive into wall to set it straight
@@ -91,5 +96,5 @@ def detect_black(bp):
     return (bp.get_sensor(bp.PORT_4)[0] < 5) and (bp.get_sensor(bp.PORT_4)[1] < 5) and (
             bp.get_sensor(bp.PORT_4)[2] < 5)
 
-def detect_finish(bp):
-    return detect_black(bp) and is_right_wall_found(bp)
+def detect_finish(bp, distance_to_wall):
+    return detect_black(bp) and is_right_wall_found(bp, distance_to_wall)

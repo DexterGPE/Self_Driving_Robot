@@ -52,7 +52,6 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
             speed_left, speed_right = smooth_turn_at_wall(bp, pars)
     except:
         print("Invalid sensor data.")
-
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
 
     return speed_left, speed_right, wall_finding, time_since_black_line

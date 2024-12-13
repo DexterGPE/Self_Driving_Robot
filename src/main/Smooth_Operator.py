@@ -127,14 +127,14 @@ def red_line_found(bp):
 
 
 def turn_left(pars):
-    speed_left = pars["standard_speed"]
-    speed_right = -pars["standard_speed"]
+    speed_left = -pars["standard_speed"]
+    speed_right = pars["standard_speed"]
     return speed_left, speed_right
 
 
 def turn_right(pars):
-    speed_left = -pars["standard_speed"]
-    speed_right = pars["standard_speed"]
+    speed_left = pars["standard_speed"]
+    speed_right = -pars["standard_speed"]
     return speed_left, speed_right
 
 

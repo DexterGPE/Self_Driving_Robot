@@ -41,7 +41,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
         #     print("time_sine_black_line: ", time_since_black_line)
         #     print("Found red line but ignore it because black line was recently found")
         #     Control_BrickPi.set_motor_power(bp, pars["standard_speed"], pars["standard_speed"])
-        elif red_line_found(bp):
+        elif red_line_found(bp) and get_right_wall_distance(bp) > 23:
             print("Found red line")
             wall_finding = 25
             speed_left, speed_right = smooth_left_turn_on_bridge(speed_left, speed_right, pars)

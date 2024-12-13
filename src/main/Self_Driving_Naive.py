@@ -22,10 +22,10 @@ def bumped_into_wall(bp):
 
 
 def reverse_after_bump(bp):
-    speed_left = 60
-    speed_right = 60
+    speed_left = 30*2
+    speed_right = 30*2
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
-    time.sleep(0.40)
+    time.sleep(0.40/2)
 
 
 def turn_left():

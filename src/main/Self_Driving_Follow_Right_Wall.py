@@ -29,6 +29,7 @@ def self_driving(bp):
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
 
 
+
 def turn_left_after_bump(bp):
     time.sleep(0.4)  # drive into wall to set it straight
     Self_Driving_Naive.reverse_after_bump(bp)

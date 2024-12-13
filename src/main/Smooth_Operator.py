@@ -20,7 +20,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
         "turn_speed": turn_speed,
         "distance_to_wall": distance_to_wall
     }
-    # wall_finding -= 1 # Probably obsolete
+    wall_finding -= 1 # Probably obsolete
     time_since_black_line -= 1
     try:
         if detect_black(bp):
@@ -47,7 +47,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
         elif get_right_wall_distance(bp) > 33:
             print("No right wall found (should happen on bridge only)")
             speed_left, speed_right = smooth_right_turn_on_bridge(speed_left, speed_right, pars)
-        else:
+        elif wall_finding < 0:
             print("else: smooth turn at wall")
             speed_left, speed_right = smooth_turn_at_wall(bp, pars)
     except:
@@ -66,7 +66,7 @@ def turn_left_after_bump(bp):
 
 
 def is_right_wall_found(bp, distance_to_wall):
-    return bp.get_sensor(bp.PORT_1) < distance_to_wall
+    return bp.get_sensor(bp.PORT_1) < 30
 
 def get_right_wall_distance(bp):
     return bp.get_sensor(bp.PORT_1)
@@ -81,21 +81,25 @@ def smooth_turn_at_wall(bp, pars):
 
 
 def smooth_left_turn_on_bridge(speed_left, speed_right, pars):
-    speed_left = min(pars["standard_speed"] + pars["turn_speed"],
-                     speed_left + pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"]))
+    # speed_left = min(pars["standard_speed"] + pars["turn_speed"],
+    #                  speed_left + pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"]))
+    speed_left = pars["standard_speed"] + pars["turn_speed"]
     # speed_left = min(speed_left, pars["standard_speed"] + pars["turn_speed"])
-    speed_right = max(pars["standard_speed"] - pars["turn_speed"],
-                      speed_right - pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"]))
+    # speed_right = max(pars["standard_speed"] - pars["turn_speed"],
+    #                   speed_right - pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"]))
+    speed_right = pars["standard_speed"] - pars["turn_speed"]
     # speed_right = min(speed_right, pars["standard_speed"] + pars["turn_speed"])
     return speed_left, speed_right
 
 
 def smooth_right_turn_on_bridge(speed_left, speed_right, pars):
-    speed_left = max(pars["standard_speed"] - pars["turn_speed"],
-                     speed_left - pars["sturn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"]))
+    # speed_left = max(pars["standard_speed"] - pars["turn_speed"],
+    #                  speed_left - pars["sturn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"]))
+    speed_left = pars["standard_speed"] - pars["turn_speed"]
     # speed_left = min(speed_left, pars["standard_speed"] + pars["turn_speed"])
-    speed_right = min(pars["standard_speed"] + pars["turn_speed"],
-                      speed_right + pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"]))
+    # speed_right = min(pars["standard_speed"] + pars["turn_speed"],
+    #                   speed_right + pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"]))
+    speed_right = pars["standard_speed"] + pars["turn_speed"]
     # speed_right = min(speed_right, pars["standard_speed"] + pars["turn_speed"])
     return speed_left, speed_right
 

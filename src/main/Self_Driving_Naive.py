@@ -25,7 +25,7 @@ def reverse_after_bump(bp):
     speed_left = 30
     speed_right = 30
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
-    time.sleep(0.35)
+    time.sleep(0.40)
 
 
 def turn_left():

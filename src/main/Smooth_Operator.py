@@ -28,7 +28,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, smoothness, bridgesm
                 turn_left_after_bump(bp)
                 speed_left = 0
                 speed_right = 0
-        elif red_line_found(bp):
+        elif red_line_found(bp) and get_right_wall_distance(bp) > 80:
             wall_finding = 25
             speed_left, speed_right = smooth_left_turn_on_bridge(speed_left, speed_right, pars)
         elif get_right_wall_distance(bp) > 80:

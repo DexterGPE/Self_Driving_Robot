@@ -24,23 +24,31 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
     time_since_black_line -= 1
     try:
         if detect_black(bp):
+            print("detected black surface")
             time_since_black_line = 100
         if Self_Driving_Naive.bumped_into_wall(bp):
+            print("bumped into wall")
             if detect_finish(bp, distance_to_wall):
+                print("Bumped into wall and detected finish")
                 speed_left = 0
                 speed_right = 0
             else:
+                print("Bumped into wall, no finish detected")
                 turn_left_after_bump(bp)
                 speed_left = 0
                 speed_right = 0
         elif red_line_found(bp) and time_since_black_line > 0:
+            print("Found red line but ignore it because black line was recently found")
             Control_BrickPi.set_motor_power(bp, pars["standard_speed"], pars["standard_speed"])
         elif red_line_found(bp):
+            print("Found red line")
             wall_finding = 25
             speed_left, speed_right = smooth_left_turn_on_bridge(speed_left, speed_right, pars)
         elif get_right_wall_distance(bp) > 33:
+            print("No right wall found (should happen on bridge only)")
             speed_left, speed_right = smooth_right_turn_on_bridge(speed_left, speed_right, pars)
         else:
+            print("else: smooth turn at wall")
             speed_left, speed_right = smooth_turn_at_wall(bp, pars)
     except:
         print("Invalid sensor data.")

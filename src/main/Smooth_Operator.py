@@ -25,7 +25,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
     try:
         if detect_black(bp):
             print("detected black surface")
-            time_since_black_line = 100
+            time_since_black_line = 50
         if Self_Driving_Naive.bumped_into_wall(bp):
             print("bumped into wall")
             if detect_finish(bp, distance_to_wall):

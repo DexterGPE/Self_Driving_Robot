@@ -33,7 +33,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
                 speed_right = 0
         elif red_line_found(bp) and time_since_black_line > 0:
             Control_BrickPi.set_motor_power(bp, pars["standard_speed"], pars["standard_speed"])
-        elif red_line_found(bp) and get_right_wall_distance(bp) > 33:
+        elif red_line_found(bp):
             wall_finding = 25
             speed_left, speed_right = smooth_left_turn_on_bridge(speed_left, speed_right, pars)
         elif get_right_wall_distance(bp) > 33:
@@ -70,12 +70,16 @@ def smooth_turn_at_wall(bp, pars):
 
 def smooth_left_turn_on_bridge(speed_left, speed_right, pars):
     speed_left = max(pars["standard_speed"] + pars["turn_speed"], speed_left + pars["turn_speed"]/(pars["bridgesmoothness"]*pars["smoothness"]))
+    speed_left = max(speed_left, "standard_speed")
     speed_right = max(pars["standard_speed"] - pars["turn_speed"], speed_right - pars["turn_speed"]/(pars["bridgesmoothness"]*pars["smoothness"]))
+    speed_right = max(speed_right, "standard_speed")
     return speed_left, speed_right
 
 def smooth_right_turn_on_bridge(speed_left, speed_right, pars):
     speed_left = max(pars["standard_speed"] - pars["turn_speed"], speed_left - pars["sturn_speed"]/(pars["bridgesmoothness"]*pars["smoothness"]))
+    speed_left = max(speed_left, "standard_speed")
     speed_right = max(pars["standard_speed"] + pars["turn_speed"], speed_right + pars["turn_speed"]/(pars["bridgesmoothness"]*pars["smoothness"]))
+    speed_right = max(speed_right, "standard_speed")
     return speed_left, speed_right
 
 def red_line_found(bp):
@@ -93,8 +97,8 @@ def turn_right():
     return speed_left, speed_right
 
 def detect_black(bp):
-    return (bp.get_sensor(bp.PORT_4)[0] < 10) and (bp.get_sensor(bp.PORT_4)[1] < 10) and (
-            bp.get_sensor(bp.PORT_4)[2] < 10)
+    return (bp.get_sensor(bp.PORT_4)[0] < 45) and (bp.get_sensor(bp.PORT_4)[1] < 45) and (
+            bp.get_sensor(bp.PORT_4)[2] < 45)
 
 def detect_finish(bp, distance_to_wall):
     return detect_black(bp) and is_right_wall_found(bp, distance_to_wall)

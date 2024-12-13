@@ -12,7 +12,7 @@ import time
 
 
 def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_line, smoothness, bridgesmoothness,
-                 standard_speed, turn_speed, distance_to_wall):
+                 standard_speed, turn_speed, distance_to_wall, mode):
     pars = {
         "smoothness": smoothness,
         "bridgesmoothness": bridgesmoothness,
@@ -32,6 +32,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
                 print("Bumped into wall and detected finish")
                 speed_left = 0
                 speed_right = 0
+                mode = 0
             else:
                 print("Bumped into wall, no finish detected")
                 turn_left_after_bump(bp)
@@ -55,7 +56,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
         print("Invalid sensor data.")
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
 
-    return speed_left, speed_right, wall_finding, time_since_black_line
+    return speed_left, speed_right, wall_finding, time_since_black_line, mode
 
 
 def turn_left_after_bump(bp):

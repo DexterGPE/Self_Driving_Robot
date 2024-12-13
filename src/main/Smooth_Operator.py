@@ -105,8 +105,10 @@ def smooth_right_turn_on_bridge(speed_left, speed_right, pars):
 
 
 def red_line_found(bp):
-    return (bp.get_sensor(bp.PORT_4)[0] > 120) and (bp.get_sensor(bp.PORT_4)[1] < 40) and (
-            bp.get_sensor(bp.PORT_4)[2] < 20)
+    # 0 is 1.7x zo hoog als b en g
+    return bp.get_sensor(bp.PORT_4)[0] > 1.7 * bp.get_sensor(bp.PORT_4)[1] and bp.get_sensor(bp.PORT_4)[0] > 2.5 * bp.get_sensor(bp.PORT_4)[2]
+    # return (bp.get_sensor(bp.PORT_4)[0] > 120) and (bp.get_sensor(bp.PORT_4)[1] < 40) and (
+    #         bp.get_sensor(bp.PORT_4)[2] < 20)
 
 
 def turn_left():
@@ -122,8 +124,8 @@ def turn_right():
 
 
 def detect_black(bp):
-    return (bp.get_sensor(bp.PORT_4)[0] < 45) and (bp.get_sensor(bp.PORT_4)[1] < 45) and (
-            bp.get_sensor(bp.PORT_4)[2] < 45)
+    return (bp.get_sensor(bp.PORT_4)[0] < 35) and (bp.get_sensor(bp.PORT_4)[1] < 45) and (
+            bp.get_sensor(bp.PORT_4)[2] < 25)
 
 
 def detect_finish(bp, distance_to_wall):

@@ -38,7 +38,7 @@ if __name__ == "__main__":
     time_since_black_line = 0
 
     while running:
-
+        print("running")
         # check mode input van keyboard
         key_states, running = Keyboard_Input.get_keyboard_input(key_states, running, bp)
 

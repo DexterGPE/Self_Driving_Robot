@@ -11,6 +11,9 @@ import time
 # distance_to_wall = 15
 
 
+
+
+
 def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_line, smoothness, bridgesmoothness,
                  standard_speed, turn_speed, distance_to_wall, mode):
     pars = {
@@ -35,7 +38,11 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
                 mode = 0
             else:
                 print("Bumped into wall, no finish detected")
-                turn_left_after_bump(bp)
+                if is_right_wall_found(bp, distance_to_wall):
+                    turn_left_after_bump(bp)
+                else:
+                    turn_right_after_bump(bp)
+
                 speed_left = 0
                 speed_right = 0
         # elif red_line_found(bp) and time_since_black_line > 0:
@@ -60,9 +67,16 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
 
 
 def turn_left_after_bump(bp):
-    time.sleep(0.4)  # drive into wall to set it straight
+    time.sleep(0.35)  # drive into wall to set it straight
     Self_Driving_Naive.reverse_after_bump(bp)
     speed_left, speed_right = turn_left()
+    Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
+    time.sleep(1.65)
+
+def turn_right_after_bump(bp):
+    time.sleep(0.35)  # drive into wall to set it straight
+    Self_Driving_Naive.reverse_after_bump(bp)
+    speed_left, speed_right = turn_right()
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
     time.sleep(1.65)
 

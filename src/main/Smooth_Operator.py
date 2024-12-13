@@ -67,18 +67,18 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
 
 
 def turn_left_after_bump(bp):
-    time.sleep(0.3)  # drive into wall to set it straight
+    time.sleep(0.35)  # drive into wall to set it straight
     Self_Driving_Naive.reverse_after_bump(bp)
     speed_left, speed_right = turn_left()
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
-    time.sleep(1.65)
+    time.sleep(1.55)
 
 def turn_right_after_bump(bp):
-    time.sleep(0.30)  # drive into wall to set it straight
+    time.sleep(0.35)  # drive into wall to set it straight
     Self_Driving_Naive.reverse_after_bump(bp)
     speed_left, speed_right = turn_right()
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
-    time.sleep(1.65)
+    time.sleep(1.55)
 
 
 def is_right_wall_found(bp, distance_to_wall):

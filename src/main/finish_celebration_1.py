@@ -21,7 +21,7 @@ def reverse(bp):
     blade_speed = 15
     Control_BrickPi.set_motor_power(bp, left_speed, right_speed)
     Control_BrickPi.set_blade_power(bp, blade_speed)
-    time.sleep(1)
+    time.sleep(0.5)
 
 def forward(bp):
     left_speed = -30
@@ -29,7 +29,7 @@ def forward(bp):
     blade_speed = 30
     Control_BrickPi.set_motor_power(bp, left_speed, right_speed)
     Control_BrickPi.set_blade_power(bp, blade_speed)
-    time.sleep(1)
+    time.sleep(0.5)
 
 def turn_left(bp):
     left_speed = 30

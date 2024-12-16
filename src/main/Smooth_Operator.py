@@ -25,6 +25,8 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
     }
     wall_finding -= 1 # Probably obsolete
     time_since_black_line -= 1
+    blade_speed = 50
+
     try:
         if detect_black(bp):
             print("detected black surface")
@@ -59,6 +61,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
     except:
         print("Invalid sensor data.")
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
+    Control_BrickPi.set_blade_power(bp, blade_speed)
 
     return speed_left, speed_right, wall_finding, time_since_black_line, mode
 

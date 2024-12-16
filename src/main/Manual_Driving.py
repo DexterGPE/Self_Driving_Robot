@@ -1,4 +1,4 @@
-from RobotRunner import *
+import Control_BrickPi
 
 
 def manual_driving(bp, key_states):

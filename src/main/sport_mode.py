@@ -16,6 +16,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_red_line,
     }
     wall_finding -= 1 # Probably obsolete
     time_since_red_line -= 1
+    blade_speed = 50
     try:
         if Self_Driving_Naive.bumped_into_wall(bp):
             print("bumped into wall")
@@ -47,6 +48,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_red_line,
     except:
         print("Invalid sensor data.")
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
+    Control_BrickPi.set_blade_power(bp, blade_speed)
 
     return speed_left, speed_right, wall_finding, time_since_red_line, mode
 

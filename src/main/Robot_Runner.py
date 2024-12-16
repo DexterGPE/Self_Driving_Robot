@@ -45,9 +45,11 @@ if __name__ == "__main__":
             Manual_Driving.manual_driving(bp, key_states)
             # countdown = print_sensors(bp,countdown)
         elif key_states["mode"] == 1:
-            Self_Driving_Naive.self_driving(bp)
+            speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
+                bp, speed_left, speed_right, wall_finding, time_since_black_line, 5, 2, -30, -15, 18, key_states["mode"])
         elif key_states["mode"] == 2:
-            Self_Driving_Follow_Right_Wall.self_driving(bp)
+            speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
+                bp, speed_left, speed_right, wall_finding, time_since_black_line, 5, 2.2, -60, -30, 18,key_states["mode"])
         elif key_states["mode"] == 3:
             speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
                 bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 2, -30, -15, 18, key_states["mode"])
@@ -68,6 +70,6 @@ if __name__ == "__main__":
                 bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 3.5, -30, -15, 18, key_states["mode"])
         elif key_states["mode"] == 9:
             speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 2, -60, -30, 18, key_states["mode"])
+                bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 2.2, -60, -30, 18, key_states["mode"])
         time.sleep(0.02)
     

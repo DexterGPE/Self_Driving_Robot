@@ -22,7 +22,7 @@ stages: ## Organize and Order parts of the pipeline
 #    paths:
 #      - coverage.xml
 #    expire_in: 1 week
-
+#
 #codestyle-check:
 #  stage: tests
 #  before_script:

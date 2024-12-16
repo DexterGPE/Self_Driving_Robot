@@ -51,12 +51,12 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_red_line,
     return speed_left, speed_right, wall_finding, time_since_red_line, mode
 
 def smooth_left_turn_on_bridge(pars):
-    speed_left = pars["standard_speed"] + pars["turn_speed"]
-    speed_right = pars["standard_speed"] - pars["turn_speed"]
+    speed_left = pars["standard_speed"] - pars["turn_speed"]
+    speed_right = pars["standard_speed"] + pars["turn_speed"]
     return speed_left/2.5, speed_right/2.5
 
 
 def smooth_right_turn_on_bridge(pars):
-    speed_left = pars["standard_speed"] - pars["turn_speed"]
-    speed_right = pars["standard_speed"] + pars["turn_speed"]
+    speed_left = pars["standard_speed"] + pars["turn_speed"]
+    speed_right = pars["standard_speed"] - pars["turn_speed"]
     return speed_left/2.5, speed_right/2.5

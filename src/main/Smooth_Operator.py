@@ -37,7 +37,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
                 print("Bumped into wall and detected finish")
                 speed_left = 0
                 speed_right = 0
-                mode = 0
+                mode = "finish1"
             else:
                 print("Bumped into wall, no finish detected")
                 if is_right_wall_found(bp, distance_to_wall):

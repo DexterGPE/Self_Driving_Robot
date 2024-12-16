@@ -5,7 +5,7 @@ import Keyboard_Input
 import Control_BrickPi
 import Smooth_Operator
 import sport_mode
-from src.main.finish_celebration_1 import celebration_1
+import finish_celebration_1
 
 
 # zwart op bord: alles onder de 15
@@ -72,7 +72,7 @@ if __name__ == "__main__":
             speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(
                 bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.2, -60, -30, 18, key_states["mode"])
         elif key_states["mode"] == "finish1":
-            celebration_1(bp)
+            finish_celebration_1.celebration_1(bp)
 
 
         time.sleep(0.02)

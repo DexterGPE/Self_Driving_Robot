@@ -49,7 +49,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
             print("Found red line")
             wall_finding = 25
             speed_left, speed_right = smooth_left_turn_on_bridge(speed_left, speed_right, pars)
-        elif get_right_wall_distance(bp) > 40:
+        elif get_right_wall_distance(bp) > 50:
             print("No right wall found and no red line found (should happen on bridge only)")
             speed_left, speed_right = smooth_right_turn_on_bridge(speed_left, speed_right, pars)
         elif wall_finding < 0:
@@ -109,10 +109,10 @@ def smooth_left_turn_on_bridge(speed_left, speed_right, pars):
     return speed_left, speed_right
 
 def smooth_right_turn_on_bridge(speed_left, speed_right, pars):
-    speed_left = max(pars["standard_speed"] + pars["turn_speed"]/2,
+    speed_left = max(pars["standard_speed"] + pars["turn_speed"],
                      speed_left + (pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])))
     speed_left = min(speed_left, pars["standard_speed"] - pars["turn_speed"])
-    speed_right = min(pars["standard_speed"] - pars["turn_speed"]/2,
+    speed_right = min(pars["standard_speed"] - pars["turn_speed"],
                       speed_right - (pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])))
     speed_right = min(speed_right, pars["standard_speed"] - pars["turn_speed"])
     # speed_left = pars["standard_speed"] + pars["turn_speed"]

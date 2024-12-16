@@ -28,9 +28,9 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_red_line,
             else:
                 print("Bumped into wall, no finish detected")
                 if Smooth_Operator.is_right_wall_found(bp, distance_to_wall):
-                    Smooth_Operator.turn_left_after_bump(bp)
+                    Smooth_Operator.turn_left_after_bump(bp, pars)
                 else:
-                    Smooth_Operator.turn_right_after_bump(bp)
+                    Smooth_Operator.turn_right_after_bump(bp, pars)
 
                 speed_left = 0
                 speed_right = 0

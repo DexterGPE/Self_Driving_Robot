@@ -127,7 +127,7 @@ def smooth_left_turn_on_bridge(speed_left, speed_right, pars):
     speed_right += adjustment  # Increase forward speed (less negative)
 
     # Constrain speeds within reasonable bounds
-    speed_left = min(pars["standard_speed"] - pars["turn_speed"], speed_left)
+    speed_left = max(pars["standard_speed"] - pars["turn_speed"], speed_left)
     speed_right = max(pars["standard_speed"] + pars["turn_speed"], speed_right)
 
     return speed_left, speed_right
@@ -143,7 +143,7 @@ def smooth_right_turn_on_bridge(speed_left, speed_right, pars):
     print(speed_right, speed_left, "right left before")
     # Constrain speeds within reasonable bounds
     speed_left = max(pars["standard_speed"] + pars["turn_speed"], speed_left)
-    speed_right = min(pars["standard_speed"] - pars["turn_speed"], speed_right)
+    speed_right = max(pars["standard_speed"] - pars["turn_speed"], speed_right)
     print(speed_right,speed_left, "right left after")
     return speed_left, speed_right
 

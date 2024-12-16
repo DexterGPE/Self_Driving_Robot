@@ -5,10 +5,13 @@ def celebration_1(bp):
     reverse(bp)
 
     turn_left(bp)
-    reverse(bp)
-    forward(bp)
     turn_right(bp)
-
+    turn_left(bp)
+    forward(bp)
+    reverse(bp)
+    turn_right(bp)
+    turn_left(bp)
+    turn_right(bp)
     forward(bp)
 
 

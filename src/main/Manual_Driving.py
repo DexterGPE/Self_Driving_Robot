@@ -7,11 +7,11 @@ def manual_driving(bp, key_states):
     speed_blade = 0
 
     if key_states["up"]:
-        speed_left -= 100
-        speed_right -= 100
+        speed_left -= 60
+        speed_right -= 60
     if key_states["down"]:
-        speed_left += 100
-        speed_right += 100
+        speed_left += 60
+        speed_right += 60
     if key_states["right"]:
         speed_right += 40
         speed_left -= 40

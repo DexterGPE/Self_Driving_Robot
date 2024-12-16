@@ -93,13 +93,13 @@ def smooth_turn_at_wall(bp, pars):
 
 
 def smooth_left_turn_on_bridge(speed_left, speed_right, pars):
-    speed_left = min(pars["standard_speed"] - pars["turn_speed"]/2,
+    speed_left = min(pars["standard_speed"] - pars["turn_speed"],
                      speed_left - (pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])))
 
     speed_left = min(speed_left, pars["standard_speed"] - pars["turn_speed"])
 
 
-    speed_right = max(pars["standard_speed"] + pars["turn_speed"]/2,
+    speed_right = max(pars["standard_speed"] + pars["turn_speed"],
                       speed_right + (pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])))
 
     speed_right = min(speed_right, pars["standard_speed"] - pars["turn_speed"])
@@ -118,35 +118,6 @@ def smooth_right_turn_on_bridge(speed_left, speed_right, pars):
     # speed_left = pars["standard_speed"] + pars["turn_speed"]
     # speed_right = pars["standard_speed"] - pars["turn_speed"]
     return speed_left, speed_right
-
-# def smooth_left_turn_on_bridge(speed_left, speed_right, pars):
-#     # Calculate adjustment factor based on smoothness and bridgesmoothness
-#     adjustment = pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])
-#
-#     # Adjust speeds for left turn (forward = negative, backward = positive)
-#     speed_left -= adjustment  # Reduce forward speed (more negative)
-#     speed_right += adjustment  # Increase forward speed (less negative)
-#
-#     # Constrain speeds within reasonable bounds
-#     speed_left = min(pars["standard_speed"] - pars["turn_speed"], speed_left)
-#     speed_right = min(pars["standard_speed"] + pars["turn_speed"], speed_right)
-#
-#     return speed_left, speed_right
-#
-#
-# def smooth_right_turn_on_bridge(speed_left, speed_right, pars):
-#     # Calculate adjustment factor based on smoothness and bridgesmoothness
-#     adjustment = pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])
-#     print("adjustment = ", adjustment)
-#
-#     speed_left += adjustment
-#     speed_right -= adjustment
-#     print(speed_right, speed_left, "right left before")
-#
-#     speed_left = min(pars["standard_speed"] + pars["turn_speed"], speed_left)
-#     speed_right = min(pars["standard_speed"] - pars["turn_speed"], speed_right)
-#     print(speed_right,speed_left, "right left after")
-#     return speed_left, speed_right
 
 
 def red_line_found(bp):

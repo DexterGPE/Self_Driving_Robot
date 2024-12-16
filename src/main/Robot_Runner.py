@@ -6,6 +6,7 @@ import Manual_Driving
 import Keyboard_Input
 import Control_BrickPi
 import Smooth_Operator
+import sport_mode
 
 # zwart op bord: alles onder de 15
 # grijs op bord: R en G rond de 30, B 15
@@ -53,9 +54,9 @@ if __name__ == "__main__":
                 bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2, -30, 15, 18, key_states["mode"])
         elif key_states["mode"] == 4:
             speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.1, -50, 25, 18, key_states["mode"])
+                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.2, -60, 30, 18, key_states["mode"])
         elif key_states["mode"] == 5:
-            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = sport_mode.self_driving(
                 bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.2, -60, 30, 18, key_states["mode"])
         elif key_states["mode"] == 6:
             speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(

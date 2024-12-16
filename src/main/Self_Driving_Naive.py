@@ -3,12 +3,6 @@ import time
 import Control_BrickPi
 
 
-def normal_driving_speed():
-    speed_left = -60
-    speed_right = -60
-    return speed_left, speed_right
-
-
 def self_driving(bp):
     if bumped_into_wall(bp):
         time.sleep(0.4)  # drive into wall to set it straight
@@ -19,15 +13,19 @@ def self_driving(bp):
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
 
 
-def bumped_into_wall(BP):
-    return BP.get_sensor(BP.PORT_2) or BP.get_sensor(BP.PORT_3)
+def normal_driving_speed(speed_left = -60, speed_right = 60):
+    return speed_left, speed_right
 
 
-def reverse_after_bump(BP):
-    speed_left = 30
-    speed_right = 30
-    Control_BrickPi.set_motor_power(BP, speed_left, speed_right)
-    time.sleep(0.35)
+def bumped_into_wall(bp):
+    return bp.get_sensor(bp.PORT_2) or bp.get_sensor(bp.PORT_3)
+
+
+def reverse_after_bump(bp,pars):
+    speed_left = -pars["standard_speed"]
+    speed_right = -pars["standard_speed"]
+    Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
+    time.sleep(0.40*-30/pars["standard_speed"])
 
 
 def turn_left():
@@ -42,10 +40,10 @@ def turn_right():
     return speed_left, speed_right
 
 
-def turn_after_bump(BP):
-    if BP.get_sensor(BP.PORT_1) < 60:
+def turn_after_bump(bp):
+    if bp.get_sensor(bp.PORT_1) < 60:
         speed_left, speed_right = turn_left()
     else:
         speed_left, speed_right = turn_right()
-    Control_BrickPi.set_motor_power(BP, speed_left, speed_right)
+    Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
     time.sleep(1.65)  # let it turn for this amount of time

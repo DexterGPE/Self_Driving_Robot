@@ -136,15 +136,15 @@ def smooth_left_turn_on_bridge(speed_left, speed_right, pars):
 def smooth_right_turn_on_bridge(speed_left, speed_right, pars):
     # Calculate adjustment factor based on smoothness and bridgesmoothness
     adjustment = pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])
-
+    print("adjustment = ", adjustment)
     # Adjust speeds for right turn (forward = negative, backward = positive)
     speed_left += adjustment  # Increase forward speed (less negative)
     speed_right -= adjustment  # Reduce forward speed (more negative)
-
+    print(speed_left,speed_right,"left,right before")
     # Constrain speeds within reasonable bounds
     speed_left = min(pars["standard_speed"] + pars["turn_speed"], speed_left)
     speed_right = max(pars["standard_speed"] - pars["turn_speed"], speed_right)
-
+    print(speed_left, speed_right, "left,right after")
     return speed_left, speed_right
 
 

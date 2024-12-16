@@ -6,6 +6,7 @@ import Manual_Driving
 import Keyboard_Input
 import Control_BrickPi
 import Smooth_Operator
+import sport_mode
 
 # zwart op bord: alles onder de 15
 # grijs op bord: R en G rond de 30, B 15
@@ -35,7 +36,7 @@ if __name__ == "__main__":
     speed_left = 0
     speed_right = 0
     wall_finding = 25
-    time_since_black_line = 0
+    time_since_red_line = 0
 
     while running:
         # check mode input van keyboard
@@ -49,25 +50,25 @@ if __name__ == "__main__":
         elif key_states["mode"] == 2:
             Self_Driving_Follow_Right_Wall.self_driving(bp)
         elif key_states["mode"] == 3:
-            speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 2, -30, -15, 18, key_states["mode"])
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(
+                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2, -30, 15, 18, key_states["mode"])
         elif key_states["mode"] == 4:
-            speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 2.15, -30, -15, 18, key_states["mode"])
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(
+                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.2, -60, 30, 18, key_states["mode"])
         elif key_states["mode"] == 5:
-            speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 2.3, -30, -15, 18, key_states["mode"])
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = sport_mode.self_driving(
+                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.2, -60, 30, 18, key_states["mode"])
         elif key_states["mode"] == 6:
-            speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 2.6, -30, -15, 18, key_states["mode"])
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(
+                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.3, -70, 35, 18, key_states["mode"])
         elif key_states["mode"] == 7:
-            speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 3, -30, -15, 18, key_states["mode"])
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(
+                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.4, -80, 40, 18, key_states["mode"])
         elif key_states["mode"] == 8:
-            speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 3.5, -30, -15, 18, key_states["mode"])
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(
+                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.5, -30, 15, 18, key_states["mode"])
         elif key_states["mode"] == 9:
-            speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 2, -60, -30, 18, key_states["mode"])
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(
+                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.6, -30, 16, 18, key_states["mode"])
         time.sleep(0.02)
     

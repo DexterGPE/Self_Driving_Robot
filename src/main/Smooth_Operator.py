@@ -49,7 +49,7 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_black_lin
             print("Found red line")
             wall_finding = 25
             speed_left, speed_right = smooth_left_turn_on_bridge(speed_left, speed_right, pars)
-        elif get_right_wall_distance(bp) > 50:
+        elif get_right_wall_distance(bp) > 23:
             print("No right wall found and no red line found (should happen on bridge only)")
             speed_left, speed_right = smooth_right_turn_on_bridge(speed_left, speed_right, pars)
         elif wall_finding < 0:

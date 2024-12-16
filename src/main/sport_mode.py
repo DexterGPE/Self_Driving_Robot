@@ -59,4 +59,4 @@ def smooth_left_turn_on_bridge(pars):
 def smooth_right_turn_on_bridge(pars):
     speed_left = pars["standard_speed"] - pars["turn_speed"]
     speed_right = pars["standard_speed"] + pars["turn_speed"]
-    return speed_left/1.5, speed_right/1.5
+    return speed_left/2.5, speed_right/2.5

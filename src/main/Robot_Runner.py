@@ -50,7 +50,8 @@ if __name__ == "__main__":
                 "standard_speed": -30,
                 "turn_speed": -15,
                 "distance_to_wall": 18,
-                "mode" : key_states["mode"]
+                "mode" : key_states["mode"],
+                "super_speed": False
             }
             speed_left, speed_right, pars = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
             key_states["mode"] = pars["mode"]
@@ -63,7 +64,8 @@ if __name__ == "__main__":
                 "standard_speed": -60,
                 "turn_speed": -30,
                 "distance_to_wall": 18,
-                "mode" : key_states["mode"]
+                "mode" : key_states["mode"],
+                "super_speed": False
             }
             speed_left, speed_right, pars = SportMode.self_driving(bp, speed_left, speed_right, pars)
             key_states["mode"] = pars["mode"]
@@ -75,7 +77,8 @@ if __name__ == "__main__":
                 "standard_speed": -65,
                 "turn_speed": -32.5,
                 "distance_to_wall": 18,
-                "mode" : key_states["mode"]
+                "mode" : key_states["mode"],
+                "super_speed" : True
             }
             speed_left, speed_right, pars = SportMode.self_driving(bp, speed_left, speed_right, pars)
             key_states["mode"] = pars["mode"]
@@ -90,7 +93,8 @@ if __name__ == "__main__":
                 "standard_speed": -30,
                 "turn_speed": -16,
                 "distance_to_wall": 18,
-                "mode" : key_states["mode"]
+                "mode" : key_states["mode"],
+                "super_speed": False
             }
             speed_left, speed_right, pars = DifferentMapLayout.self_driving(bp, speed_left, speed_right, pars)
             key_states["mode"] = pars["mode"]
@@ -102,7 +106,8 @@ if __name__ == "__main__":
                 "standard_speed": -30,
                 "turn_speed": -17,
                 "distance_to_wall": 18,
-                "mode" : key_states["mode"]
+                "mode" : key_states["mode"],
+                "super_speed": False
             }
             speed_left, speed_right, pars = DifferentMapLayout.self_driving(bp, speed_left, speed_right, pars)
             key_states["mode"] = pars["mode"]
@@ -114,7 +119,8 @@ if __name__ == "__main__":
                 "standard_speed": -30,
                 "turn_speed": -18,
                 "distance_to_wall": 18,
-                "mode" : key_states["mode"]
+                "mode" : key_states["mode"],
+                "super_speed": False
             }
             speed_left, speed_right, pars = DifferentMapLayout.self_driving(bp, speed_left, speed_right, pars)
             key_states["mode"] = pars["mode"]
@@ -126,7 +132,8 @@ if __name__ == "__main__":
                 "standard_speed": -30,
                 "turn_speed": -19,
                 "distance_to_wall": 18,
-                "mode" : key_states["mode"]
+                "mode" : key_states["mode"],
+                "super_speed": False
             }
             speed_left, speed_right, pars = DifferentMapLayout.self_driving(bp, speed_left, speed_right, pars)
             key_states["mode"] = pars["mode"]
@@ -138,7 +145,8 @@ if __name__ == "__main__":
                 "standard_speed": -30,
                 "turn_speed": -20,
                 "distance_to_wall": 18,
-                "mode" : key_states["mode"]
+                "mode" : key_states["mode"],
+                "super_speed": False
             }
             speed_left, speed_right, pars = DifferentMapLayout.self_driving(bp, speed_left, speed_right, pars)
             key_states["mode"] = pars["mode"]

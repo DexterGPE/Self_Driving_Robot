@@ -5,6 +5,7 @@ import Keyboard_Input
 import Control_BrickPi
 from SmoothOperator import SmoothOperator
 from SportMode import SportMode
+from DifferentMapLayout import DifferentMapLayout
 import finish_celebration_1
 
 
@@ -31,6 +32,7 @@ if __name__ == "__main__":
     print_countdown = 50
     speed_left = 0
     speed_right = 0
+    red_timer = 0
 
     while running:
         # check mode input van keyboard
@@ -39,7 +41,7 @@ if __name__ == "__main__":
         # Start mode
         if key_states["mode"] == 0:
             Manual_Driving.manual_driving(bp, key_states)
-            print_countdown = print_sensors(bp, print_countdown)
+            # print_countdown = print_sensors(bp, print_countdown)
 
         elif key_states["mode"] == 1:  # Slow smooth mode
             pars = {
@@ -50,8 +52,9 @@ if __name__ == "__main__":
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
+            speed_left, speed_right, pars = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
+            key_states["mode"] = pars["mode"]
 
-            speed_left, speed_right, key_states["mode"] = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 2: # Fast sport mode
             pars = {
@@ -62,76 +65,83 @@ if __name__ == "__main__":
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            speed_left, speed_right, key_states["mode"] = SportMode.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, pars = SportMode.self_driving(bp, speed_left, speed_right, pars)
+            key_states["mode"] = pars["mode"]
 
-        elif key_states["mode"] == 3:
+        elif key_states["mode"] == 3: # Super sport mode
             pars = {
                 "smoothness": 5,
-                "bridgesmoothness": 2,
-                "standard_speed": -30,
-                "turn_speed": -15,
+                "bridgesmoothness": 2.2,
+                "standard_speed": -65,
+                "turn_speed": -32.5,
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            speed_left, speed_right, key_states["mode"] = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, pars = SportMode.self_driving(bp, speed_left, speed_right, pars)
+            key_states["mode"] = pars["mode"]
 
         elif key_states["mode"] == 4: # Finish celebration mode
             key_states["mode"] = "finish1"
 
-        elif key_states["mode"] == 5:
+        elif key_states["mode"] == 5: # Different track layout
             pars = {
                 "smoothness": 5,
-                "bridgesmoothness": 2.2,
-                "standard_speed": -60,
-                "turn_speed": -30,
+                "bridgesmoothness": 2,
+                "standard_speed": -30,
+                "turn_speed": -16,
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            speed_left, speed_right, key_states["mode"] = SportMode.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, pars = DifferentMapLayout.self_driving(bp, speed_left, speed_right, pars)
+            key_states["mode"] = pars["mode"]
 
         elif key_states["mode"] == 6:
             pars = {
                 "smoothness": 5,
-                "bridgesmoothness": 2.3,
-                "standard_speed": -70,
-                "turn_speed": -35,
+                "bridgesmoothness": 2,
+                "standard_speed": -30,
+                "turn_speed": -17,
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            speed_left, speed_right, key_states["mode"] = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, pars = DifferentMapLayout.self_driving(bp, speed_left, speed_right, pars)
+            key_states["mode"] = pars["mode"]
 
         elif key_states["mode"] == 7:
             pars = {
                 "smoothness": 5,
-                "bridgesmoothness": 2.4,
-                "standard_speed": -80,
-                "turn_speed": -40,
+                "bridgesmoothness": 2,
+                "standard_speed": -30,
+                "turn_speed": -18,
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            speed_left, speed_right, key_states["mode"] = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, pars = DifferentMapLayout.self_driving(bp, speed_left, speed_right, pars)
+            key_states["mode"] = pars["mode"]
 
         elif key_states["mode"] == 8:
             pars = {
                 "smoothness": 5,
-                "bridgesmoothness": 2.5,
+                "bridgesmoothness": 2,
                 "standard_speed": -30,
-                "turn_speed": -15,
+                "turn_speed": -19,
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            speed_left, speed_right, key_states["mode"] = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, pars = DifferentMapLayout.self_driving(bp, speed_left, speed_right, pars)
+            key_states["mode"] = pars["mode"]
 
         elif key_states["mode"] == 9:
             pars = {
                 "smoothness": 5,
-                "bridgesmoothness": 2.2,
-                "standard_speed": -60,
-                "turn_speed": -30,
+                "bridgesmoothness": 2,
+                "standard_speed": -30,
+                "turn_speed": -20,
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            speed_left, speed_right, key_states["mode"] = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, pars = DifferentMapLayout.self_driving(bp, speed_left, speed_right, pars)
+            key_states["mode"] = pars["mode"]
 
         elif key_states["mode"] == "finish1":
             finish_celebration_1.celebration_1(bp)

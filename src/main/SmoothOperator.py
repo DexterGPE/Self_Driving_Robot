@@ -13,7 +13,6 @@ class SmoothOperator:
                     pars["mode"] = 0
                 else:
                     speed_left, speed_right = cls.turn_after_bump(bp, pars)
-
             elif cls.red_line_found(bp) and cls.get_right_wall_distance(bp) > 23:
                 speed_left, speed_right = cls.smooth_left_turn_on_bridge(speed_left, speed_right, pars)
             elif cls.get_right_wall_distance(bp) > 23:
@@ -27,7 +26,7 @@ class SmoothOperator:
         Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
         Control_BrickPi.set_blade_power(bp, blade_speed)
 
-        return speed_left, speed_right, pars["mode"]
+        return speed_left, speed_right, pars
 
     @classmethod
     def turn_after_bump(cls, bp, pars):

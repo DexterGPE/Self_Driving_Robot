@@ -3,10 +3,10 @@ import time
 import Control_BrickPi
 
 
-def self_driving(bp):
+def self_driving(bp, pars):
     if bumped_into_wall(bp):
         time.sleep(0.4)  # drive into wall to set it straight
-        reverse_after_bump(bp)
+        reverse_after_bump(bp, pars)
         turn_after_bump(bp)
 
     speed_left, speed_right = normal_driving_speed()

@@ -3,8 +3,8 @@ import time
 import Manual_Driving
 import Keyboard_Input
 import Control_BrickPi
-import Smooth_Operator
-import sport_mode
+from Smooth_Operator import Smooth_Operator
+from Sport_Mode import Sport_Mode
 import finish_celebration_1
 
 
@@ -28,11 +28,10 @@ if __name__ == "__main__":
     Keyboard_Input.initialize_pygame()
 
     key_states = Keyboard_Input.initialize_keyboard_inputs()
-    countdown = 50
+    print_countdown = 50
     speed_left = 0
     speed_right = 0
     wall_finding = 25
-    time_since_red_line = 0
 
     while running:
         # check mode input van keyboard
@@ -41,50 +40,99 @@ if __name__ == "__main__":
         # Start mode
         if key_states["mode"] == 0:
             Manual_Driving.manual_driving(bp, key_states)
-            # countdown = print_sensors(bp,countdown)
+            print_countdown = print_sensors(bp, print_countdown)
 
-        elif key_states["mode"] == 1: # Slow smooth mode
-            speed_left, speed_right, wall_finding, time_since_red_line, key_states[
-                "mode"] = Smooth_Operator.self_driving(
-                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2, -30, -15, 18, key_states["mode"])
+        elif key_states["mode"] == 1:
+            pars = {
+                "smoothness": 5,
+                "bridgesmoothness": 2,
+                "standard_speed": -30,
+                "turn_speed": -15,
+                "distance_to_wall": 18,
+                "mode" : key_states["mode"]
+            }
+            # Slow smooth mode
+            speed_left, speed_right, key_states["mode"] = Smooth_Operator.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 2: # Fast sport mode
-            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = sport_mode.self_driving(
-                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.2, -60, -30, 18,
-                key_states["mode"])
+            pars = {
+                "smoothness": 5,
+                "bridgesmoothness": 2.2,
+                "standard_speed": -60,
+                "turn_speed": -30,
+                "distance_to_wall": 18,
+                "mode" : key_states["mode"]
+            }
+            speed_left, speed_right, key_states["mode"] = Sport_Mode.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 3:
-            speed_left, speed_right, wall_finding, time_since_red_line, key_states[
-                "mode"] = Smooth_Operator.self_driving(
-                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2, -30, 15, 18, key_states["mode"])
+            pars = {
+                "smoothness": 5,
+                "bridgesmoothness": 2,
+                "standard_speed": -30,
+                "turn_speed": -15,
+                "distance_to_wall": 18,
+                "mode" : key_states["mode"]
+            }
+            speed_left, speed_right, key_states["mode"] = Smooth_Operator.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 4: # Finish celebration mode
             key_states["mode"] = "finish1"
 
         elif key_states["mode"] == 5:
-            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = sport_mode.self_driving(
-                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.2, -60, 30, 18, key_states["mode"])
+            pars = {
+                "smoothness": 5,
+                "bridgesmoothness": 2.2,
+                "standard_speed": -60,
+                "turn_speed": -30,
+                "distance_to_wall": 18,
+                "mode" : key_states["mode"]
+            }
+            speed_left, speed_right, key_states["mode"] = Sport_Mode.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 6:
-            speed_left, speed_right, wall_finding, time_since_red_line, key_states[
-                "mode"] = Smooth_Operator.self_driving(
-                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.3, -70, 35, 18, key_states["mode"])
+            pars = {
+                "smoothness": 5,
+                "bridgesmoothness": 2.3,
+                "standard_speed": -70,
+                "turn_speed": -35,
+                "distance_to_wall": 18,
+                "mode" : key_states["mode"]
+            }
+            speed_left, speed_right, key_states["mode"] = Smooth_Operator.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 7:
-            speed_left, speed_right, wall_finding, time_since_red_line, key_states[
-                "mode"] = Smooth_Operator.self_driving(
-                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.4, -80, 40, 18, key_states["mode"])
+            pars = {
+                "smoothness": 5,
+                "bridgesmoothness": 2.4,
+                "standard_speed": -80,
+                "turn_speed": -40,
+                "distance_to_wall": 18,
+                "mode" : key_states["mode"]
+            }
+            speed_left, speed_right, key_states["mode"] = Smooth_Operator.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 8:
-            speed_left, speed_right, wall_finding, time_since_red_line, key_states[
-                "mode"] = Smooth_Operator.self_driving(
-                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.5, -30, 15, 18, key_states["mode"])
+            pars = {
+                "smoothness": 5,
+                "bridgesmoothness": 2.5,
+                "standard_speed": -30,
+                "turn_speed": -15,
+                "distance_to_wall": 18,
+                "mode" : key_states["mode"]
+            }
+            speed_left, speed_right, key_states["mode"] = Smooth_Operator.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 9:
-            speed_left, speed_right, wall_finding, time_since_red_line, key_states[
-                "mode"] = Smooth_Operator.self_driving(
-                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.2, -60, -30, 18,
-                key_states["mode"])
+            pars = {
+                "smoothness": 5,
+                "bridgesmoothness": 2.2,
+                "standard_speed": -60,
+                "turn_speed": -30,
+                "distance_to_wall": 18,
+                "mode" : key_states["mode"]
+            }
+            speed_left, speed_right, key_states["mode"] = Smooth_Operator.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == "finish1":
             finish_celebration_1.celebration_1(bp)

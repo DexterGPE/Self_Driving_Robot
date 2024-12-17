@@ -3,8 +3,8 @@ import time
 import Manual_Driving
 import Keyboard_Input
 import Control_BrickPi
-from Smooth_Operator import Smooth_Operator
-from Sport_Mode import Sport_Mode
+from SmoothOperator import SmoothOperator
+from SportMode import SportMode
 import finish_celebration_1
 
 
@@ -31,7 +31,6 @@ if __name__ == "__main__":
     print_countdown = 50
     speed_left = 0
     speed_right = 0
-    wall_finding = 25
 
     while running:
         # check mode input van keyboard
@@ -42,7 +41,7 @@ if __name__ == "__main__":
             Manual_Driving.manual_driving(bp, key_states)
             print_countdown = print_sensors(bp, print_countdown)
 
-        elif key_states["mode"] == 1:
+        elif key_states["mode"] == 1:  # Slow smooth mode
             pars = {
                 "smoothness": 5,
                 "bridgesmoothness": 2,
@@ -51,8 +50,8 @@ if __name__ == "__main__":
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            # Slow smooth mode
-            speed_left, speed_right, key_states["mode"] = Smooth_Operator.self_driving(bp, speed_left, speed_right, pars)
+
+            speed_left, speed_right, key_states["mode"] = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 2: # Fast sport mode
             pars = {
@@ -63,7 +62,7 @@ if __name__ == "__main__":
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            speed_left, speed_right, key_states["mode"] = Sport_Mode.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, key_states["mode"] = SportMode.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 3:
             pars = {
@@ -74,7 +73,7 @@ if __name__ == "__main__":
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            speed_left, speed_right, key_states["mode"] = Smooth_Operator.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, key_states["mode"] = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 4: # Finish celebration mode
             key_states["mode"] = "finish1"
@@ -88,7 +87,7 @@ if __name__ == "__main__":
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            speed_left, speed_right, key_states["mode"] = Sport_Mode.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, key_states["mode"] = SportMode.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 6:
             pars = {
@@ -99,7 +98,7 @@ if __name__ == "__main__":
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            speed_left, speed_right, key_states["mode"] = Smooth_Operator.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, key_states["mode"] = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 7:
             pars = {
@@ -110,7 +109,7 @@ if __name__ == "__main__":
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            speed_left, speed_right, key_states["mode"] = Smooth_Operator.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, key_states["mode"] = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 8:
             pars = {
@@ -121,7 +120,7 @@ if __name__ == "__main__":
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            speed_left, speed_right, key_states["mode"] = Smooth_Operator.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, key_states["mode"] = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == 9:
             pars = {
@@ -132,7 +131,7 @@ if __name__ == "__main__":
                 "distance_to_wall": 18,
                 "mode" : key_states["mode"]
             }
-            speed_left, speed_right, key_states["mode"] = Smooth_Operator.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, key_states["mode"] = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
 
         elif key_states["mode"] == "finish1":
             finish_celebration_1.celebration_1(bp)

@@ -1,6 +1,6 @@
-from Smooth_Operator import Smooth_Operator
+from SmoothOperator import SmoothOperator
 
-class  Sport_Mode(Smooth_Operator):
+class  SportMode(SmoothOperator):
 
     @staticmethod
     def smooth_left_turn_on_bridge(_, __, pars):

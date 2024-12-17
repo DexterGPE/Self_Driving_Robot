@@ -2,20 +2,19 @@ import Self_Driving_Naive
 import Control_BrickPi
 import Smooth_Operator
 
-import time
 
-
-def self_driving(bp, speed_left, speed_right, wall_finding, time_since_red_line, smoothness, bridgesmoothness,
+def self_driving(bp, speed_left, speed_right, wall_finding, time_since_red_line, smoothness, bridge_smoothness,
                  standard_speed, turn_speed, distance_to_wall, mode):
     pars = {
         "smoothness": smoothness,
-        "bridgesmoothness": bridgesmoothness,
+        "bridgesmoothness": bridge_smoothness,
         "standard_speed": standard_speed,
         "turn_speed": turn_speed,
         "distance_to_wall": distance_to_wall
     }
-    wall_finding -= 1 # Probably obsolete
+    wall_finding -= 1  # Probably obsolete
     time_since_red_line -= 1
+    blade_speed = 50
     try:
         if Self_Driving_Naive.bumped_into_wall(bp):
             print("bumped into wall")
@@ -27,9 +26,9 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_red_line,
             else:
                 print("Bumped into wall, no finish detected")
                 if Smooth_Operator.is_right_wall_found(bp, distance_to_wall):
-                    Smooth_Operator.turn_left_after_bump(bp)
+                    Smooth_Operator.turn_left_after_bump(bp, pars)
                 else:
-                    Smooth_Operator.turn_right_after_bump(bp)
+                    Smooth_Operator.turn_right_after_bump(bp, pars)
 
                 speed_left = 0
                 speed_right = 0
@@ -47,16 +46,18 @@ def self_driving(bp, speed_left, speed_right, wall_finding, time_since_red_line,
     except:
         print("Invalid sensor data.")
     Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
+    Control_BrickPi.set_blade_power(bp, blade_speed)
 
     return speed_left, speed_right, wall_finding, time_since_red_line, mode
+
 
 def smooth_left_turn_on_bridge(pars):
     speed_left = pars["standard_speed"] - pars["turn_speed"]
     speed_right = pars["standard_speed"] + pars["turn_speed"]
-    return speed_left/2.5, speed_right/2.5
+    return speed_left, speed_right
 
 
 def smooth_right_turn_on_bridge(pars):
     speed_left = pars["standard_speed"] + pars["turn_speed"]
     speed_right = pars["standard_speed"] - pars["turn_speed"]
-    return speed_left/2.5, speed_right/2.5
+    return speed_left, speed_right

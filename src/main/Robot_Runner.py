@@ -1,16 +1,11 @@
 import time
 
-import Self_Driving_Naive
-import Self_Driving_Follow_Right_Wall
 import Manual_Driving
 import Keyboard_Input
 import Control_BrickPi
 import Smooth_Operator
 import sport_mode
-
-# zwart op bord: alles onder de 15
-# grijs op bord: R en G rond de 30, B 15
-# Rood op bord: R 40-50, andere onder de 15
+import finish_celebration_1
 
 
 def print_sensors(bp, countdown):
@@ -24,6 +19,7 @@ def print_sensors(bp, countdown):
     except:
         print("Invalid sensor data")
     return countdown - 1
+
 
 if __name__ == "__main__":
     running = True
@@ -42,35 +38,55 @@ if __name__ == "__main__":
         # check mode input van keyboard
         key_states, running = Keyboard_Input.get_keyboard_input(key_states, running, bp)
 
+        # Start mode
         if key_states["mode"] == 0:
             Manual_Driving.manual_driving(bp, key_states)
             # countdown = print_sensors(bp,countdown)
-        elif key_states["mode"] == 1:
-            speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp, speed_left, speed_right, wall_finding, time_since_black_line, 5, 2, -30, -15, 18, key_states["mode"])
-        elif key_states["mode"] == 2:
-            speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp, speed_left, speed_right, wall_finding, time_since_black_line, 5, 2.2, -60, -30, 18,key_states["mode"])
+
+        elif key_states["mode"] == 1: # Slow smooth mode
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states[
+                "mode"] = Smooth_Operator.self_driving(
+                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2, -30, -15, 18, key_states["mode"])
+
+        elif key_states["mode"] == 2: # Fast sport mode
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = sport_mode.self_driving(
+                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.2, -60, -30, 18,
+                key_states["mode"])
+
         elif key_states["mode"] == 3:
-            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2, -30, 15, 18, key_states["mode"])
-        elif key_states["mode"] == 4:
-            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.2, -60, 30, 18, key_states["mode"])
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states[
+                "mode"] = Smooth_Operator.self_driving(
+                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2, -30, 15, 18, key_states["mode"])
+
+        elif key_states["mode"] == 4: # Finish celebration mode
+            key_states["mode"] = "finish1"
+
         elif key_states["mode"] == 5:
             speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = sport_mode.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.2, -60, 30, 18, key_states["mode"])
+                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.2, -60, 30, 18, key_states["mode"])
+
         elif key_states["mode"] == 6:
-            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.3, -70, 35, 18, key_states["mode"])
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states[
+                "mode"] = Smooth_Operator.self_driving(
+                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.3, -70, 35, 18, key_states["mode"])
+
         elif key_states["mode"] == 7:
-            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.4, -80, 40, 18, key_states["mode"])
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states[
+                "mode"] = Smooth_Operator.self_driving(
+                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.4, -80, 40, 18, key_states["mode"])
+
         elif key_states["mode"] == 8:
-            speed_left, speed_right, wall_finding, time_since_red_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.5, -30, 15, 18, key_states["mode"])
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states[
+                "mode"] = Smooth_Operator.self_driving(
+                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.5, -30, 15, 18, key_states["mode"])
+
         elif key_states["mode"] == 9:
-            speed_left, speed_right, wall_finding, time_since_black_line, key_states["mode"] = Smooth_Operator.self_driving(
-                bp,speed_left, speed_right, wall_finding, time_since_black_line, 5, 2.2, -60, -30, 18, key_states["mode"])
-        time.sleep(0.02)
-    
+            speed_left, speed_right, wall_finding, time_since_red_line, key_states[
+                "mode"] = Smooth_Operator.self_driving(
+                bp, speed_left, speed_right, wall_finding, time_since_red_line, 5, 2.2, -60, -30, 18,
+                key_states["mode"])
+
+        elif key_states["mode"] == "finish1":
+            finish_celebration_1.celebration_1(bp)
+
+        time.sleep(0.02) # Short sleep time so the raspberrypi is not overloaded

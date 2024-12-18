@@ -83,27 +83,24 @@ class TestManualDriving(unittest.TestCase):
     #     key_states = {"up": False, "down": False, "right": False, "left": False, "space": True, "lshift": False}
     #     manual_driving(self.bp, key_states)
     #
-    #     # Verify that set_motor_power was called for PORT_D and PORT_A
-    #     expected_call = [unittest.mock.call('PORT_B', +50)]
-    #     self.bp.set_blade_power.assert_has_calls(expected_call, any_order=True)
-    #
+    #     # Verify that set_blade_power was called with the correct PORT and value
+    #     expected_call = unittest.mock.call('PORT_B', 50)
+    #     self.bp.set_blade_power.assert_called_once_with('PORT_B', 50)
+
     # def test_manual_driving_lshift(self):
     #     # Simulate pressing the "lshift" key
     #     key_states = {"up": False, "down": False, "right": False, "left": False, "space": False, "lshift": True}
     #     manual_driving(self.bp, key_states)
     #
     #     # Assert all motors and blade were stopped
-    #     set_motor_power.assert_called_once_with(self.bp, 0, 0)
-    #     set_blade_power.assert_called_once_with(self.bp, 0)
-    #
+
     # def test_no_key_pressed(self):
     #     # Simulate no key pressed
     #     key_states = {"up": False, "down": False, "right": False, "left": False, "space": False, "lshift": False}
     #     manual_driving(self.bp, key_states)
     #
     #     # Assert no motor or blade power was set
-    #     set_motor_power.assert_called_once_with(self.bp, 0, 0)
-    #     set_blade_power.assert_called_once_with(self.bp, 0)
+
 
 
 if __name__ == "__main__":

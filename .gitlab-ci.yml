@@ -2,8 +2,8 @@ image: python:3.9-slim-bullseye
 
 stages: ## Organize and Order parts of the pipeline
 #    - build
-#    - tests
-    - deploy
+    - tests
+#    - deploy
 
 #build-job:
 #  stage: build
@@ -11,17 +11,17 @@ stages: ## Organize and Order parts of the pipeline
 #    - pip install -r requirements.txt
 #    - echo "Fill Build Stage"
 
-#test-job:
-#  stage: tests
-#  before_script:
-#    - pip install -r requirements.txt
-#  script:
-#    - pytest --cov=src --cov-report=xml --cov-report=term --cov-fail-under=80 src/tests/
-#  coverage: '/^TOTAL\s+(\d+)%/'
-#  artifacts:
-#    paths:
-#      - coverage.xml
-#    expire_in: 1 week
+test-job:
+  stage: tests
+  before_script:
+    - pip install -r requirements.txt
+  script:
+    - pytest --cov=src --cov-report=xml --cov-report=term --cov-fail-under=80 src/tests/
+  coverage: '/^TOTAL\s+(\d+)%/'
+  artifacts:
+    paths:
+      - coverage.xml
+    expire_in: 1 week
 #
 #codestyle-check:
 #  stage: tests
@@ -30,12 +30,12 @@ stages: ## Organize and Order parts of the pipeline
 #  script:
 #    - pycodestyle src/ --exclude src/main/old_test_scripts || exit 1
 
-deploy-job:
-  stage: deploy
-  before_script:
-    - apt-get update
-    - apt-get install -y sshpass
-  script:
-    - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "mkdir -p ~/Team3-Repo"
-    - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "rm -r ~/Team3-Repo/main"
-    - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r ./src/main/ pi@10.10.1.151:~/Team3-Repo/
+#deploy-job:
+#  stage: deploy
+#  before_script:
+#    - apt-get update
+#    - apt-get install -y sshpass
+#  script:
+#    - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "mkdir -p ~/Team3-Repo"
+#    - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "rm -r ~/Team3-Repo/main"
+#    - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r ./src/main/ pi@10.10.1.151:~/Team3-Repo/

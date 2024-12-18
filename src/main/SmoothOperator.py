@@ -64,10 +64,21 @@ class SmoothOperator:
         correction_factor = max(-1, min(1, (distance - pars["distance_to_wall"]) / pars["smoothness"]))
         speed_left = pars["standard_speed"] + pars["turn_speed"] * correction_factor
         speed_right = pars["standard_speed"] - pars["turn_speed"] * correction_factor
+        speed_left, speed_right = cls.high_speed_correction(speed_left, speed_right)
         return speed_left, speed_right
 
     @staticmethod
-    def smooth_left_turn_on_bridge(speed_left, speed_right, pars):
+    def high_speed_correction(speed_left, speed_right):
+        factor = 1
+        if speed_left < -100:
+            factor = speed_left / -100
+
+        elif speed_right < -100:
+            factor = speed_right / -100
+        return speed_left / factor, speed_right / factor
+
+    @classmethod
+    def smooth_left_turn_on_bridge(cls, speed_left, speed_right, pars):
         speed_left = min(pars["standard_speed"] - pars["turn_speed"],
                          speed_left - (pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])))
         speed_left = min(speed_left, pars["standard_speed"] - pars["turn_speed"])
@@ -75,11 +86,11 @@ class SmoothOperator:
         speed_right = max(pars["standard_speed"] + pars["turn_speed"],
                           speed_right + (pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])))
         speed_right = min(speed_right, pars["standard_speed"] - pars["turn_speed"])
-
+        speed_left, speed_right = cls.high_speed_correction(speed_left, speed_right)
         return speed_left, speed_right
 
-    @staticmethod
-    def smooth_right_turn_on_bridge(speed_left, speed_right, pars):
+    @classmethod
+    def smooth_right_turn_on_bridge(cls, speed_left, speed_right, pars):
         speed_left = max(pars["standard_speed"] + pars["turn_speed"],
                          speed_left + (pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])))
         speed_left = min(speed_left, pars["standard_speed"] - pars["turn_speed"])
@@ -87,7 +98,7 @@ class SmoothOperator:
         speed_right = min(pars["standard_speed"] - pars["turn_speed"],
                           speed_right - (pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])))
         speed_right = min(speed_right, pars["standard_speed"] - pars["turn_speed"])
-
+        speed_left, speed_right = cls.high_speed_correction(speed_left, speed_right)
         return speed_left, speed_right
 
     @staticmethod

@@ -2,7 +2,7 @@ image: python:3.9-slim-bullseye
 
 stages:
     - tests
-#    - deploy
+    - deploy
 
 
 test-job:
@@ -24,12 +24,12 @@ codestyle-check:
   script:
     - pycodestyle src/ --max-line-length 100 || exit 1
 
-#deploy-job:
-#  stage: deploy
-#  before_script:
-#    - apt-get update
-#    - apt-get install -y sshpass
-#  script:
-#    - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "mkdir -p ~/Team3-Repo"
-#    - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "rm -r ~/Team3-Repo/main"
-#    - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r ./src/main/ pi@10.10.1.151:~/Team3-Repo/
+deploy-job:
+ stage: deploy
+ before_script:
+   - apt-get update
+   - apt-get install -y sshpass
+ script:
+   - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "mkdir -p ~/Team3-Repo"
+   - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no pi@10.10.1.151 "rm -r ~/Team3-Repo/main"
+   - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r ./src/main/ pi@10.10.1.151:~/Team3-Repo/

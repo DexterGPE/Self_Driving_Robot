@@ -1,12 +1,12 @@
 import time
 
-import Manual_Driving
-import Keyboard_Input
-import Control_BrickPi
+import ManualDriving
+import KeyboardInput
+import ControlBrickPi
 from SmoothOperator import SmoothOperator
 from SportMode import SportMode
 from DifferentMapLayout import DifferentMapLayout
-import finish_celebration_1
+import FinishCelebration1
 
 
 def print_sensors(bp, countdown):
@@ -25,22 +25,22 @@ def print_sensors(bp, countdown):
 if __name__ == "__main__":
     running = True
 
-    bp = Control_BrickPi.initialize_brickpi_sensors()
-    Keyboard_Input.initialize_pygame()
+    bp = ControlBrickPi.initialize_brickpi_sensors()
+    KeyboardInput.initialize_pygame()
 
-    key_states = Keyboard_Input.initialize_keyboard_inputs()
+    key_states = KeyboardInput.initialize_keyboard_inputs()
     print_countdown = 50
     speed_left = 0
     speed_right = 0
     red_timer = 0
 
     while running:
-        # check mode input van keyboard
-        key_states, running = Keyboard_Input.get_keyboard_input(key_states, running, bp)
+        # check mode input from keyboard
+        key_states, running = KeyboardInput.get_keyboard_input(key_states, running, bp)
 
         # Start mode
         if key_states["mode"] == 0:
-            Manual_Driving.manual_driving(bp, key_states)
+            ManualDriving.manual_driving(bp, key_states)
             # print_countdown = print_sensors(bp, print_countdown)
 
         elif key_states["mode"] == 1:  # Slow smooth mode
@@ -127,10 +127,10 @@ if __name__ == "__main__":
             key_states["mode"] = pars["mode"]
 
         elif key_states["mode"] == 7:
-            Manual_Driving.manual_driving(bp, key_states)
+            ManualDriving.manual_driving(bp, key_states)
 
         elif key_states["mode"] == 8:
-            Manual_Driving.manual_driving(bp, key_states)
+            ManualDriving.manual_driving(bp, key_states)
 
 
         elif key_states["mode"] == 9:  # Finish celebration mode
@@ -138,6 +138,8 @@ if __name__ == "__main__":
             key_states["mode"] = "finish1"
 
         elif key_states["mode"] == "finish1":
-            finish_celebration_1.celebration_1(bp)
+            FinishCelebration1.celebration_1(bp)
 
         time.sleep(0.02) # Short sleep time so the raspberrypi is not overloaded
+    
+    ControlBrickPi.set_motor_power(bp, 0, 0)

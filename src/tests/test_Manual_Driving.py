@@ -4,8 +4,8 @@ from unittest.mock import MagicMock, patch
 # Mock the Control_BrickPi module
 with patch.dict('sys.modules', {'brickpi3': MagicMock()}):
     import brickpi3
-    from main.Control_BrickPi import set_motor_power, set_blade_power
     from main.Manual_Driving import manual_driving
+    from main.Control_BrickPi import set_motor_power, set_blade_power
 
 
 class TestManualDriving(unittest.TestCase):
@@ -30,77 +30,75 @@ class TestManualDriving(unittest.TestCase):
         cls.bp.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS = "EV3_COLOR_COLOR_COMPONENTS"
 
     def test_manual_driving_forwards(self):
-        # Simulate pressing the "up" key
         key_states = {"up": True, "down": False, "right": False, "left": False, "space": False, "lshift": False}
         manual_driving(self.bp, key_states)
 
-        # Verify that set_motor_power was called for PORT_D and PORT_A
         expected_calls = [
             unittest.mock.call('PORT_D', -60),  # Left motor
             unittest.mock.call('PORT_A', -60)  # Right motor
         ]
-        self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=True)
-
+        self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=False)
 
     def test_manual_driving_backwards(self):
-        # Simulate pressing the "up" key
         key_states = {"up": False, "down": True, "right": False, "left": False, "space": False, "lshift": False}
         manual_driving(self.bp, key_states)
 
-        # Verify that set_motor_power was called for PORT_D and PORT_A
         expected_calls = [
             unittest.mock.call('PORT_D', +60),  # Left motor
             unittest.mock.call('PORT_A', +60)  # Right motor
         ]
-        self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=True)
+        self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=False)
 
     def test_manual_driving_left(self):
-        # Simulate pressing the "left" key
         key_states = {"up": False, "down": False, "right": False, "left": True, "space": False, "lshift": False}
         manual_driving(self.bp, key_states)
 
-        # Verify that set_motor_power was called for PORT_D and PORT_A
         expected_calls = [
             unittest.mock.call('PORT_D', +40),  # Left motor
             unittest.mock.call('PORT_A', -40)  # Right motor
         ]
-        self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=True)
+        self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=False)
 
     def test_manual_driving_right(self):
-        # Simulate pressing the "right" key
         key_states = {"up": False, "down": False, "right": True, "left": False, "space": False, "lshift": False}
         manual_driving(self.bp, key_states)
 
-        # Verify that set_motor_power was called for PORT_D and PORT_A
         expected_calls = [
             unittest.mock.call('PORT_D', -40),  # Left motor
             unittest.mock.call('PORT_A', +40)  # Right motor
         ]
-        self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=True)
+        self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=False)
 
-    # def test_manual_driving_blade(self):
-    #     # Simulate pressing the "space" key
-    #     key_states = {"up": False, "down": False, "right": False, "left": False, "space": True, "lshift": False}
-    #     manual_driving(self.bp, key_states)
-    #
-    #     # Verify that set_blade_power was called with the correct PORT and value
-    #     expected_call = unittest.mock.call('PORT_B', 50)
-    #     self.bp.set_blade_power.assert_called_once_with('PORT_B', 50)
+    def test_manual_driving_blade(self):
+        key_states = {"up": False, "down": False, "right": False, "left": False, "space": True, "lshift": False}
 
-    # def test_manual_driving_lshift(self):
-    #     # Simulate pressing the "lshift" key
-    #     key_states = {"up": False, "down": False, "right": False, "left": False, "space": False, "lshift": True}
-    #     manual_driving(self.bp, key_states)
-    #
-    #     # Assert all motors and blade were stopped
+        manual_driving(self.bp, key_states)
 
-    # def test_no_key_pressed(self):
-    #     # Simulate no key pressed
-    #     key_states = {"up": False, "down": False, "right": False, "left": False, "space": False, "lshift": False}
-    #     manual_driving(self.bp, key_states)
-    #
-    #     # Assert no motor or blade power was set
+        self.bp.set_blade_power.assert_has_calls(self.bp, 80)
 
+    def test_manual_driving_lshift_to_stop(self):
+        key_states = {"up": False, "down": False, "right": False, "left": False, "space": False, "lshift": True}
+
+        manual_driving(self.bp, key_states)
+
+        expected_calls = [
+            unittest.mock.call('PORT_D', 0),  # Left motor
+            unittest.mock.call('PORT_A', 0),  # Right motor
+            unittest.mock.call('PORT_B', 0)  # Blade motor
+        ]
+        self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=False)
+
+    def test_manual_driving_no_keys_pressed(self):
+        key_states = {"up": False, "down": False, "right": False, "left": False, "space": False, "lshift": False}
+
+        manual_driving(self.bp, key_states)
+
+        expected_calls = [
+            unittest.mock.call('PORT_D', 0),  # Left motor
+            unittest.mock.call('PORT_A', 0),  # Right motor
+            unittest.mock.call('PORT_B', 0)  # Blade motor
+        ]
+        self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=False)
 
 
 if __name__ == "__main__":

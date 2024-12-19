@@ -51,7 +51,8 @@ class TestBrickPi3Functions(unittest.TestCase):
         bp_instance.set_sensor_type.assert_any_call(bp_instance.PORT_1, bp_instance.SENSOR_TYPE.EV3_INFRARED_PROXIMITY)
         bp_instance.set_sensor_type.assert_any_call(bp_instance.PORT_2, bp_instance.SENSOR_TYPE.TOUCH)
         bp_instance.set_sensor_type.assert_any_call(bp_instance.PORT_3, bp_instance.SENSOR_TYPE.TOUCH)
-        bp_instance.set_sensor_type.assert_any_call(bp_instance.PORT_4, bp_instance.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS)
+        bp_instance.set_sensor_type.assert_any_call(bp_instance.PORT_4,
+                                                    bp_instance.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS)
 
         # Verify an instance of BrickPi3 was returned
         self.assertIsInstance(bp_instance, MagicMock)

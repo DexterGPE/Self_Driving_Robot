@@ -18,3 +18,21 @@ def initialize_brickpi_sensors():
     bp.set_sensor_type(bp.PORT_3, bp.SENSOR_TYPE.TOUCH)
     bp.set_sensor_type(bp.PORT_4, bp.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS)
     return bp
+
+def get_red(bp):
+    return bp.get_sensor(bp.PORT_4)[0]
+
+def get_green(bp):
+    return bp.get_sensor(bp.PORT_4)[1]
+
+def get_blue(bp):
+    return bp.get_sensor(bp.PORT_4)[2]
+
+def get_distance(bp):
+    return bp.get_sensor(bp.PORT_1)
+
+def get_left_bumper(bp):
+    return bp.get_sensor(bp.PORT_3)
+
+def get_right_bumper(bp):
+    return bp.get_sensor(bp.PORT_2)

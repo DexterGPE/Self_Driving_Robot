@@ -1,4 +1,4 @@
-import Control_BrickPi
+import ControlBrickPi
 import time
 
 class SmoothOperator:
@@ -23,8 +23,8 @@ class SmoothOperator:
         except:
             print("Invalid sensor data.")
 
-        Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
-        Control_BrickPi.set_blade_power(bp, blade_speed)
+        ControlBrickPi.set_motor_power(bp, speed_left, speed_right)
+        ControlBrickPi.set_blade_power(bp, blade_speed)
 
         return speed_left, speed_right, pars
 
@@ -40,14 +40,14 @@ class SmoothOperator:
     def turn_left_after_bump(cls, bp, pars):
         cls.reverse_after_bump(bp, pars)
         speed_left, speed_right = cls.turn_left(pars)
-        Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
+        ControlBrickPi.set_motor_power(bp, speed_left, speed_right)
         time.sleep(1.55 * -30 / pars["standard_speed"])
 
     @classmethod
     def turn_right_after_bump(cls, bp, pars):
         cls.reverse_after_bump(bp, pars)
         speed_left, speed_right = cls.turn_right(pars)
-        Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
+        ControlBrickPi.set_motor_power(bp, speed_left, speed_right)
         time.sleep(1.55 * -30 / pars["standard_speed"])
 
     @staticmethod
@@ -135,6 +135,6 @@ class SmoothOperator:
     def reverse_after_bump(bp, pars):
         speed_left = -pars["standard_speed"]
         speed_right = -pars["standard_speed"]
-        Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
+        ControlBrickPi.set_motor_power(bp, speed_left, speed_right)
         if not pars["super_speed"]:
             time.sleep(0.40 * -30 / pars["standard_speed"])

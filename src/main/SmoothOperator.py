@@ -52,11 +52,11 @@ class SmoothOperator:
 
     @staticmethod
     def is_right_wall_found(bp, distance_to_wall):
-        return bp.get_sensor(bp.PORT_1) < 30
+        return ControlBrickPi.get_distance(bp) < 30
 
     @staticmethod
     def get_right_wall_distance(bp):
-        return bp.get_sensor(bp.PORT_1)
+        return ControlBrickPi.get_distance(bp)
 
     @classmethod
     def smooth_turn_at_wall(cls, bp, pars):
@@ -103,8 +103,8 @@ class SmoothOperator:
 
     @staticmethod
     def red_line_found(bp):
-        return bp.get_sensor(bp.PORT_4)[0] > 1.7 * bp.get_sensor(bp.PORT_4)[1] and bp.get_sensor(bp.PORT_4)[0] > 2.5 * \
-            bp.get_sensor(bp.PORT_4)[2]
+        return ControlBrickPi.get_red(bp) > 1.7 * ControlBrickPi.get_green(bp) and ControlBrickPi.get_red(bp) > 2.5 * \
+            ControlBrickPi.get_blue(bp)
 
     @staticmethod
     def turn_left(pars):
@@ -120,8 +120,8 @@ class SmoothOperator:
 
     @staticmethod
     def detect_black(bp):
-        return (bp.get_sensor(bp.PORT_4)[0] < 35) and (bp.get_sensor(bp.PORT_4)[1] < 45) and (
-                bp.get_sensor(bp.PORT_4)[2] < 25)
+        return (ControlBrickPi.get_red(bp) < 35) and (ControlBrickPi.get_green(bp) < 45) and (
+                ControlBrickPi.get_blue(bp) < 25)
 
     @classmethod
     def detect_finish(cls, bp, distance_to_wall):
@@ -129,7 +129,7 @@ class SmoothOperator:
 
     @staticmethod
     def bumped_into_wall(bp):
-        return bp.get_sensor(bp.PORT_2) or bp.get_sensor(bp.PORT_3)
+        return ControlBrickPi.get_right_bumper(bp) or ControlBrickPi.get_left_bumper(bp)
 
     @staticmethod
     def reverse_after_bump(bp, pars):

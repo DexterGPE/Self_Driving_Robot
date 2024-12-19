@@ -3,6 +3,9 @@ from unittest.mock import MagicMock, patch
 import sys
 
 sys.path.append('../main')
+sys.path.append('./main')
+sys.path.append('..')
+sys.path.append('./src/main')
 
 # Mock the brickpi3 module
 with patch.dict('sys.modules', {'brickpi3': MagicMock()}):

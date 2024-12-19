@@ -25,5 +25,5 @@ def manual_driving(bp, key_states):
         speed_right = 0
         speed_blade = 0
 
-    Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
-    Control_BrickPi.set_blade_power(bp, speed_blade)
+    ControlBrickPi.set_motor_power(bp, speed_left, speed_right)
+    ControlBrickPi.set_blade_power(bp, speed_blade)

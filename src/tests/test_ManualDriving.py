@@ -3,12 +3,15 @@ from unittest.mock import MagicMock, patch
 import sys
 
 sys.path.append('../main')
+sys.path.append('./main')
+sys.path.append('..')
+sys.path.append('./src/main')
 
-# Mock the Control_BrickPi module
+# Mock the ControlBrickPi module
 with patch.dict('sys.modules', {'brickpi3': MagicMock()}):
     import brickpi3
-    from main.Manual_Driving import manual_driving
-    from main.Control_BrickPi import set_motor_power, set_blade_power
+    from main.ManualDriving import manual_driving
+    from main.ControlBrickPi import set_motor_power, set_blade_power
 
 
 class TestManualDriving(unittest.TestCase):
@@ -111,5 +114,5 @@ class TestManualDriving(unittest.TestCase):
         self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=False)
 
 
-# if __name__ == "__main__":
-#     unittest.main()
+if __name__ == "__main__":
+    unittest.main()

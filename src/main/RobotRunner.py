@@ -128,7 +128,6 @@ if __name__ == "__main__":
         elif key_states["mode"] == 8:
             ManualDriving.manual_driving(bp, key_states)
 
-
         elif key_states["mode"] == 9:  # Finish celebration mode
 
             key_states["mode"] = "finish1"
@@ -136,6 +135,6 @@ if __name__ == "__main__":
         elif key_states["mode"] == "finish1":
             FinishCelebration1.celebration_1(bp)
 
-        time.sleep(0.02) # Short sleep time so the raspberrypi is not overloaded
+        time.sleep(0.02)  # Short sleep time so the raspberrypi is not overloaded
 
     ControlBrickPi.set_motor_power(bp, 0, 0)

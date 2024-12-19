@@ -113,8 +113,9 @@ class SmoothOperator:
 
     @staticmethod
     def red_line_found(bp):
-        return ControlBrickPi.get_red(bp) > 1.7 * ControlBrickPi.get_green(bp) and ControlBrickPi.get_red(bp) > 2.5 * \
-            ControlBrickPi.get_blue(bp)
+        return (ControlBrickPi.get_red(bp) > 1.7 * ControlBrickPi.get_green(bp) and
+                ControlBrickPi.get_red(bp) > 2.5 *
+                ControlBrickPi.get_blue(bp))
 
     @staticmethod
     def turn_left(pars):
@@ -130,8 +131,9 @@ class SmoothOperator:
 
     @staticmethod
     def detect_black(bp):
-        return (ControlBrickPi.get_red(bp) < 35) and (ControlBrickPi.get_green(bp) < 45) and (
-                ControlBrickPi.get_blue(bp) < 25)
+        return ((ControlBrickPi.get_red(bp) < 35) and
+                (ControlBrickPi.get_green(bp) < 45) and
+                (ControlBrickPi.get_blue(bp) < 25))
 
     @classmethod
     def detect_finish(cls, bp, distance_to_wall):

@@ -17,8 +17,8 @@ class TestSportMode(unittest.TestCase):
         pars = {"standard_speed": -50,
                 "turn_speed": -25}
         speed_left, speed_right = 0, 0
-        resulting_speed_left, resulting_speed_right = SportMode.smooth_left_turn_on_bridge(
-            speed_left, speed_right, pars)
+        resulting_speed_left, resulting_speed_right = (
+            SportMode.smooth_left_turn_on_bridge(speed_left, speed_right, pars))
 
         self.assertEqual(-25, resulting_speed_left)
         self.assertEqual(-75, resulting_speed_right)
@@ -27,8 +27,8 @@ class TestSportMode(unittest.TestCase):
         pars = {"standard_speed": -80,
                 "turn_speed": -40}
         speed_left, speed_right = 0, 0
-        resulting_speed_left, resulting_speed_right = SportMode.smooth_left_turn_on_bridge(
-            speed_left, speed_right, pars)
+        resulting_speed_left, resulting_speed_right = (
+            SportMode.smooth_left_turn_on_bridge(speed_left, speed_right, pars))
 
         self.assertAlmostEqual(-33.33, resulting_speed_left, delta=0.01)
         self.assertEqual(-100, resulting_speed_right)
@@ -37,8 +37,8 @@ class TestSportMode(unittest.TestCase):
         pars = {"standard_speed": -50,
                 "turn_speed": -25}
         speed_left, speed_right = 0, 0
-        resulting_speed_left, resulting_speed_right = SportMode.smooth_right_turn_on_bridge(
-            speed_left, speed_right, pars)
+        resulting_speed_left, resulting_speed_right = (
+            SportMode.smooth_right_turn_on_bridge(speed_left, speed_right, pars))
 
         self.assertEqual(-75, resulting_speed_left)
         self.assertEqual(-25, resulting_speed_right)
@@ -47,8 +47,8 @@ class TestSportMode(unittest.TestCase):
         pars = {"standard_speed": -80,
                 "turn_speed": -40}
         speed_left, speed_right = 0, 0
-        resulting_speed_left, resulting_speed_right = SportMode.smooth_right_turn_on_bridge(
-            speed_left, speed_right, pars)
+        resulting_speed_left, resulting_speed_right = (
+            SportMode.smooth_right_turn_on_bridge(speed_left, speed_right, pars))
 
         self.assertAlmostEqual(-33.33, resulting_speed_right, delta=0.01)
         self.assertEqual(-100, resulting_speed_left)

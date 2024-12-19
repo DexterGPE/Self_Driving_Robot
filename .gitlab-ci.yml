@@ -22,7 +22,7 @@ codestyle-check:
   before_script:
     - pip install pycodestyle==2.11.1
   script:
-    - pycodestyle src/ --exclude src/main/old_test_scripts --max-line-length 89  || exit 1
+    - pycodestyle src/ --max-line-length 89  || exit 1
 
 #deploy-job:
 #  stage: deploy

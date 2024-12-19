@@ -56,7 +56,7 @@ class TestBrickPi3Functions(unittest.TestCase):
         bp_instance = initialize_brickpi_sensors()
 
         # Verify the sensor types were set correctly
-        self.assertEqual(bp_instance.set_sensor_type.call_count, 4)  # Ensure all sensors are set
+        self.assertEqual(bp_instance.set_sensor_type.call_count, 4)
         bp_instance.set_sensor_type.assert_any_call(
             bp_instance.PORT_1,
             bp_instance.SENSOR_TYPE.EV3_INFRARED_PROXIMITY)

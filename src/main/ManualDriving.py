@@ -1,4 +1,4 @@
-from main import Control_BrickPi
+import ControlBrickPi
 
 
 def manual_driving(bp, key_states):

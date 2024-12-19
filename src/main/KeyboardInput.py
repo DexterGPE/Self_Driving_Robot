@@ -2,7 +2,6 @@ from __future__ import print_function
 from __future__ import division
 
 import pygame
-import Control_BrickPi
 
 
 def initialize_pygame():
@@ -26,7 +25,6 @@ def initialize_keyboard_inputs():
 def get_keyboard_input(key_states, running, bp):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            Control_BrickPi.set_motor_power(bp, 0, 0)
             running = 0
             pygame.quit()
         elif event.type == pygame.KEYDOWN:

@@ -87,12 +87,12 @@ class SmoothOperator:
     def smooth_left_turn_on_bridge(cls, speed_left, speed_right, pars):
         speed_left = min(pars["standard_speed"] - pars["turn_speed"],
                          speed_left - (pars["turn_speed"] / (
-                                     pars["bridgesmoothness"] * pars["smoothness"])))
+                                 pars["bridgesmoothness"] * pars["smoothness"])))
         speed_left = min(speed_left, pars["standard_speed"] - pars["turn_speed"])
 
         speed_right = max(pars["standard_speed"] + pars["turn_speed"],
                           speed_right + (pars["turn_speed"] / (
-                                      pars["bridgesmoothness"] * pars["smoothness"])))
+                                  pars["bridgesmoothness"] * pars["smoothness"])))
         speed_right = min(speed_right, pars["standard_speed"] - pars["turn_speed"])
         speed_left, speed_right = cls.high_speed_correction(speed_left, speed_right)
         return speed_left, speed_right
@@ -101,12 +101,12 @@ class SmoothOperator:
     def smooth_right_turn_on_bridge(cls, speed_left, speed_right, pars):
         speed_left = max(pars["standard_speed"] + pars["turn_speed"],
                          speed_left + (pars["turn_speed"] / (
-                                     pars["bridgesmoothness"] * pars["smoothness"])))
+                                 pars["bridgesmoothness"] * pars["smoothness"])))
         speed_left = min(speed_left, pars["standard_speed"] - pars["turn_speed"])
 
         speed_right = min(pars["standard_speed"] - pars["turn_speed"],
                           speed_right - (pars["turn_speed"] / (
-                                      pars["bridgesmoothness"] * pars["smoothness"])))
+                                  pars["bridgesmoothness"] * pars["smoothness"])))
         speed_right = min(speed_right, pars["standard_speed"] - pars["turn_speed"])
         speed_left, speed_right = cls.high_speed_correction(speed_left, speed_right)
         return speed_left, speed_right
@@ -132,7 +132,7 @@ class SmoothOperator:
     @staticmethod
     def detect_black(bp):
         return (bp.get_sensor(bp.PORT_4)[0] < 35) and (
-                    bp.get_sensor(bp.PORT_4)[1] < 45) and (
+                bp.get_sensor(bp.PORT_4)[1] < 45) and (
                 bp.get_sensor(bp.PORT_4)[2] < 25)
 
     @classmethod

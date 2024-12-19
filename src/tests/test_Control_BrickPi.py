@@ -1,5 +1,8 @@
 import unittest
 from unittest.mock import MagicMock, patch
+import sys
+
+sys.path.append('../main')
 
 # Mock the brickpi3 module
 with patch.dict('sys.modules', {'brickpi3': MagicMock()}):
@@ -49,6 +52,7 @@ class TestBrickPi3Functions(unittest.TestCase):
         bp_instance = initialize_brickpi_sensors()
 
         # Verify the sensor types were set correctly
+        self.assertEqual(bp_instance.set_sensor_type.call_count, 4)  # Ensure all sensors are set
         bp_instance.set_sensor_type.assert_any_call(
             bp_instance.PORT_1,
             bp_instance.SENSOR_TYPE.EV3_INFRARED_PROXIMITY)
@@ -60,8 +64,6 @@ class TestBrickPi3Functions(unittest.TestCase):
             bp_instance.PORT_4,
             bp_instance.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS)
 
-        # Verify an instance of BrickPi3 was returned
-        self.assertIsInstance(bp_instance, MagicMock)
 
 
 if __name__ == "__main__":

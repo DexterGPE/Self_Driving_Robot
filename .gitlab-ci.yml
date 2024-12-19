@@ -1,15 +1,9 @@
 image: python:3.9-slim-bullseye
 
-stages: ## Organize and Order parts of the pipeline
-#    - build
+stages:
     - tests
 #    - deploy
 
-#build-job:
-#  stage: build
-#  script:
-#    - pip install -r requirements.txt
-#    - echo "Fill Build Stage"
 
 test-job:
   stage: tests

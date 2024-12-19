@@ -11,7 +11,8 @@ sys.path.append('./src/main')
 with patch.dict('sys.modules', {'brickpi3': MagicMock()}):
     import brickpi3
     from main.ControlBrickPi import set_motor_power, set_blade_power, \
-        initialize_brickpi_sensors
+        initialize_brickpi_sensors, get_red, get_green, get_blue, get_distance, \
+        get_left_bumper, get_right_bumper
 
 
 class TestBrickPi3Functions(unittest.TestCase):
@@ -67,6 +68,48 @@ class TestBrickPi3Functions(unittest.TestCase):
             bp_instance.PORT_4,
             bp_instance.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS)
 
+    def test_get_distance(self):
+        self.bp.get_sensor.return_value = 150
+
+        distance = get_distance(self.bp)
+
+        # Verify the value returned is correct
+        self.assertEqual(distance, 150)
+
+    def test_get_red(self):
+        self.bp.get_sensor.return_value = (100, 150, 200)
+
+        red = get_red(self.bp)
+
+        self.assertEqual(red, 100)
+
+    def test_get_green(self):
+        self.bp.get_sensor.return_value = (100, 150, 200)
+
+        green = get_green(self.bp)
+
+        self.assertEqual(green, 150)
+
+    def test_get_blue(self):
+        self.bp.get_sensor.return_value = (100, 150, 200)
+
+        blue = get_blue(self.bp)
+
+        self.assertEqual(blue, 200)
+
+    def test_get_left_bumper(self):
+        self.bp.get_sensor.return_value = True
+
+        left_bumper = get_left_bumper(self.bp)
+
+        self.assertTrue(left_bumper)
+
+    def test_get_right_bumper(self):
+        self.bp.get_sensor.return_value = False
+
+        right_bumper = get_right_bumper(self.bp)
+
+        self.assertFalse(right_bumper)
 
 
 if __name__ == "__main__":

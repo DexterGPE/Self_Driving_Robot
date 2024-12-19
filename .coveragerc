@@ -1,0 +1,9 @@
+[run]
+omit = 
+    # Not part of robot functionality + I trust Pygame is well-tested
+    KeyboardInput.py 
+    # If we reach this we have already won
+    FinishCelebration1.py
+    # cba
+    RobotRunner.py
+    

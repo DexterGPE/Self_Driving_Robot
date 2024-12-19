@@ -1,6 +1,7 @@
 import Control_BrickPi
 import time
 
+
 class SmoothOperator:
 
     @classmethod
@@ -14,14 +15,18 @@ class SmoothOperator:
                 else:
                     speed_left, speed_right = cls.turn_after_bump(bp, pars)
             elif cls.red_line_found(bp) and cls.get_right_wall_distance(bp) > 23:
-                speed_left, speed_right = cls.smooth_left_turn_on_bridge(speed_left, speed_right, pars)
+                speed_left, speed_right = cls.smooth_left_turn_on_bridge(speed_left,
+                                                                         speed_right,
+                                                                         pars)
             elif cls.get_right_wall_distance(bp) > 23:
-                speed_left, speed_right = cls.smooth_right_turn_on_bridge(speed_left, speed_right, pars)
+                speed_left, speed_right = cls.smooth_right_turn_on_bridge(speed_left,
+                                                                          speed_right,
+                                                                          pars)
             else:
                 speed_left, speed_right = cls.smooth_turn_at_wall(bp, pars)
 
-        except:
-            print("Invalid sensor data.")
+        except (TypeError, AttributeError, IOError) as e:
+            print("Invalid sensor data:", e)
 
         Control_BrickPi.set_motor_power(bp, speed_left, speed_right)
         Control_BrickPi.set_blade_power(bp, blade_speed)
@@ -61,7 +66,8 @@ class SmoothOperator:
     @classmethod
     def smooth_turn_at_wall(cls, bp, pars):
         distance = cls.get_right_wall_distance(bp)
-        correction_factor = max(-1, min(1, (distance - pars["distance_to_wall"]) / pars["smoothness"]))
+        correction_factor = max(-1, min(1, (distance - pars["distance_to_wall"]) / pars[
+            "smoothness"]))
         speed_left = pars["standard_speed"] + pars["turn_speed"] * correction_factor
         speed_right = pars["standard_speed"] - pars["turn_speed"] * correction_factor
         speed_left, speed_right = cls.high_speed_correction(speed_left, speed_right)
@@ -80,11 +86,13 @@ class SmoothOperator:
     @classmethod
     def smooth_left_turn_on_bridge(cls, speed_left, speed_right, pars):
         speed_left = min(pars["standard_speed"] - pars["turn_speed"],
-                         speed_left - (pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])))
+                         speed_left - (pars["turn_speed"] / (
+                                     pars["bridgesmoothness"] * pars["smoothness"])))
         speed_left = min(speed_left, pars["standard_speed"] - pars["turn_speed"])
 
         speed_right = max(pars["standard_speed"] + pars["turn_speed"],
-                          speed_right + (pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])))
+                          speed_right + (pars["turn_speed"] / (
+                                      pars["bridgesmoothness"] * pars["smoothness"])))
         speed_right = min(speed_right, pars["standard_speed"] - pars["turn_speed"])
         speed_left, speed_right = cls.high_speed_correction(speed_left, speed_right)
         return speed_left, speed_right
@@ -92,18 +100,21 @@ class SmoothOperator:
     @classmethod
     def smooth_right_turn_on_bridge(cls, speed_left, speed_right, pars):
         speed_left = max(pars["standard_speed"] + pars["turn_speed"],
-                         speed_left + (pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])))
+                         speed_left + (pars["turn_speed"] / (
+                                     pars["bridgesmoothness"] * pars["smoothness"])))
         speed_left = min(speed_left, pars["standard_speed"] - pars["turn_speed"])
 
         speed_right = min(pars["standard_speed"] - pars["turn_speed"],
-                          speed_right - (pars["turn_speed"] / (pars["bridgesmoothness"] * pars["smoothness"])))
+                          speed_right - (pars["turn_speed"] / (
+                                      pars["bridgesmoothness"] * pars["smoothness"])))
         speed_right = min(speed_right, pars["standard_speed"] - pars["turn_speed"])
         speed_left, speed_right = cls.high_speed_correction(speed_left, speed_right)
         return speed_left, speed_right
 
     @staticmethod
     def red_line_found(bp):
-        return bp.get_sensor(bp.PORT_4)[0] > 1.7 * bp.get_sensor(bp.PORT_4)[1] and bp.get_sensor(bp.PORT_4)[0] > 2.5 * \
+        return bp.get_sensor(bp.PORT_4)[0] > 1.7 * bp.get_sensor(bp.PORT_4)[1] and \
+            bp.get_sensor(bp.PORT_4)[0] > 2.5 * \
             bp.get_sensor(bp.PORT_4)[2]
 
     @staticmethod
@@ -120,7 +131,8 @@ class SmoothOperator:
 
     @staticmethod
     def detect_black(bp):
-        return (bp.get_sensor(bp.PORT_4)[0] < 35) and (bp.get_sensor(bp.PORT_4)[1] < 45) and (
+        return (bp.get_sensor(bp.PORT_4)[0] < 35) and (
+                    bp.get_sensor(bp.PORT_4)[1] < 45) and (
                 bp.get_sensor(bp.PORT_4)[2] < 25)
 
     @classmethod

@@ -30,7 +30,8 @@ class TestManualDriving(unittest.TestCase):
         cls.bp.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS = "EV3_COLOR_COLOR_COMPONENTS"
 
     def test_manual_driving_forwards(self):
-        key_states = {"up": True, "down": False, "right": False, "left": False, "space": False, "lshift": False}
+        key_states = {"up": True, "down": False, "right": False, "left": False,
+                      "space": False, "lshift": False}
         manual_driving(self.bp, key_states)
 
         expected_calls = [
@@ -40,7 +41,8 @@ class TestManualDriving(unittest.TestCase):
         self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=False)
 
     def test_manual_driving_backwards(self):
-        key_states = {"up": False, "down": True, "right": False, "left": False, "space": False, "lshift": False}
+        key_states = {"up": False, "down": True, "right": False, "left": False,
+                      "space": False, "lshift": False}
         manual_driving(self.bp, key_states)
 
         expected_calls = [
@@ -50,7 +52,8 @@ class TestManualDriving(unittest.TestCase):
         self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=False)
 
     def test_manual_driving_left(self):
-        key_states = {"up": False, "down": False, "right": False, "left": True, "space": False, "lshift": False}
+        key_states = {"up": False, "down": False, "right": False, "left": True,
+                      "space": False, "lshift": False}
         manual_driving(self.bp, key_states)
 
         expected_calls = [
@@ -60,7 +63,8 @@ class TestManualDriving(unittest.TestCase):
         self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=False)
 
     def test_manual_driving_right(self):
-        key_states = {"up": False, "down": False, "right": True, "left": False, "space": False, "lshift": False}
+        key_states = {"up": False, "down": False, "right": True, "left": False,
+                      "space": False, "lshift": False}
         manual_driving(self.bp, key_states)
 
         expected_calls = [
@@ -70,14 +74,16 @@ class TestManualDriving(unittest.TestCase):
         self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=False)
 
     def test_manual_driving_blade(self):
-        key_states = {"up": False, "down": False, "right": False, "left": False, "space": True, "lshift": False}
+        key_states = {"up": False, "down": False, "right": False, "left": False,
+                      "space": True, "lshift": False}
 
         manual_driving(self.bp, key_states)
 
         self.bp.set_blade_power.assert_has_calls(self.bp, 80)
 
     def test_manual_driving_lshift_to_stop(self):
-        key_states = {"up": False, "down": False, "right": False, "left": False, "space": False, "lshift": True}
+        key_states = {"up": False, "down": False, "right": False, "left": False,
+                      "space": False, "lshift": True}
 
         manual_driving(self.bp, key_states)
 
@@ -89,7 +95,8 @@ class TestManualDriving(unittest.TestCase):
         self.bp.set_motor_power.assert_has_calls(expected_calls, any_order=False)
 
     def test_manual_driving_no_keys_pressed(self):
-        key_states = {"up": False, "down": False, "right": False, "left": False, "space": False, "lshift": False}
+        key_states = {"up": False, "down": False, "right": False, "left": False,
+                      "space": False, "lshift": False}
 
         manual_driving(self.bp, key_states)
 

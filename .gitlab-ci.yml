@@ -22,13 +22,13 @@ test-job:
     paths:
       - coverage.xml
     expire_in: 1 week
-#
-#codestyle-check:
-#  stage: tests
-#  before_script:
-#    - pip install pycodestyle==2.11.1
-#  script:
-#    - pycodestyle src/ --exclude src/main/old_test_scripts || exit 1
+
+codestyle-check:
+  stage: tests
+  before_script:
+    - pip install pycodestyle==2.11.1
+  script:
+    - pycodestyle src/ --exclude src/main/old_test_scripts --max-line-length 89  || exit 1
 
 #deploy-job:
 #  stage: deploy

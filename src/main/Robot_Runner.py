@@ -17,8 +17,8 @@ def print_sensors(bp, countdown):
             print("Left touch pushed: {0}".format(bp.get_sensor(bp.PORT_3)))
             print("Right touch pushed: {0}".format(bp.get_sensor(bp.PORT_2)))
             countdown = 50
-    except:
-        print("Invalid sensor data")
+    except (TypeError, AttributeError, IOError) as e:
+        print("Invalid sensor data:", e)
     return countdown - 1
 
 
@@ -50,69 +50,76 @@ if __name__ == "__main__":
                 "standard_speed": -30,
                 "turn_speed": -15,
                 "distance_to_wall": 18,
-                "mode" : key_states["mode"],
+                "mode": key_states["mode"],
                 "super_speed": False
             }
-            speed_left, speed_right, pars = SmoothOperator.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, pars = SmoothOperator.self_driving(bp, speed_left,
+                                                                        speed_right,
+                                                                        pars)
             key_states["mode"] = pars["mode"]
 
-        elif key_states["mode"] == 2: # Different Track Layout (Slow)
+        elif key_states["mode"] == 2:  # Different Track Layout (Slow)
             pars = {
                 "smoothness": 5,
                 "bridgesmoothness": 2,
                 "standard_speed": -30,
                 "turn_speed": -16,
                 "distance_to_wall": 18,
-                "mode" : key_states["mode"],
+                "mode": key_states["mode"],
                 "super_speed": False,
-                "turn_factor" : 1.6
+                "turn_factor": 1.6
             }
-            speed_left, speed_right, pars = DifferentMapLayout.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, pars = DifferentMapLayout.self_driving(bp,
+                                                                            speed_left,
+                                                                            speed_right,
+                                                                            pars)
             key_states["mode"] = pars["mode"]
 
-
-        elif key_states["mode"] == 3: # Fast (Reliable) sport mode
+        elif key_states["mode"] == 3:  # Fast (Reliable) sport mode
             pars = {
                 "smoothness": 5,
                 "bridgesmoothness": 2.2,
                 "standard_speed": -60,
                 "turn_speed": -30,
                 "distance_to_wall": 18,
-                "mode" : key_states["mode"],
+                "mode": key_states["mode"],
                 "super_speed": False
             }
-            speed_left, speed_right, pars = SportMode.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, pars = SportMode.self_driving(bp, speed_left,
+                                                                   speed_right, pars)
             key_states["mode"] = pars["mode"]
 
-        elif key_states["mode"] == 4: # Super sport mode
+        elif key_states["mode"] == 4:  # Super sport mode
             pars = {
                 "smoothness": 5,
                 "bridgesmoothness": 2.2,
                 "standard_speed": -65,
                 "turn_speed": -32.5,
                 "distance_to_wall": 18,
-                "mode" : key_states["mode"],
-                "super_speed" : True
+                "mode": key_states["mode"],
+                "super_speed": True
             }
-            speed_left, speed_right, pars = SportMode.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, pars = SportMode.self_driving(bp, speed_left,
+                                                                   speed_right, pars)
             key_states["mode"] = pars["mode"]
 
-        elif key_states["mode"] == 5: ## super super speed
+        elif key_states["mode"] == 5:  # super super speed
             pars = {
                 "smoothness": 5,
                 "bridgesmoothness": 2.2,
                 "standard_speed": -70,
                 "turn_speed": -35,
                 "distance_to_wall": 18,
-                "mode" : key_states["mode"],
-                "super_speed" : True
+                "mode": key_states["mode"],
+                "super_speed": True
 
             }
-            speed_left, speed_right, pars = SportMode.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, pars = SportMode.self_driving(bp, speed_left,
+                                                                   speed_right, pars)
 
             key_states["mode"] = pars["mode"]
 
-        elif key_states["mode"] == 6: # Fastest version possible
+        elif key_states["mode"] == 6:  # Fastest version possible
             pars = {
                 "smoothness": 5,
                 "bridgesmoothness": 2.2,
@@ -123,7 +130,8 @@ if __name__ == "__main__":
                 "super_speed": True
 
             }
-            speed_left, speed_right, pars = SportMode.self_driving(bp, speed_left, speed_right, pars)
+            speed_left, speed_right, pars = SportMode.self_driving(bp, speed_left,
+                                                                   speed_right, pars)
             key_states["mode"] = pars["mode"]
 
         elif key_states["mode"] == 7:
@@ -132,12 +140,10 @@ if __name__ == "__main__":
         elif key_states["mode"] == 8:
             Manual_Driving.manual_driving(bp, key_states)
 
-
         elif key_states["mode"] == 9:  # Finish celebration mode
-
             key_states["mode"] = "finish1"
 
         elif key_states["mode"] == "finish1":
             finish_celebration_1.celebration_1(bp)
 
-        time.sleep(0.02) # Short sleep time so the raspberrypi is not overloaded
+        time.sleep(0.02)  # Short sleep time so the raspberrypi is not overloaded

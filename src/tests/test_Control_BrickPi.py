@@ -4,7 +4,8 @@ from unittest.mock import MagicMock, patch
 # Mock the brickpi3 module
 with patch.dict('sys.modules', {'brickpi3': MagicMock()}):
     import brickpi3
-    from main.Control_BrickPi import set_motor_power, set_blade_power, initialize_brickpi_sensors
+    from main.Control_BrickPi import set_motor_power, set_blade_power, \
+        initialize_brickpi_sensors
 
 
 class TestBrickPi3Functions(unittest.TestCase):
@@ -48,11 +49,16 @@ class TestBrickPi3Functions(unittest.TestCase):
         bp_instance = initialize_brickpi_sensors()
 
         # Verify the sensor types were set correctly
-        bp_instance.set_sensor_type.assert_any_call(bp_instance.PORT_1, bp_instance.SENSOR_TYPE.EV3_INFRARED_PROXIMITY)
-        bp_instance.set_sensor_type.assert_any_call(bp_instance.PORT_2, bp_instance.SENSOR_TYPE.TOUCH)
-        bp_instance.set_sensor_type.assert_any_call(bp_instance.PORT_3, bp_instance.SENSOR_TYPE.TOUCH)
-        bp_instance.set_sensor_type.assert_any_call(bp_instance.PORT_4,
-                                                    bp_instance.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS)
+        bp_instance.set_sensor_type.assert_any_call(
+            bp_instance.PORT_1,
+            bp_instance.SENSOR_TYPE.EV3_INFRARED_PROXIMITY)
+        bp_instance.set_sensor_type.assert_any_call(bp_instance.PORT_2,
+                                                    bp_instance.SENSOR_TYPE.TOUCH)
+        bp_instance.set_sensor_type.assert_any_call(bp_instance.PORT_3,
+                                                    bp_instance.SENSOR_TYPE.TOUCH)
+        bp_instance.set_sensor_type.assert_any_call(
+            bp_instance.PORT_4,
+            bp_instance.SENSOR_TYPE.EV3_COLOR_COLOR_COMPONENTS)
 
         # Verify an instance of BrickPi3 was returned
         self.assertIsInstance(bp_instance, MagicMock)
